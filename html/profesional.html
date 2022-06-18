@@ -5,7 +5,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="css/style.css" />
+  
+  <link rel="stylesheet" href="../css/style.css" />
   <title>Agenda de turnos</title>
 </head>
 
@@ -13,7 +14,7 @@
   <nav class="navbar navbar-light bg-info">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        <img src="icons/calendar-solid.svg" alt="" width="30" height="24"
+        <img src="../icons/calendar-solid.svg" alt="" width="30" height="24"
           class="d-inline-block align-text-top bg-info" />
         Agenda de turnos
       </a>
@@ -21,10 +22,10 @@
     <div class="d-flex flex-row justify-content-end">
       <ul class="nav nav-tabs bg-info d-flex justify-content-end">
         <li class="nav-item">
-          <a class="nav-link active bg-secondary text-light" aria-current="page" href="#">Agregar Paciente</a>
+          <a class="nav-link   text-dark" aria-current="page" href="../index.html">Agregar Paciente</a>
         </li>
         <li class="nav-item text-dark">
-          <a class="nav-link text-dark" href="html/profesional.html">Configurar profesional</a>
+          <a class="nav-link active bg-secondary text-light" href="#">Configurar profesional</a>
         </li>
         <li class="nav-item text-dark">
           <a class="nav-link text-dark" href="#">Asignar Turnos</a>
@@ -35,38 +36,39 @@
       </ul>
     </div>
   </nav>
-  <h2 class="text-center my-3">Agregar Paciente</h2>
+  <h2 class="text-center my-3">Configurar Profesional</h2>
   <div
     class="container row justify-content-center align-items-center text-center mx-auto mt-5 bg-primary  py-5 border-info border-width-4">
     <div class="formulario col mx-3 border-info">
       <div class="mb-3 ">
-        <input type="text" class="form-control" id="apellido" placeholder="Apellido del paciente" required />
+        <input type="text" class="form-control" id="apellido" placeholder="Apellido del profesional" required />
       </div>
       <div class="mb-3">
-        <input type="text" placeholder="Nombre del paciente" class="form-control" id="nombre" required>
+        <input type="text" placeholder="Nombre del profesional" class="form-control" id="nombre" required>
       </div>
       <div class="mb-3">
-        <input type="number" placeholder="DNI del paciente" class="form-control" id="dni" required>
+        <input type="number" placeholder="DNI del profesional" class="form-control" id="dni" required>
       </div>
       <div class="mb-3">
-        <input type="phone" placeholder="Telefono del paciente (011)-aaa-bbb-cccc" class="form-control" id="telefono"
+        <input type="phone" placeholder="Telefono del profesional (011)-aaa-bbb-cccc" class="form-control" id="telefono"
           required>
       </div>
     </div>
 
     <div class="formulario col mx-3">
       <div class="mb-3 ">
-        <input type="text" class="form-control" id="calle" placeholder="Calle" />
+        <input type="text" class="form-control" id="especialidad" placeholder="Especialidad" />
       </div>
       <div class="mb-3">
-        <input type="number" placeholder="Altura" class="form-control" id="altura">
+        <input type="number" placeholder="Matricula" class="form-control" id="Matricula">
       </div>
-      <div class="mb-3">
-        <input type="text" placeholder="Localidad" class="form-control" id="localidad">
+      <div class="mb-3 invisible">
+        <input type="number" placeholder="Matricula" class="form-control" >
       </div>
-      <div class="mb-3">
-        <input type="number" placeholder="Codigo Postal" class="form-control" id="CPA">
+      <div class=" btn-success text-light mb-3 form-control" id="configurarAgenda">
+        Configurar Agenda
       </div>
+
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center mx-auto text-center mt-4">
       <input type="submit" id="enviarPaciente" class="btn-info enviar text-center text-dark">

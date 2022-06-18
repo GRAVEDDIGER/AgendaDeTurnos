@@ -7,6 +7,28 @@ input[type=text]:hover {
   border-color: #3D5159;
 }
 
+.invisible {
+  opacity: 0;
+}
+
+body > .container-fluid, body > .container-xxl, body > .container-xl, body > .container-lg, body > .container-md, body > .container-sm {
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(108, 117, 125, 0.4);
+}
+
+.mod1 {
+  width: 60%;
+  margin: 5rem 3rem;
+  height: 70vh;
+  border: #82CFF0 dashed 4px !important;
+  background-color: #6c757d !important;
+  opacity: 1;
+}
+
 .enviar {
   width: 25% !important;
   max-width: 25% !important;

@@ -23,7 +23,9 @@ class Profesional {
         apProfesional,
         dniProfesional,
         matriculaProfesional,
-        espProfesional
+        espProfesional,
+        matProfesional,
+        telProfesional
     ) {
         this.configuracionTurnos = {
             ivTurnos: ivTurnos,
@@ -42,6 +44,8 @@ class Profesional {
         this.dniProfesional = dniProfesional;
         this.matriculaProfesional = matriculaProfesional;
         this.espProfesional = espProfesional;
+        this.telProfesional =telProfesional;
+        this.matProfesional= matProfesional;
     }
     generarTurnos() {
         //metodo que configura un array de objeto con los turnos del profesional
