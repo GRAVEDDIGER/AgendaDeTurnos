@@ -1,3 +1,4 @@
+//"use-strict"
 //////////////////////////////////////////////////
 // CLASES                                       //
 //////////////////////////////////////////////////
@@ -367,7 +368,6 @@ const agregarDomicilio = () => {
 
 }
 const configurarPaciente = (dni) => {
-    let documento = PacienteObj.dni;
     let indice;
     indice = validarDni(dni);
     if (indice !== undefined) {
@@ -410,7 +410,7 @@ let indice;
 //////////////////////////////////////////
 
 const documentoInput = document.getElementById("dni")
-documentoInput.addEventListener("change", (e) => validarDniOc(e.target.value))
+documentoInput.addEventListener("change", (e) => validarDniOc(parseInt(e.target.value)))
 const apellidoInput = document.getElementById("apellido")
 apellidoInput.addEventListener("change", e => validarApellidoOc(e.target.value))
 
@@ -423,7 +423,7 @@ const enviarPaciente = document.getElementById("enviarPaciente");
 enviarPaciente.addEventListener("click", (e) => {
     e.preventDefault();
     const dniPaciente = document.getElementById("dni");
-    if ((validarDniOc(documentoInput.value) && validarApellidoOc(apellidoInput.value) && validarNombreOc(nombreInput.value) && validarTelefonoOc(telefonoInput.value))) {
+    if ((validarDniOc(parseInt(documentoInput.value)) && validarApellidoOc(apellidoInput.value) && validarNombreOc(nombreInput.value) && validarTelefonoOc(telefonoInput.value))) {
         configurarPaciente(dniPaciente.value);
 
     } else alert("Hay datos requeridos con errores")
@@ -439,7 +439,19 @@ enviarPaciente.addEventListener("click", (e) => {
 
 const validarDniOc = valor => {
     const documentos = PacienteObj.dni
-    if (typeof valor == "string") { //EVALUA QUE SEA UN NUMERO
+    const error = document.getElementById("errInv")
+    console.log(valor, typeof valor, parseInt(valor))
+    console.log(documentos.includes(valor))
+    if (documentos.includes(valor.toString())) { //SE FIJA SI YA ESTA REGISTRADO EN EL OBJETO
+        error.classList.remove("invisibleErr")
+        error.classList.add("naranja")
+        //aca debberia hacer un pull de datos del objeto
+    } else {
+        error.classList.add("invisibleErr")
+        error.classList.remove("naranja")
+    }
+    console.log(isNaN(valor))
+    if (isNaN(valor) || parseInt(valor) < 100000) { //EVALUA QUE SEA UN NUMERO
         documentoInput.classList.toggle("error")
         document.getElementById("enviarPaciente").disabled = true
         return false
@@ -448,43 +460,30 @@ const validarDniOc = valor => {
         document.getElementById("enviarPaciente").disabled = false
         return true
     }
-    if (valor < 100000) { //EVALUA QUE SEA DE MAS DE 6 CIFRAS
-        documentoInput.classList.add("error")
-        document.getElementById("enviarPaciente").disabled = true
-        return false
-    } else {
-        documentoInput.classList.remove("error")
-        document.getElementById("enviarPaciente").disabled = false
-        return true
-    }
-    const error = document.getElementById("errInv")
-    if (documentos.includes(valor)) { //SE FIJA SI YA ESTA REGISTRADO EN EL OBJETO
-        console.log(error)
-        error.classList.remove("invisibleErr")
-        error.classList.add("naranja")
-        //aca debberia hacer un pull de datos del objeto
-    } else {
-        error.classList.add("invisibleErr")
-        error.classList.remove("naranja")
-    }
+
+
 
 }
 
 const validarApellidoOc = e => {
     if (e.length < 3) {
         apellidoInput.classList.add("error")
+        enviarPaciente.disabled = true;
         return false
     } else {
         apellidoInput.classList.remove("error")
+        enviarPaciente.disabled = false
         return true
     }
 }
 const validarNombreOc = e => {
     if (e.length < 3) {
         nombreInput.classList.add("error")
+        enviarPaciente.disabled = true
         return false
     } else {
         nombreInput.classList.remove("error")
+        enviarPaciente.disabled = false
         return true
     }
 
@@ -494,9 +493,11 @@ const validarTelefonoOc = e => {
         /\(?[0-9]{3}[0-9]?[0-9]?\)?[-]?([0-9]{2})?[0-9]?[-]?[0-9]{2}[0-9]?[-]?[0-9]{4}/g;
     if (regexTelefono.test(e)) {
         telefonoInput.classList.remove("error")
+        enviarPaciente.disabled = false
         return true
     } else {
         telefonoInput.classList.add("error")
+        enviarPaciente.disabled = true
         return false
     }
 
