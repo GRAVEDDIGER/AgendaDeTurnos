@@ -8,26 +8,32 @@ $primary: #3D5159;
 input[type="text"]:hover {
     border-color: $primary;
 }
-.invisible{
-opacity: 0;}
 
-body > .container-fluid{
+.invisible {
+    opacity: 0;
+}
+
+.agregar {
+    height: 2rem;
+}
+
+body>.container-fluid {
     height: 100vh;
     display: flex;
     flex-direction: row;
-justify-content: center;
-align-items: center;
-background-color: transparentize($color: #6c757d, $amount: 0.6);
+    justify-content: center;
+    align-items: center;
+    background-color: transparentize($color: #6c757d, $amount: 0.6);
 
 }
 
-.mod1{
-width: 60%;
-margin: 5rem 3rem;
-height: 70vh;
-border: #82CFF0 dashed 4px !important;
-background-color: #6c757d !important;
-opacity: 1;
+.mod1 {
+    width: 60%;
+    margin: 5rem 3rem;
+    height: 70vh;
+    border: #82CFF0 dashed 4px !important;
+    background-color: #6c757d !important;
+    opacity: 1;
 }
 
 .enviar {

@@ -15,44 +15,74 @@
     Abril Modal
   </button>
   <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Configuracion de turnera</h2>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-body">
-
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="true">Home</button>
+        <div class="modal-body container">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <button class="nav-link active" id="lunes"  >Lunes</button>
             </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+            <li class="nav-item">
+              <button class="nav-link" id="martes" >Martes</button>
             </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+            <li class="nav-item">
+              <button class="nav-link" id="miercoles" >Miercoles</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="jueves" >Jueves</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="viernes" >Viernes</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="sabado" >Sabado</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" id="domingo" >Domingo</button>
             </li>
           </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">hola</div>
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">como </div>
-            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Estass?</div>
-          </div>
-        </div>
-        <div class="modal-footer">
+          <div class="row d-flex  justify-content-between mt-4">
 
+            <div class="col-6 container d-flex justify-content-evenly align-items-baseline">
+              <label for="hInicio">H. Inicio</label>
+              <input type="time" class="m-3" name="hInicio">
+              <label for="hFin">H. Fin</label>
+              <input type="time" class="m-3" name="hFin">
+            </div>
+            <div class="col-6 d-flex justify-content-evenly align-items-baseline">
+              <input type="number text-center" class="m-3" name="intervalo" placeholder="Intervalo de turnos">
+              <button class="btn btn-primary btn-sm agregar ">Agregar</button>
+            </div>
+          </div>
+<div class="container  border-top w-100 border-dark row">
+  <div class="col-3"  id="columna1" >
+uno
+  </div>
+  <div class="col-3" id="columna2" >
+   dos 
+  </div>
+  <div class="col-3" id="columna3" >
+    tres
+  </div>
+  <div class="col-3" id="columna4" >
+    cuatro
+  </div>
+
+</div>
+          <div class="modal-footer">
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
-  <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+    <script src="../main2.js""></script>
 
 </body>
 

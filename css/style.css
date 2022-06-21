@@ -11,6 +11,10 @@ input[type=text]:hover {
   opacity: 0;
 }
 
+.agregar {
+  height: 2rem;
+}
+
 body > .container-fluid, body > .container-xxl, body > .container-xl, body > .container-lg, body > .container-md, body > .container-sm {
   height: 100vh;
   display: flex;
