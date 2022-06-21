@@ -15,7 +15,7 @@
     Abril Modal
   </button>
   <div class="modal fade" id="modal1" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Configuracion de turnera</h2>
@@ -45,20 +45,21 @@
               <button class="nav-link" id="domingo" >Domingo</button>
             </li>
           </ul>
-          <div class="row d-flex  justify-content-between mt-4">
+          <div class="row d-flex flex-column justify-content-center mt-4 align-content-center border border-3 border-light">
 
-            <div class="col-6 container d-flex justify-content-evenly align-items-baseline">
+            <div class="col-6 d-flex justify-content-center align-items-baseline">
               <label for="hInicio">H. Inicio</label>
               <input type="time" class="m-3" name="hInicio">
               <label for="hFin">H. Fin</label>
               <input type="time" class="m-3" name="hFin">
             </div>
-            <div class="col-6 d-flex justify-content-evenly align-items-baseline">
-              <input type="number text-center" class="m-3" name="intervalo" placeholder="Intervalo de turnos">
+            <div class="col-6 d-flex justify-content-center align-items-baseline">
+              <input type="number" class="m-3 text-center intervalo" name="intervalo" placeholder="Intervalo">
+              <label for="intervalo" class="text-left me-3">min</label>
               <button class="btn btn-primary btn-sm agregar ">Agregar</button>
             </div>
           </div>
-<div class="container  border-top w-100 border-dark row">
+<div class="container  border-top w-100 border-light row m-0 p-0">
   <div class="col-3"  id="columna1" >
 uno
   </div>
