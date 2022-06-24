@@ -24,28 +24,29 @@
         <div class="modal-body container">
           <ul class="nav nav-tabs">
             <li class="nav-item">
-              <button class="nav-link active" id="lunes"  >Lunes</button>
+              <button class="nav-link active" id="lunes">Lunes</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="martes" >Martes</button>
+              <button class="nav-link" id="martes">Martes</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="miercoles" >Miercoles</button>
+              <button class="nav-link" id="miercoles">Miercoles</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="jueves" >Jueves</button>
+              <button class="nav-link" id="jueves">Jueves</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="viernes" >Viernes</button>
+              <button class="nav-link" id="viernes">Viernes</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="sabado" >Sabado</button>
+              <button class="nav-link" id="sabado">Sabado</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" id="domingo" >Domingo</button>
+              <button class="nav-link" id="domingo">Domingo</button>
             </li>
           </ul>
-          <div class="row d-flex flex-column justify-content-center mt-4 align-content-center border border-3 border-light">
+          <div
+            class="row d-flex flex-column justify-content-center mt-4 align-content-center border border-3 border-light">
 
             <div class="col-6 d-flex justify-content-center align-items-baseline">
               <label for="hInicio">H. Inicio</label>
@@ -56,30 +57,56 @@
             <div class="col-6 d-flex justify-content-center align-items-baseline">
               <input type="number" class="m-3 text-center intervalo" name="intervalo" placeholder="Intervalo">
               <label for="intervalo" class="text-left me-3">min</label>
-              <button class="btn btn-primary btn-sm agregar ">Agregar</button>
+              <button class="btn btn-primary btn-sm agregar " id="btnAgregar">Agregar</button>
             </div>
           </div>
-<div class="container  border-top w-100 border-light row m-0 p-0">
-  <div class="col-3"  id="columna1" >
-uno
-  </div>
-  <div class="col-3" id="columna2" >
-   dos 
-  </div>
-  <div class="col-3" id="columna3" >
-    tres
-  </div>
-  <div class="col-3" id="columna4" >
-    cuatro
-  </div>
+          <table
+            class="container table table-bordered border-top w-100 border-light align-self-center text-center m-0 p-0">
+            <tr class="row">
+              <th class="col-3">
+                Dia
+              </th>
+              <th class="col-3">
+                Hora de inicio
+              </th>
+              <th class="col-3">
+                Hora final
+              </th>
+              <th class="col-2">
+                Intervalo
+              </th>
+              <th class="col-1">
+                <img src="../icons/trash-can-solid.svg" alt="trash can" class="trashcan align-self-middle">
+              </th>
+            </tr>
 
-</div>
+          </table>
           <div class="modal-footer">
 
           </div>
         </div>
       </div>
     </div>
+    <template id="configuracionTurnos">
+      <tr class="row">
+        <td class="col-3">
+          Dia
+        </td>
+        <td class="col-3">
+          Hora de inicio
+        </td>
+        <td class="col-3">
+          Hora final
+        </td>
+        <td class="col-2">
+          Intervalo
+        </td>
+        <td class="col-1">
+          <img src="../icons/trash-can-solid.svg" alt="trash can" class="trashcan align-self-middle">
+        </td>
+      </tr>
+    </template>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"></script>
