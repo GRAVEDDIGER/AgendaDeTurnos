@@ -15,6 +15,10 @@ input[type=text]:hover {
   height: 2rem;
 }
 
+.turnoDuplicado {
+  display: none;
+}
+
 body > .container-fluid, body > .container-xxl, body > .container-xl, body > .container-lg, body > .container-md, body > .container-sm {
   height: 100vh;
   display: flex;

@@ -17,6 +17,10 @@ input[type="text"]:hover {
     height: 2rem;
 }
 
+.turnoDuplicado {
+    display: none;
+}
+
 body>.container-fluid {
     height: 100vh;
     display: flex;
@@ -31,8 +35,9 @@ body>.container-fluid {
     width: 1rem;
     z-index: 1;
     cursor: pointer;
-    &:hover{
-transform: scale(1.1);
+
+    &:hover {
+        transform: scale(1.1);
     }
 }
 
