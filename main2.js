@@ -73,10 +73,6 @@ const botonAgregar = document
         objetoTabla1.fin;
       templateTurnos.querySelectorAll("tr td")[3].textContent =
         objetoTabla1.intervalo;
-      templateTurnos
-        .querySelector("tr td img")
-        .setAttribute("id", contador.toString()); //AGREGA UN ID CRECIENTE COINCIDENTE CON EL INDICE DEL ARRAY
-
       const clon = document
         .getElementById("configuracionTurnos")
 
@@ -97,36 +93,75 @@ const eliminar = document
   .querySelector("table")
   .addEventListener("click", (e) => {
     if (e.target.classList.contains("trashcan")) {
-      let indice = parseInt(e.target.id);
-      arrayTabla1.splice(indice, 1); //elimina el valor del array
-      e.target.parentNode.parentNode.parentNode.removeChild(
-        e.target.parentNode.parentNode // remoeve lafila dela tabla
+      document.getElementById("superposicion").classList.add("turnoDuplicado"); //ELIMINA EL ERROR DE SUPERPOSICION
+
+      const objetoSeleccionado = new Tabla1(
+        e.target.parentNode.parentNode.querySelectorAll("td")[0].textContent,
+        e.target.parentNode.parentNode.querySelectorAll("td")[1].textContent,
+        e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
+        e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
       );
+      console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
+
+      for (item in arrayTabla1) {
+        if (
+          JSON.stringify(arrayTabla1[item]) ==
+          JSON.stringify(objetoSeleccionado)
+        )
+          arrayTabla1.splice(item, 1);
+        break;
+      }
+
+      e.target.parentNode.parentNode.parentNode.removeChild(
+        e.target.parentNode.parentNode
+      ); // remoeve lafila dela tabla
     }
   });
 
-////////////////////////////////////////////////
-//funcion que evalua superposicion  dehorarios//
-////////////////////////////////////////////////
+/////////////////////////////////////////////////
+//funcion que evalua superposicion  de horarios//
+/////////////////////////////////////////////////
 const superposicion = () => {
   let condicion = false;
-  arrayTabla1.forEach((item) => {
-    const dias = arrayTabla1.filter((e) => e.dia === item.dia); //genera un array con los dias que se repiten
-    if (dias.length > 1) {
-      dias.shift();
-      const valor = dias.forEach((repetido) => {
-        if (
-          (item.inicio >= repetido.inicio && item.inicio <= repetido.fin) ||
-          (item.fin >= repetido.inicio && item.fin <= repetido.fin)
-        ) {
-          condicion = true;
-        }
-        return condicion;
+  //arrayTabla1.forEach((item) =>
+  for (item of arrayTabla1) {
+    let dias = [];
+    if (!condicion) {
+      dias = arrayTabla1.filter((e) => {
+        e.dia != item.dia;
       });
-      if (valor) {
-        console.log("Hay superposicion horaria");
+
+      //genera un array con los dias que se repiten
+      if (dias.length > 0) {
+        dias.shift();
+        //dias.forEach((repetido) =>
+
+        for (repetido of dias) {
+          if (
+            (parseInt(item.inicio) >= parseInt(repetido.inicio) &&
+              parseInt(item.inicio) <= parseInt(repetido.fin)) ||
+            (parseInt(item.fin) >= parseInt(repetido.inicio) &&
+              parseInt(item.fin) <= parseInt(repetido.fin))
+          ) {
+            condicion = true;
+            break;
+          }
+        }
       }
-      console.log(dias);
+      if (condicion) break;
+    }
+  }
+  return condicion;
+};
+
+const botonGuardar = document
+  .getElementById("botonGuardar")
+  .addEventListener("click", () => {
+    if (superposicion()) {
+      document
+        .getElementById("superposicion")
+        .classList.remove("turnoDuplicado");
+    } else {
+      document.querySelector("modal").classList.add("d-none");
     }
   });
-};
