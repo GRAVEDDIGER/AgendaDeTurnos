@@ -109,16 +109,24 @@ const eliminar = document
 //funcion que evalua superposicion  dehorarios//
 ////////////////////////////////////////////////
 const superposicion = () => {
-  let condicion =false
+  let condicion = false;
   arrayTabla1.forEach((item) => {
-    const dias = arrayTabla1.filter((e) => e.dia === item.dia); //genera un array con los dias que se repiten 
-   if(dias.length>1){
-    dias.shift()
-      dias.forEach(repetido =>{
-          if ((item.inicio >= repetido.inicio)&&(item.inicio <=repetido.fin)) || (item.fin >= repetido.inicio && item.fin <= repetido.fin)
-          {condicion=true}
-      })
-    console.log(dias);}
-
+    const dias = arrayTabla1.filter((e) => e.dia === item.dia); //genera un array con los dias que se repiten
+    if (dias.length > 1) {
+      dias.shift();
+      const valor = dias.forEach((repetido) => {
+        if (
+          (item.inicio >= repetido.inicio && item.inicio <= repetido.fin) ||
+          (item.fin >= repetido.inicio && item.fin <= repetido.fin)
+        ) {
+          condicion = true;
+        }
+        return condicion;
+      });
+      if (valor) {
+        console.log("Hay superposicion horaria");
+      }
+      console.log(dias);
+    }
   });
 };
