@@ -30,6 +30,10 @@ body>.container-fluid {
 .trashcan {
     width: 1rem;
     z-index: 1;
+    cursor: pointer;
+    &:hover{
+transform: scale(1.1);
+    }
 }
 
 .intervalo {

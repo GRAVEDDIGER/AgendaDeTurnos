@@ -26,6 +26,11 @@ body > .container-fluid, body > .container-xxl, body > .container-xl, body > .co
 
 .trashcan {
   width: 1rem;
+  z-index: 1;
+  cursor: pointer;
+}
+.trashcan:hover {
+  transform: scale(1.1);
 }
 
 .intervalo {
