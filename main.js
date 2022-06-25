@@ -17,6 +17,10 @@ class Paciente {
     ];
     this.dni = [dni];
   }
+  guardarLocal(){
+    let localStorage =window.localStorage
+    localStorage.setItem(this.dni,JSON.stringify(this))
+  }
 }
 class Profesional {
   constructor(
@@ -438,6 +442,7 @@ enviarPaciente.addEventListener("click", (e) => {
     validarTelefonoOc(telefonoInput.value)
   ) {
     configurarPaciente(dniPaciente.value);
+    PacienteObj.guardarLocal()
   } else alert("Hay datos requeridos con errores");
 });
 
