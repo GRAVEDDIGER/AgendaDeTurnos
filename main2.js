@@ -104,55 +104,43 @@ const eliminar = document
       console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
 
       for (item in arrayTabla1) {
+        const comparacion1 =JSON.stringify(arrayTabla1[item]);
+        const comparacion2= JSON.stringify(objetoSeleccionado)
         if (
-          JSON.stringify(arrayTabla1[item]) ==
-          JSON.stringify(objetoSeleccionado)
-        )
+          comparacion1 == comparacion2
+        ){
           arrayTabla1.splice(item, 1);
-        break;
-      }
+          e.target.parentNode.parentNode.parentNode.removeChild(
+            e.target.parentNode.parentNode)
+        break;}
+      }}})
 
-      e.target.parentNode.parentNode.parentNode.removeChild(
-        e.target.parentNode.parentNode
-      ); // remoeve lafila dela tabla
-    }
-  });
+
+      ; // remoeve lafila dela tabla
+    
+  
 
 /////////////////////////////////////////////////
 //funcion que evalua superposicion  de horarios//
 /////////////////////////////////////////////////
+
 const superposicion = () => {
-  let condicion = false;
-  //arrayTabla1.forEach((item) =>
+  let condicion = false
+  let repetidos = []
   for (item of arrayTabla1) {
-    let dias = [];
-    if (!condicion) {
-      dias = arrayTabla1.filter((e) => {
-        e.dia != item.dia;
-      });
-
-      //genera un array con los dias que se repiten
-      if (dias.length > 0) {
-        dias.shift();
-        //dias.forEach((repetido) =>
-
-        for (repetido of dias) {
-          if (
-            (parseInt(item.inicio) >= parseInt(repetido.inicio) &&
-              parseInt(item.inicio) <= parseInt(repetido.fin)) ||
-            (parseInt(item.fin) >= parseInt(repetido.inicio) &&
-              parseInt(item.fin) <= parseInt(repetido.fin))
-          ) {
-            condicion = true;
-            break;
-          }
-        }
+    repetidos = arrayTabla1.filter(e => {
+      if (e.dia == item.dia && JSON.stringify(e) !== JSON.stringify(item)) return true
+    })
+    console.log(repetidos)
+    for (repetido of repetidos) {
+      if ((parseInt(item.inicio) >= parseInt(repetido.inicio) && parseInt(item.inicio) <= parseInt(repetido.fin)) || (parseInt(item.fin) >= parseInt(repetido.inicio) && parseInt(item.fin) <= parseInt(repetido.fin))) {
+        condicion = true
+        break
       }
-      if (condicion) break;
     }
   }
-  return condicion;
-};
+  return condicion
+}
 
 const botonGuardar = document
   .getElementById("botonGuardar")
