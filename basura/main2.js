@@ -28,8 +28,10 @@ function validarTabla(obj) {
       let str2 = JSON.stringify(obj);
       if (str1 == str2) {
         condicion = false;
+      
       } else {
         condicion = true;
+        
       }
     });
   } else condicion = true;
