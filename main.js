@@ -2,6 +2,7 @@
 //////////////////////////////////////////////////
 // CLASES                                       //
 //////////////////////////////////////////////////
+const pacientesLocal = JSON.parse(almacenamientoLocal.getItem("pacientes"));
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = [apellido];
@@ -20,21 +21,42 @@ class Paciente {
   guardarLocal() {
     almacenamientoLocal.setItem("pacientes", JSON.stringify(this));
   }
-  leerLocal() {
-    const intermediario = JSON.parse(almacenamientoLocal.getItem("pacientes"));
-    intermediario.apellido.forEach((apellido) => {
+  leerDniLocal() {
+    pacientesLocal.dni.forEach((dni) => {
+      if (this.dni[0] === undefined) this.dni[0] = dni;
+      else this.dni.push(dni);
+    });
+  }
+  leerApellidoLocal() {
+    pacientesLocal.apellido.forEach((apellido) => {
       if (this.apellido[0] === undefined) this.apellido[0] = apellido;
       else this.apellido.push(apellido);
     });
-    intermediario.nombre.forEach((nombre) => {
+  }
+  leerNombreLocal() {
+    pacientesLocal.nombre.forEach((nombre) => {
       if (this.nombre[0] === undefined) this.nombre[0] = nombre;
       else this.nombre.push(nombre);
     });
-    // this.apellido.push(intermediario.apellido);
-    // this.nombre.push(intermediario.nombre);
-    // this.telefono.push(intermediario.telefono);
-    // this.direccion.push(intermediario.direccion);
-    // this.dni.push(intermediario.dni);
+  }
+  leerTelefonoLocal() {
+    pacientesLocal.telefono.forEach((telefono) => {
+      if (this.telefono[0] === undefined) this.telefono[0] = telefono;
+      else this.telefono.push(telefono);
+    });
+  }
+  leerDireccionLocal() {
+    pacientesLocal.direccion.forEach((direccion) => {
+      if (this.direccion[0] === undefined) this.direccion[0] = direccion;
+      else this.direccion.push(direccion);
+    });
+  }
+  leerLocal() {
+    this.leerDniLocal();
+    this.leerApellidoLocal();
+    this.leerNombreLocal();
+    this.leerTelefonoLocal();
+    this.leerDireccionLocal();
   }
 }
 class Profesional {
@@ -385,19 +407,18 @@ const agregarDomicilio = () => {
 const configurarPaciente = (dni) => {
   let indice;
   indice = validarDni(dni);
-  if (indice !== undefined) {
-    PacienteObj.apellido[indice] = document.getElementById("apellido").value;
-    PacienteObj.nombre[indice] = document.getElementById("apellido").value;
-    telefonoPaciente(false, document.getElementById("telefono").value, indice);
-    PacienteObj.direccion[indice].calle =
-      document.getElementById("calle").value;
-    PacienteObj.direccion[indice].numero =
-      document.getElementById("altura").value;
-    PacienteObj.direccion[indice].cPostal =
-      document.getElementById("CPA").value;
-    PacienteObj.direccion[indice].localidad =
-      document.getElementById("localidad").value;
-  }
+  // if (indice !== undefined) {
+  if (indice === 0) PacienteObj.dni[0] = dni;
+  PacienteObj.apellido[indice] = document.getElementById("apellido").value;
+  PacienteObj.nombre[indice] = document.getElementById("apellido").value;
+  telefonoPaciente(false, document.getElementById("telefono").value, indice);
+  PacienteObj.direccion[indice].calle = document.getElementById("calle").value;
+  PacienteObj.direccion[indice].numero =
+    document.getElementById("altura").value;
+  PacienteObj.direccion[indice].cPostal = document.getElementById("CPA").value;
+  PacienteObj.direccion[indice].localidad =
+    document.getElementById("localidad").value;
+
   limpiarPaciente();
 };
 const limpiarPaciente = () => {

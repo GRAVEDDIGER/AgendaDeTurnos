@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "mgmcdermott.vscode-language-babel",
-        "AnbuselvanRocky.bootstrap5-vscode"
+        "anbuselvanrocky.bootstrap5-vscode",
+        "kisstkondoros.vscode-codemetrics"
     ]
 }
