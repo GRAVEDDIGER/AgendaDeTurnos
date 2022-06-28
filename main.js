@@ -17,9 +17,24 @@ class Paciente {
     ];
     this.dni = [dni];
   }
-  guardarLocal(){
-    let localStorage =window.localStorage
-    localStorage.setItem(this.dni,JSON.stringify(this))
+  guardarLocal() {
+    almacenamientoLocal.setItem("pacientes", JSON.stringify(this));
+  }
+  leerLocal() {
+    const intermediario = JSON.parse(almacenamientoLocal.getItem("pacientes"));
+    intermediario.apellido.forEach((apellido) => {
+      if (this.apellido[0] === undefined) this.apellido[0] = apellido;
+      else this.apellido.push(apellido);
+    });
+    intermediario.nombre.forEach((nombre) => {
+      if (this.nombre[0] === undefined) this.nombre[0] = nombre;
+      else this.nombre.push(nombre);
+    });
+    // this.apellido.push(intermediario.apellido);
+    // this.nombre.push(intermediario.nombre);
+    // this.telefono.push(intermediario.telefono);
+    // this.direccion.push(intermediario.direccion);
+    // this.dni.push(intermediario.dni);
   }
 }
 class Profesional {
@@ -304,27 +319,7 @@ ${atencion}`); //NO SE PORQUE ME DEJA DESALINEADAS LAS OPCIONES
       : (opcion = 0);
   }
 };
-const menuPrincipal = () => {
-  // FUNCION QUE  MUESTRA EL MENU PRINCIPAL
 
-  while (opcion !== 0) {
-    opcion = prompt(`Elija la opcion deseada
-              0 - Salir
-              1 - Configurar un profesional
-              2 - Configurar un paciente
-              3 - Asignar turnos`);
-    opcion = parseInt(opcion);
-    if (opcion == 0) break; // SALE SI ES = 0 SINO EL OPERADOR TERNARIO EVALUA 1( SI LO ENVIADO POR EL USR ES ADECUADO AL MENU)
-    //LUEGO LLAMA A LA FUNCION PERTINENTE PARA CADA OPCION
-    isNaN(opcion) || opcion > 3 || opcion < 0
-      ? alert("Opcion incorrecta ingrese un numero del 0 al 3")
-      : opcion == 1
-      ? configurarProfesional()
-      : opcion == 2
-      ? configurarPaciente()
-      : asignarTurno(); //valida que el dato obtenido sea una opcion
-  }
-};
 const errDNI = () => {
   alert("DNI debe ser un numero");
   let dni = parseInt(prompt("Ingrese su DNI:"));
@@ -341,30 +336,44 @@ const telefonoPaciente = (error, telefono, indice) => {
   } else alert("Esta mal ingresado el telefono");
 };
 const validarDni = (item) => {
-  let documento;
-  let indice = 0;
-  item.isNaN ? errDNI() : (documento = PacienteObj.dni); //VRIFICA QUE LO INGRESADO SEA UN NUMERO DE LO CONTRARIO MUESTRA ERROR
-  if (documento.length > 1) {
-    //evalua repetidos si el documento tiene mas de un registro
+  //version optimizada de validarDni
+  let documento = PacienteObj.dni;
+  if (documento[0] === undefined) indice = 0;
+  else {
     indice = documento.indexOf(item);
-    if (indice == -1) {
+    if (indice === -1) {
       documento.push(item);
       agregarDomicilio();
       indice = documento.length - 1;
     } else alert("Ese DNI ya existe se modificaron los datos");
   }
-  documento.length < 2 && documento[0] == undefined //se fija si el primer valor es undefined (ya que al definir la clase siempre me rellena el [0] como undefined)
-    ? ((documento[0] = item), (indice = 0)) //si el valor [0] es undefined entonces coloca ahi el primer valor y resetea el indice  a 0
-    : documento.length < 2 && documento[0] == item //si el valor no es undefined y es igual al que ingreso el user envia un alert y no define indice
-    ? (alert("DNI repetido"), (indice = 0))
-    : documento.length < 2
-    ? (documento.push(item),
-      agregarDomicilio(),
-      (indice = documento.length - 1)) // si hay menos de 2 valores en la bd y no se cumple el resto pushea el valor del usuarioo
-    : (documento = documento);
-
-  return indice; //devuelve el valor indice que se usara apara guardar el resto de los datos
+  return indice;
 };
+// const validarDni = (item) => {
+//   let documento;
+//   let indice = 0;
+//   item.isNaN ? errDNI() : (documento = PacienteObj.dni); //VRIFICA QUE LO INGRESADO SEA UN NUMERO DE LO CONTRARIO MUESTRA ERROR
+//   if (documento.length > 1) {
+//     //evalua repetidos si el documento tiene mas de un registro
+//     indice = documento.indexOf(item);
+//     if (indice == -1) {
+//       documento.push(item);
+//       agregarDomicilio();
+//       indice = documento.length - 1;
+//     } else alert("Ese DNI ya existe se modificaron los datos");
+//   }
+//   documento.length < 2 && documento[0] == undefined //se fija si el primer valor es undefined (ya que al definir la clase siempre me rellena el [0] como undefined)
+//     ? ((documento[0] = item), (indice = 0)) //si el valor [0] es undefined entonces coloca ahi el primer valor y resetea el indice  a 0
+//     : documento.length < 2 && documento[0] == item //si el valor no es undefined y es igual al que ingreso el user envia un alert y no define indice
+//     ? (alert("DNI repetido"), (indice = 0))
+//     : documento.length < 2
+//     ? (documento.push(item),
+//       agregarDomicilio(),
+//       (indice = documento.length - 1)) // si hay menos de 2 valores en la bd y no se cumple el resto pushea el valor del usuarioo
+//     : (documento = documento);
+
+//   return indice; //devuelve el valor indice que se usara apara guardar el resto de los datos
+// };
 const agregarDomicilio = () => {
   PacienteObj.direccion.push({
     calle: "",
@@ -406,7 +415,7 @@ const limpiarPaciente = () => {
 //////////////////////////////////////////
 
 const profesionalObj = new Profesional();
-const PacienteObj = new Paciente();
+let PacienteObj = new Paciente();
 let opcion = 1;
 let indice;
 
@@ -414,6 +423,10 @@ let indice;
 //////////////////////////////////////////
 // OBJETOS HTML                        //
 //////////////////////////////////////////
+
+const inicio = window.addEventListener("DOMContentLoaded", (e) =>
+  PacienteObj.leerLocal()
+);
 
 const documentoInput = document.getElementById("dni");
 documentoInput.addEventListener("change", (e) =>
@@ -442,7 +455,7 @@ enviarPaciente.addEventListener("click", (e) => {
     validarTelefonoOc(telefonoInput.value)
   ) {
     configurarPaciente(dniPaciente.value);
-    PacienteObj.guardarLocal()
+    PacienteObj.guardarLocal();
   } else alert("Hay datos requeridos con errores");
 });
 
@@ -453,8 +466,6 @@ enviarPaciente.addEventListener("click", (e) => {
 const validarDniOc = (valor) => {
   const documentos = PacienteObj.dni;
   const error = document.getElementById("errInv");
-  console.log(valor, typeof valor, parseInt(valor));
-  console.log(documentos.includes(valor));
   if (documentos.includes(valor.toString())) {
     //SE FIJA SI YA ESTA REGISTRADO EN EL OBJETO
     error.classList.remove("invisibleErr");
@@ -464,7 +475,6 @@ const validarDniOc = (valor) => {
     error.classList.add("invisibleErr");
     error.classList.remove("naranja");
   }
-  console.log(isNaN(valor));
   if (isNaN(valor) || parseInt(valor) < 100000) {
     //EVALUA QUE SEA UN NUMERO
     documentoInput.classList.toggle("error");
@@ -523,6 +533,7 @@ let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARD
 let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
+const almacenamientoLocal = window.localStorage;
 
 /////////////////////////////////////////
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
@@ -546,10 +557,8 @@ function validarTabla(obj) {
       let str2 = JSON.stringify(obj);
       if (str1 == str2) {
         condicion = false;
-      
       } else {
         condicion = true;
-        
       }
     });
   } else condicion = true;
@@ -624,43 +633,46 @@ const eliminar = document
       console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
 
       for (item in arrayTabla1) {
-        const comparacion1 =JSON.stringify(arrayTabla1[item]);
-        const comparacion2= JSON.stringify(objetoSeleccionado)
-        if (
-          comparacion1 == comparacion2
-        ){
+        const comparacion1 = JSON.stringify(arrayTabla1[item]);
+        const comparacion2 = JSON.stringify(objetoSeleccionado);
+        if (comparacion1 == comparacion2) {
           arrayTabla1.splice(item, 1);
           e.target.parentNode.parentNode.parentNode.removeChild(
-            e.target.parentNode.parentNode)
-        break;}
-      }}})
-
-
-      ; // remoeve lafila dela tabla
-    
-  
+            e.target.parentNode.parentNode
+          );
+          break;
+        }
+      }
+    }
+  }); // remoeve lafila dela tabla
 
 /////////////////////////////////////////////////
 //funcion que evalua superposicion  de horarios//
 /////////////////////////////////////////////////
 
 const superposicion = () => {
-  let condicion = false
-  let repetidos = []
+  let condicion = false;
+  let repetidos = [];
   for (item of arrayTabla1) {
-    repetidos = arrayTabla1.filter(e => {
-      if (e.dia == item.dia && JSON.stringify(e) !== JSON.stringify(item)) return true
-    })
-    console.log(repetidos)
+    repetidos = arrayTabla1.filter((e) => {
+      if (e.dia == item.dia && JSON.stringify(e) !== JSON.stringify(item))
+        return true;
+    });
+    console.log(repetidos);
     for (repetido of repetidos) {
-      if ((parseInt(item.inicio) >= parseInt(repetido.inicio) && parseInt(item.inicio) <= parseInt(repetido.fin)) || (parseInt(item.fin) >= parseInt(repetido.inicio) && parseInt(item.fin) <= parseInt(repetido.fin))) {
-        condicion = true
-        break
+      if (
+        (parseInt(item.inicio) >= parseInt(repetido.inicio) &&
+          parseInt(item.inicio) <= parseInt(repetido.fin)) ||
+        (parseInt(item.fin) >= parseInt(repetido.inicio) &&
+          parseInt(item.fin) <= parseInt(repetido.fin))
+      ) {
+        condicion = true;
+        break;
       }
     }
   }
-  return condicion
-}
+  return condicion;
+};
 
 const botonGuardar = document
   .getElementById("botonGuardar")
