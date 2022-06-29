@@ -159,57 +159,6 @@ class Horario {
 // funciones                                   //
 /////////////////////////////////////////////////
 
-const configurarProfesional = () => {
-  profesionalObj.apProfesional = prompt(
-    "Apellido del profesional"
-  ).toUpperCase();
-  profesionalObj.nmProfesional = prompt("Nombre del profesional").toUpperCase();
-  profesionalObj.dniProfesional = prompt("DNI del profesional").toUpperCase();
-  profesionalObj.espProfesional = prompt(
-    "Especialidad del profesional"
-  ).toUpperCase();
-  profesionalObj.matriculaProfesional = prompt(
-    "Matricula del profesional"
-  ).toUpperCase();
-  profesionalObj.configuracionTurnos.ivTurnos = prompt(
-    "Intervalo de turnos"
-  ).toUpperCase();
-
-  let opcionSemana = 1;
-  while (opcionSemana !== 0) {
-    opcionSemana = prompt(`Elija la opcion deseada:
-                              0 - Salir
-                              1 - Lunes
-                              2 - Martes
-                              3 - Miercoles
-                              4 - Jueves
-                              5 - Viernes
-                              6 - Sabado
-                              7 - Domingo`);
-    opcionSemana = parseInt(opcionSemana);
-    isNaN(opcionSemana) || opcionSemana < 0 || opcionSemana > 7 ?
-      alert("La respuesta debe ser un numero del 0 al 7") :
-      definirHoras(opcionSemana);
-  }
-  configuracionOk
-    ?
-    profesionalObj.generarTurnos() :
-    (alert("Hay datos mal en la configuracion del profesional"),
-      configurarProfesional());
-};
-const configuracionOk = () => {
-  //EVALUA CON TRUE SI LOS DATOS NECESARIOS PARA GENERAR TURNOS ESTAN EN EL OBJ
-  const semana = profesionalObj.configuracionTurnos.dias;
-  let res = false;
-  for (dia in semana) {
-    if (
-      semana[dia].length > 1 &&
-      !parseInt(profesionalObj.configuracionTurnos.ivTurnos).isNaN
-    )
-      res = true;
-    return res;
-  }
-};
 const validarHora = () => {
   //EVALUA SI LA EXPRESION DEVUELTA RESPONDE A HORA EN FORMATO 24 HS
   let regExHora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -218,144 +167,6 @@ const validarHora = () => {
   if (regExHora.test(inicio) && regExHora.test(final)) return [inicio, final];
   else return false;
 };
-const definirHoras = (opcion) => {
-  //GUARDA LOS HORARIOS DE INICIO Y FIN EN LOS DIAS SELECCIONADOS
-  let respuesta;
-  switch (opcion) {
-    case 1:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.lunes.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-
-      break;
-    case 2:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.martes.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-    case 3:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.miercoles.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-    case 4:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.jueves.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-    case 5:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.viernes.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-    case 6:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.sabado.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-    case 7:
-      respuesta = validarHora();
-      respuesta !== false ?
-        profesionalObj.configuracionTurnos.dias.domingo.push(
-          new Horario(respuesta[0], respuesta[1])
-        ) :
-        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
-      break;
-  }
-};
-const diasAtencion = () => {
-  //CARGA LOS DIAS QUE EL PROFESIONAL ATIENDE EN UN ARRAY
-  let res = [];
-  let numero = 1;
-  const semana = profesionalObj.configuracionTurnos.dias;
-  for (dia in semana) {
-    if (semana[dia].length > 0) {
-      res.push(numero.toString().trim() + " - " + dia + "\n");
-      numero++;
-    }
-  }
-  return res;
-};
-const turnosLibres = (opcion) => {
-  //MUESTRA LOS TURNOS LIBRES Y PERMITE SELECCIONAR EL HORARIO. CARGA EL DNI DEL PACIENTE EN EL HORARIO
-  // EL PARAMETRO OPCION ES EL DATO SELECCIONADO POR EL USUARIO DEL DIA DE SEMANA
-
-  console.log(profesionalObj.configuracionTurnos.dias[opcion].length);
-  const dia = profesionalObj.configuracionTurnos.dias[opcion];
-  let libres = [];
-  let numero = 1;
-
-  for (let index = 0; index < dia.length; index++) {
-    let horarios = dia[index];
-    libres[0] = "0 - Salir\n";
-    for (turno in horarios) {
-      if (horarios[turno] == "LIBRE") {
-        libres.push(numero + " - " + turno + "\n");
-        numero++;
-      }
-    }
-
-    console.log(libres); //NO ENTIENDO PORQUE ME PONEUN ESPACIO DESPUES DE LA COMA
-  }
-  let opcionWhile = 1;
-  while (opcionWhile != 0) {
-    opcionWhile = prompt(`Elija el turno que desea:
-  
-  ${libres}`);
-
-    if (opcionWhile != 0) {
-      let rta = prompt("DNI del paciente");
-      const turnoSel = libres[opcionWhile]
-        .substring(4, libres[opcionWhile].length - 1)
-        .toString()
-        .trim();
-      profesionalObj.configuracionTurnos.dias[opcion][
-        profesionalObj.configuracionTurnos.dias[opcion].length - 1
-      ][`${turnoSel}`] = rta;
-      console.log("Turno Asignado");
-      opcionWhile = 0;
-    }
-  }
-  menuPrincipal();
-};
-const asignarTurno = () => {
-  //PERMITE SELECCIONAR EL DIA DE ATNECION DEL PROFESIONAL
-  let atencion = diasAtencion(); //LLAMA A LA FUNCION DIAS Y TRAE EL ARRAY ATENCION CON LOS DIAS DEL
-  // PROFESIONAL
-  let opcion = 1;
-
-  while (opcion != 0) {
-    opcion = prompt(`Elija el dia de atencion:
-0 - Salir
-${atencion}`); //NO SE PORQUE ME DEJA DESALINEADAS LAS OPCIONES
-    //EL OPERADOR TERNARIO LLAMA A LA FUNCION TURNOSLIBRES PASANDO COMO PARAMETRO EL DIA SELECCIONADO POR EL USR
-    // SI LA OPCION ES 0 TERMNA EL BUCLE
-    opcion != 0 ?
-      turnosLibres(
-        atencion[opcion - 1].substring(4, atencion[opcion - 1].length - 1)
-      ) :
-      (opcion = 0);
-  }
-};
-
 const errDNI = () => {
   alert("DNI debe ser un numero");
   let dni = parseInt(prompt("Ingrese su DNI:"));
@@ -385,31 +196,6 @@ const validarDni = (item) => {
   }
   return indice;
 };
-// const validarDni = (item) => {
-//   let documento;
-//   let indice = 0;
-//   item.isNaN ? errDNI() : (documento = PacienteObj.dni); //VRIFICA QUE LO INGRESADO SEA UN NUMERO DE LO CONTRARIO MUESTRA ERROR
-//   if (documento.length > 1) {
-//     //evalua repetidos si el documento tiene mas de un registro
-//     indice = documento.indexOf(item);
-//     if (indice == -1) {
-//       documento.push(item);
-//       agregarDomicilio();
-//       indice = documento.length - 1;
-//     } else alert("Ese DNI ya existe se modificaron los datos");
-//   }
-//   documento.length < 2 && documento[0] == undefined //se fija si el primer valor es undefined (ya que al definir la clase siempre me rellena el [0] como undefined)
-//     ? ((documento[0] = item), (indice = 0)) //si el valor [0] es undefined entonces coloca ahi el primer valor y resetea el indice  a 0
-//     : documento.length < 2 && documento[0] == item //si el valor no es undefined y es igual al que ingreso el user envia un alert y no define indice
-//     ? (alert("DNI repetido"), (indice = 0))
-//     : documento.length < 2
-//     ? (documento.push(item),
-//       agregarDomicilio(),
-//       (indice = documento.length - 1)) // si hay menos de 2 valores en la bd y no se cumple el resto pushea el valor del usuarioo
-//     : (documento = documento);
-
-//   return indice; //devuelve el valor indice que se usara apara guardar el resto de los datos
-// };
 const agregarDomicilio = () => {
   PacienteObj.direccion.push({
     calle: "",
@@ -421,7 +207,6 @@ const agregarDomicilio = () => {
 const configurarPaciente = (dni) => {
   let indice;
   indice = validarDni(dni);
-  // if (indice !== undefined) {
   if (indice === 0) PacienteObj.dni[0] = dni;
   PacienteObj.apellido[indice] = document.getElementById("apellido").value;
   PacienteObj.nombre[indice] = document.getElementById("apellido").value;
@@ -454,7 +239,6 @@ let PacienteObj = new Paciente();
 let opcion = 1;
 let indice;
 
-// menuPrincipal()
 //////////////////////////////////////////
 // OBJETOS HTML                        //
 //////////////////////////////////////////
@@ -591,7 +375,7 @@ function validarTabla(obj) {
     arrayTabla1.forEach((item) => {
       let str1 = JSON.stringify(item);
       let str2 = JSON.stringify(obj);
-      if (str1 == str2) {
+      if (str1 === str2) {
         condicion = false;
       } else {
         condicion = true;
@@ -669,9 +453,9 @@ const eliminar = document
       console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
 
       for (item in arrayTabla1) {
-        const comparacion1 = JSON.stringify(arrayTabla1[item]);
-        const comparacion2 = JSON.stringify(objetoSeleccionado);
-        if (comparacion1 == comparacion2) {
+        const objetoString1 = JSON.stringify(arrayTabla1[item]);
+        const objetoString2 = JSON.stringify(objetoSeleccionado);
+        if (objetoString1 === objetoString2) {
           arrayTabla1.splice(item, 1);
           e.target.parentNode.parentNode.parentNode.removeChild(
             e.target.parentNode.parentNode
@@ -691,25 +475,38 @@ const superposicion = () => {
   let repetidos = [];
   for (item of arrayTabla1) {
     repetidos = arrayTabla1.filter((e) => {
-      if (e.dia == item.dia && JSON.stringify(e) !== JSON.stringify(item))
+      if (e.dia === item.dia && JSON.stringify(e) !== JSON.stringify(item))
         return true;
     });
     console.log(repetidos);
     for (repetido of repetidos) {
-      if (
-        (parseInt(item.inicio) >= parseInt(repetido.inicio) &&
-          parseInt(item.inicio) <= parseInt(repetido.fin)) ||
-        (parseInt(item.fin) >= parseInt(repetido.inicio) &&
-          parseInt(item.fin) <= parseInt(repetido.fin))
-      ) {
-        condicion = true;
-        break;
-      }
+      if (intervalos(item, repetido)) break;
+
     }
   }
   return condicion;
 };
-
+//////////////////////////////////////////////////
+// evalua que los intervalos no se supoerpongan //
+//////////////////////////////////////////////////
+const intervalos = (tabla, repetidos) => {
+  let condicion = false;
+  const tabla = {
+      inicio: 1,
+      fin: 2
+    }
+    ({
+      inicio: itemInicio,
+      fin: itemFin
+    } = tabla)
+  const {
+    inicio: repetidosInicio,
+    fin: repetidosFin
+  } = repetidos;
+  if ((parseInt(itemInicio) >= parseInt(repetidosInicio)) && (itemInicio <= parseInt(repetidosFin))) condicion = true
+  if ((parseInt(itemFin) >= parseInt(repetidosInicio)) && (parseInt(itemFin) <= parseInt(repetidosFin))) condicion = true
+  return condicion
+}
 const botonGuardar = document
   .getElementById("botonGuardar")
   .addEventListener("click", () => {
