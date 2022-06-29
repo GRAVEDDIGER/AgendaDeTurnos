@@ -2,61 +2,74 @@
 //////////////////////////////////////////////////
 // CLASES                                       //
 //////////////////////////////////////////////////
-const pacientesLocal = JSON.parse(almacenamientoLocal.getItem("pacientes"));
+const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
+let localBolean;
+if (localStorage.getItem("pacientes") === undefined || localStorage.getItem("pacientes") === null) localBolean = false;
+else localBolean = true;
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = [apellido];
     this.nombre = [nombre];
     this.telefono = [telefono];
-    this.direccion = [
-      {
-        calle: calle,
-        numero: numero,
-        cPostal: cpa,
-        localidad: localidad,
-      },
-    ];
+    this.direccion = [{
+      calle: calle,
+      numero: numero,
+      cPostal: cpa,
+      localidad: localidad,
+    }, ];
     this.dni = [dni];
   }
   guardarLocal() {
-    almacenamientoLocal.setItem("pacientes", JSON.stringify(this));
+    localStorage.setItem("pacientes", JSON.stringify(this));
   }
   leerDniLocal() {
-    pacientesLocal.dni.forEach((dni) => {
-      if (this.dni[0] === undefined) this.dni[0] = dni;
-      else this.dni.push(dni);
-    });
+    if (localBolean) {
+      pacientesLocal.dni.forEach((dni) => {
+        if (this.dni[0] === undefined) this.dni[0] = dni;
+        else this.dni.push(dni);
+      });
+    }
   }
   leerApellidoLocal() {
-    pacientesLocal.apellido.forEach((apellido) => {
-      if (this.apellido[0] === undefined) this.apellido[0] = apellido;
-      else this.apellido.push(apellido);
-    });
+    if (localBolean) {
+      pacientesLocal.apellido.forEach((apellido) => {
+        if (this.apellido[0] === undefined) this.apellido[0] = apellido;
+        else this.apellido.push(apellido);
+      });
+    }
   }
   leerNombreLocal() {
-    pacientesLocal.nombre.forEach((nombre) => {
-      if (this.nombre[0] === undefined) this.nombre[0] = nombre;
-      else this.nombre.push(nombre);
-    });
+    if (localBolean) {
+      pacientesLocal.nombre.forEach((nombre) => {
+        if (this.nombre[0] === undefined) this.nombre[0] = nombre;
+        else this.nombre.push(nombre);
+      });
+    }
   }
   leerTelefonoLocal() {
-    pacientesLocal.telefono.forEach((telefono) => {
-      if (this.telefono[0] === undefined) this.telefono[0] = telefono;
-      else this.telefono.push(telefono);
-    });
+    if (localBolean) {
+      pacientesLocal.telefono.forEach((telefono) => {
+        if (this.telefono[0] === undefined) this.telefono[0] = telefono;
+        else this.telefono.push(telefono);
+      });
+    }
   }
   leerDireccionLocal() {
-    pacientesLocal.direccion.forEach((direccion) => {
-      if (this.direccion[0] === undefined) this.direccion[0] = direccion;
-      else this.direccion.push(direccion);
-    });
+    if (localBolean) {
+      pacientesLocal.direccion.forEach((direccion) => {
+        if (this.direccion[0] === undefined) this.direccion[0] = direccion;
+        else this.direccion.push(direccion);
+      });
+    }
   }
   leerLocal() {
-    this.leerDniLocal();
-    this.leerApellidoLocal();
-    this.leerNombreLocal();
-    this.leerTelefonoLocal();
-    this.leerDireccionLocal();
+    if (localBolean) {
+      this.leerDniLocal();
+      this.leerApellidoLocal();
+      this.leerNombreLocal();
+      this.leerTelefonoLocal();
+      this.leerDireccionLocal();
+    }
   }
 }
 class Profesional {
@@ -108,7 +121,7 @@ class Profesional {
           let intervalo = parseInt(this.configuracionTurnos.ivTurnos);
           let diferenciaHoras = new Date(
             new Date().setHours(parseInt(hf), parseInt(mf)) -
-              new Date().setHours(parseInt(hi), parseInt(mi))
+            new Date().setHours(parseInt(hi), parseInt(mi))
           ); //se parsean a entero los valores destructuradsos se generan dos dates y se restan me devuelve un date con la diferencia en ms
           let hor = parseInt(hi);
           let min = parseInt(mi);
@@ -174,13 +187,14 @@ const configurarProfesional = () => {
                               6 - Sabado
                               7 - Domingo`);
     opcionSemana = parseInt(opcionSemana);
-    isNaN(opcionSemana) || opcionSemana < 0 || opcionSemana > 7
-      ? alert("La respuesta debe ser un numero del 0 al 7")
-      : definirHoras(opcionSemana);
+    isNaN(opcionSemana) || opcionSemana < 0 || opcionSemana > 7 ?
+      alert("La respuesta debe ser un numero del 0 al 7") :
+      definirHoras(opcionSemana);
   }
   configuracionOk
-    ? profesionalObj.generarTurnos()
-    : (alert("Hay datos mal en la configuracion del profesional"),
+    ?
+    profesionalObj.generarTurnos() :
+    (alert("Hay datos mal en la configuracion del profesional"),
       configurarProfesional());
 };
 const configuracionOk = () => {
@@ -210,60 +224,60 @@ const definirHoras = (opcion) => {
   switch (opcion) {
     case 1:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.lunes.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.lunes.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
 
       break;
     case 2:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.martes.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.martes.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
     case 3:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.miercoles.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.miercoles.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
     case 4:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.jueves.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.jueves.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
     case 5:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.viernes.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.viernes.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
     case 6:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.sabado.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.sabado.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
     case 7:
       respuesta = validarHora();
-      respuesta !== false
-        ? profesionalObj.configuracionTurnos.dias.domingo.push(
-            new Horario(respuesta[0], respuesta[1])
-          )
-        : (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
+      respuesta !== false ?
+        profesionalObj.configuracionTurnos.dias.domingo.push(
+          new Horario(respuesta[0], respuesta[1])
+        ) :
+        (alert("Debe ingresar la hora en formato HH:MM"), definirHoras());
       break;
   }
 };
@@ -334,11 +348,11 @@ const asignarTurno = () => {
 ${atencion}`); //NO SE PORQUE ME DEJA DESALINEADAS LAS OPCIONES
     //EL OPERADOR TERNARIO LLAMA A LA FUNCION TURNOSLIBRES PASANDO COMO PARAMETRO EL DIA SELECCIONADO POR EL USR
     // SI LA OPCION ES 0 TERMNA EL BUCLE
-    opcion != 0
-      ? turnosLibres(
-          atencion[opcion - 1].substring(4, atencion[opcion - 1].length - 1)
-        )
-      : (opcion = 0);
+    opcion != 0 ?
+      turnosLibres(
+        atencion[opcion - 1].substring(4, atencion[opcion - 1].length - 1)
+      ) :
+      (opcion = 0);
   }
 };
 
@@ -445,9 +459,11 @@ let indice;
 // OBJETOS HTML                        //
 //////////////////////////////////////////
 
-const inicio = window.addEventListener("DOMContentLoaded", (e) =>
-  PacienteObj.leerLocal()
-);
+const inicio = window.addEventListener("DOMContentLoaded", (e) => {
+  if (localBolean) {
+    PacienteObj.leerLocal()
+  }
+});
 
 const documentoInput = document.getElementById("dni");
 documentoInput.addEventListener("change", (e) =>
@@ -554,7 +570,6 @@ let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARD
 let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
-const almacenamientoLocal = window.localStorage;
 
 /////////////////////////////////////////
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
