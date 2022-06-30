@@ -489,20 +489,14 @@ const superposicion = () => {
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
-const intervalos = (tabla, repetidos) => {
+const intervalos = ({
+  inicio: itemInicio,
+  fin: itemFin
+}, {
+  inicio: repetidosInicio,
+  fin: repetidosFin
+}) => {
   let condicion = false;
-  const tabla = {
-      inicio: 1,
-      fin: 2
-    }
-    ({
-      inicio: itemInicio,
-      fin: itemFin
-    } = tabla)
-  const {
-    inicio: repetidosInicio,
-    fin: repetidosFin
-  } = repetidos;
   if ((parseInt(itemInicio) >= parseInt(repetidosInicio)) && (itemInicio <= parseInt(repetidosFin))) condicion = true
   if ((parseInt(itemFin) >= parseInt(repetidosInicio)) && (parseInt(itemFin) <= parseInt(repetidosFin))) condicion = true
   return condicion
