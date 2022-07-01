@@ -1,11 +1,29 @@
 //"use-strict"
+
+
 //////////////////////////////////////////////////
 // CLASES                                       //
 //////////////////////////////////////////////////
-const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
-let localBolean;
-if (localStorage.getItem("pacientes") === undefined || localStorage.getItem("pacientes") === null) localBolean = false;
-else localBolean = true;
+//////////////////////////////////////////////////
+//CLASE DE OBJETO CON LA CONFIGURACION DE TURNOS//
+//////////////////////////////////////////////////
+
+class Tabla1 {
+  constructor(dia, inicio, fin, intervalo) {
+    this.dia = dia;
+    this.inicio = inicio;
+    this.fin = fin;
+    this.intervalo = intervalo;
+  }
+}
+
+class Horario {
+  constructor(a, b) {
+    this.horaInicio = a;
+    this.horaFin = b;
+  }
+}
+
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = [apellido];
@@ -149,24 +167,50 @@ class Profesional {
   }
 }
 
-class Horario {
-  constructor(a, b) {
-    this.horaInicio = a;
-    this.horaFin = b;
-  }
-}
+//////////////////////////
+// VARIABLES GLOBALES   //
+//////////////////////////
+let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARDADOS COMO ARRAY DE OBJETOS
+let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
+const diaTab = document.querySelectorAll("ul .nav-item button");
+let contador = 0;
+const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
+let localBolean;
+if (localStorage.getItem("pacientes") === undefined || localStorage.getItem("pacientes") === null) localBolean = false;
+else localBolean = true;
+let opcion = 1;
+let indice;
+let profesionalObj = new Profesional();
+let PacienteObj = new Paciente();
+
 /////////////////////////////////////////////////
 // funciones                                   //
 /////////////////////////////////////////////////
-
-const validarHora = () => {
-  //EVALUA SI LA EXPRESION DEVUELTA RESPONDE A HORA EN FORMATO 24 HS
-  let regExHora = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-  let inicio = prompt("Hora de inicio (formato 24 hs)");
-  let final = prompt("Hora de finalizacion (formato 24 hs)");
-  if (regExHora.test(inicio) && regExHora.test(final)) return [inicio, final];
-  else return false;
-};
+//////////////////////////////////////////////////
+// evalua que los intervalos no se supoerpongan //
+//////////////////////////////////////////////////
+const intervalos = ({
+  inicio: itemInicio,
+  fin: itemFin
+}, {
+  inicio: repetidosInicio,
+  fin: repetidosFin
+}, condicion) => {
+  ((parseInt(repetidosInicio) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) && (condicion = true)
+  (parseInt(repetidosFin) > parseInt(itemInicio)) && (condicion = true)
+  return condicion
+}
+const botonGuardar = document
+  .getElementById("botonGuardar")
+  .addEventListener("click", () => {
+    if (superposicion()) {
+      document
+        .getElementById("superposicion")
+        .classList.remove("turnoDuplicado");
+    } else {
+      document.querySelector("modal").classList.add("d-none");
+    }
+  });
 const errDNI = () => {
   alert("DNI debe ser un numero");
   let dni = parseInt(prompt("Ingrese su DNI:"));
@@ -230,17 +274,10 @@ const limpiarPaciente = () => {
   document.getElementById("altura").value = "";
   document.getElementById("CPA").value = "";
 };
-//////////////////////////////////////////
-// LOGICA PRINCIPAL                     //
-//////////////////////////////////////////
 
-const profesionalObj = new Profesional();
-let PacienteObj = new Paciente();
-let opcion = 1;
-let indice;
 
 //////////////////////////////////////////
-// OBJETOS HTML                        //
+// OBJETOS HTML PAGINA PACIENTES        //
 //////////////////////////////////////////
 
 const inicio = window.addEventListener("DOMContentLoaded", (e) => {
@@ -343,172 +380,3 @@ const validarTelefonoOc = (e) => {
     return false;
   }
 };
-//////////////////////////////
-//         modal            //
-//////////////////////////////
-
-//////////////////////////
-// VARIABLES GLOBALES   //
-//////////////////////////
-let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARDADOS COMO ARRAY DE OBJETOS
-let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
-const diaTab = document.querySelectorAll("ul .nav-item button");
-let contador = 0;
-
-/////////////////////////////////////////
-//FUNCION QUE CAPTURA DIA DE LA SEMANA //
-/////////////////////////////////////////
-diaTab.forEach((item) => {
-  item.addEventListener("click", () => {
-    let previo = document.getElementById(diaSemana);
-    previo.classList.remove("active");
-    item.classList.add("active");
-    diaSemana = item.id;
-  });
-});
-/////////////////////////////////////////////////////////////////////////////////
-// FUNCION QUE BUSCA REGISTROS DUPLICADOS ANTES DE AGREGAR UNA FILA A LA TABLA //
-/////////////////////////////////////////////////////////////////////////////////
-function validarTabla(obj) {
-  let condicion;
-  if (arrayTabla1.length > 0) {
-    arrayTabla1.forEach((item) => {
-      let str1 = JSON.stringify(item);
-      let str2 = JSON.stringify(obj);
-      if (str1 === str2) {
-        condicion = false;
-      } else {
-        condicion = true;
-      }
-    });
-  } else condicion = true;
-  return condicion;
-}
-//////////////////////////////////////////////////
-//CLASE DE OBJETO CON LA CONFIGURACION DE TURNOS//
-//////////////////////////////////////////////////
-
-class Tabla1 {
-  constructor(dia, inicio, fin, intervalo) {
-    this.dia = dia;
-    this.inicio = inicio;
-    this.fin = fin;
-    this.intervalo = intervalo;
-  }
-}
-
-//BOTON QUE AGREGA LOS DATOS INGRESADOS COMO UNA ROW DE LA TABLA
-const botonAgregar = document
-  .getElementById("btnAgregar")
-  .addEventListener("click", () => {
-    document.getElementById("duplicado1").classList.add("turnoDuplicado"); //si el alerta de valor duplicado esta la elimina
-    const fragmento = new DocumentFragment();
-    //crea instancia de objeto con los datos de los inputs
-    const objetoTabla1 = new Tabla1(
-      diaSemana,
-      document.querySelectorAll(".modal input")[0].value,
-      document.querySelectorAll(".modal input")[1].value,
-      document.querySelectorAll(".modal input")[2].value
-    );
-    // verifica que el nuevo valor introducido no se encuentre en la tabla antes de agregar los datos
-    if (validarTabla(objetoTabla1)) {
-      const templateTurnos = document.getElementById(
-        "configuracionTurnos"
-      ).content;
-      templateTurnos.querySelectorAll("tr td")[0].textContent = diaSemana;
-      templateTurnos.querySelectorAll("tr td")[1].textContent =
-        objetoTabla1.inicio;
-      templateTurnos.querySelectorAll("tr td")[2].textContent =
-        objetoTabla1.fin;
-      templateTurnos.querySelectorAll("tr td")[3].textContent =
-        objetoTabla1.intervalo;
-      const clon = document
-        .getElementById("configuracionTurnos")
-
-        .content.cloneNode(true);
-
-      fragmento.appendChild(clon);
-      document.querySelector("table tbody").appendChild(fragmento);
-      arrayTabla1.push(objetoTabla1);
-
-      contador++;
-    } //si el valor esta dulpicado entonces enciede el alerta
-    else
-      document.getElementById("duplicado1").classList.remove("turnoDuplicado");
-  });
-
-//EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
-const eliminar = document
-  .querySelector("table")
-  .addEventListener("click", (e) => {
-    if (e.target.classList.contains("trashcan")) {
-      document.getElementById("superposicion").classList.add("turnoDuplicado"); //ELIMINA EL ERROR DE SUPERPOSICION
-
-      const objetoSeleccionado = new Tabla1(
-        e.target.parentNode.parentNode.querySelectorAll("td")[0].textContent,
-        e.target.parentNode.parentNode.querySelectorAll("td")[1].textContent,
-        e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
-        e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
-      );
-      console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
-
-      for (item in arrayTabla1) {
-        const objetoString1 = JSON.stringify(arrayTabla1[item]);
-        const objetoString2 = JSON.stringify(objetoSeleccionado);
-        if (objetoString1 === objetoString2) {
-          arrayTabla1.splice(item, 1);
-          e.target.parentNode.parentNode.parentNode.removeChild(
-            e.target.parentNode.parentNode
-          );
-          break;
-        }
-      }
-    }
-  }); // remoeve lafila dela tabla
-
-/////////////////////////////////////////////////
-//funcion que evalua superposicion  de horarios//
-/////////////////////////////////////////////////
-
-const superposicion = () => {
-  let condicion = false;
-  let repetidos = [];
-  for (item of arrayTabla1) {
-    repetidos = arrayTabla1.filter((e) => {
-      if (e.dia === item.dia && JSON.stringify(e) !== JSON.stringify(item))
-        return true;
-    });
-    console.log(repetidos);
-    for (repetido of repetidos) {
-      if (intervalos(item, repetido)) break;
-
-    }
-  }
-  return condicion;
-};
-//////////////////////////////////////////////////
-// evalua que los intervalos no se supoerpongan //
-//////////////////////////////////////////////////
-const intervalos = ({
-  inicio: itemInicio,
-  fin: itemFin
-}, {
-  inicio: repetidosInicio,
-  fin: repetidosFin
-}) => {
-  let condicion = false;
-  if ((parseInt(itemInicio) >= parseInt(repetidosInicio)) && (itemInicio <= parseInt(repetidosFin))) condicion = true
-  if ((parseInt(itemFin) >= parseInt(repetidosInicio)) && (parseInt(itemFin) <= parseInt(repetidosFin))) condicion = true
-  return condicion
-}
-const botonGuardar = document
-  .getElementById("botonGuardar")
-  .addEventListener("click", () => {
-    if (superposicion()) {
-      document
-        .getElementById("superposicion")
-        .classList.remove("turnoDuplicado");
-    } else {
-      document.querySelector("modal").classList.add("d-none");
-    }
-  });
