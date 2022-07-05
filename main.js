@@ -102,15 +102,55 @@ class Profesional {
     telProfesional
   ) {
     this.configuracionTurnos = {
-      ivTurnos: ivTurnos,
+
       dias: {
-        lunes: [],
-        martes: [],
-        miercoles: [],
-        jueves: [],
-        viernes: [],
-        sabado: [],
-        domingo: [],
+        lunes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: []
+        }],
+        martes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+        miercoles: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+
+        jueves: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+
+        viernes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+
+        sabado: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+
+        domingo: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }],
+
       },
     };
     this.nmProfesional = nmProfesional;
@@ -196,21 +236,10 @@ const intervalos = ({
   inicio: repetidosInicio,
   fin: repetidosFin
 }, condicion) => {
-  ((parseInt(repetidosInicio) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) && (condicion = true)
-  (parseInt(repetidosFin) > parseInt(itemInicio)) && (condicion = true)
+  if ((parseInt(repetidosInicio) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) condicion = true
+  if ((parseInt(repetidosFin) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) condicion = true
   return condicion
 }
-const botonGuardar = document
-  .getElementById("botonGuardar")
-  .addEventListener("click", () => {
-    if (superposicion()) {
-      document
-        .getElementById("superposicion")
-        .classList.remove("turnoDuplicado");
-    } else {
-      document.querySelector("modal").classList.add("d-none");
-    }
-  });
 const errDNI = () => {
   alert("DNI debe ser un numero");
   let dni = parseInt(prompt("Ingrese su DNI:"));
@@ -240,6 +269,8 @@ const validarDni = (item) => {
   }
   return indice;
 };
+
+
 const agregarDomicilio = () => {
   PacienteObj.direccion.push({
     calle: "",
@@ -275,47 +306,6 @@ const limpiarPaciente = () => {
   document.getElementById("CPA").value = "";
 };
 
-
-//////////////////////////////////////////
-// OBJETOS HTML PAGINA PACIENTES        //
-//////////////////////////////////////////
-
-const inicio = window.addEventListener("DOMContentLoaded", (e) => {
-  if (localBolean) {
-    PacienteObj.leerLocal()
-  }
-});
-
-const documentoInput = document.getElementById("dni");
-documentoInput.addEventListener("change", (e) =>
-  validarDniOc(parseInt(e.target.value))
-);
-const apellidoInput = document.getElementById("apellido");
-apellidoInput.addEventListener("change", (e) =>
-  validarApellidoOc(e.target.value)
-);
-
-const nombreInput = document.getElementById("nombre");
-nombreInput.addEventListener("change", (e) => validarNombreOc(e.target.value));
-
-const telefonoInput = document.getElementById("telefono");
-telefonoInput.addEventListener("change", (e) =>
-  validarTelefonoOc(e.target.value)
-);
-const enviarPaciente = document.getElementById("enviarPaciente");
-enviarPaciente.addEventListener("click", (e) => {
-  e.preventDefault();
-  const dniPaciente = document.getElementById("dni");
-  if (
-    validarDniOc(parseInt(documentoInput.value)) &&
-    validarApellidoOc(apellidoInput.value) &&
-    validarNombreOc(nombreInput.value) &&
-    validarTelefonoOc(telefonoInput.value)
-  ) {
-    configurarPaciente(dniPaciente.value);
-    PacienteObj.guardarLocal();
-  } else alert("Hay datos requeridos con errores");
-});
 
 ///////////////////////////////////////
 //         VALIDACIONES              //

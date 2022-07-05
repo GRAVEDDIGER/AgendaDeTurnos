@@ -73,6 +73,21 @@ const botonAgregar = document
     });
 
 //EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
+const botonGuardar = document
+    .getElementById("botonGuardar")
+    .addEventListener("click", () => {
+        if (superposicion()) {
+            document
+                .getElementById("superposicion")
+                .classList.remove("turnoDuplicado");
+        } else {
+            const elModal = new bootstrap.Modal(document.getElementById("modal1"))
+            elModal.hide()
+            // document.querySelector(".modal").hide() //.classList.add("d-none")
+            //guardar en objeto
+        }
+    });
+
 const eliminar = document
     .querySelector("table")
     .addEventListener("click", (e) => {
@@ -99,7 +114,46 @@ const eliminar = document
                 }
             }
         }
-    }); // remoeve lafila dela tabla
+    });
+const enviarPaciente = document.getElementById("enviarPaciente")
+const documentoInput = document.getElementById("dni");
+documentoInput.addEventListener("change", (e) =>
+    validarDniOc(parseInt(e.target.value))
+);
+const apellidoInput = document.getElementById("apellido");
+apellidoInput.addEventListener("change", (e) =>
+    validarApellidoOc(e.target.value)
+);
+
+const nombreInput = document.getElementById("nombre");
+nombreInput.addEventListener("change", (e) => validarNombreOc(e.target.value));
+
+const telefonoInput = document.getElementById("telefono");
+telefonoInput.addEventListener("change", (e) =>
+    validarTelefonoOc(e.target.value)
+);
+const enviarProfesional = document.getElementById("enviarProfesional").addEventListener("click", e => {
+    const profesionalTransitorio = new Profesional
+    for (fila of arrayTabla1) {
+        if (profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos === 0) {
+            profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos = fila.intervalo
+            profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].inicio = fila.inicio
+            profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].fin = fila.fin
+        } else {
+            profesionalTransitorio.configuracionTurnos.dias[fila.dia].push({
+                ivTurnos: fila.intervalo,
+                inicio: fila.inicio,
+                fin: fila.fin,
+                horas: []
+            })
+        }
+    }
+    profesionalObj.configuracionTurnos = profesionalTransitorio.configuracionTurnos
+    console.log(profesionalObj)
+
+})
+
+
 
 /////////////////////////////////////////////////
 //funcion que evalua superposicion  de horarios//
@@ -109,18 +163,22 @@ const superposicion = () => {
     let condicion = false;
     let repetidos = [];
     tabla: for (item of arrayTabla1) {
-        repetidos = arrayTabla1.filter((e) => {
-            if (e.dia === item.dia && JSON.stringify(e) !== JSON.stringify(item)) {
-                return true;
+        let saltearEach = false;
+        repetidos = arrayTabla1.forEach((e) => {
+            if ((e.dia === item.dia) && (JSON.stringify(e) !== JSON.stringify(item))) {
+                condicion = intervalos(item, e, condicion) && (saltearEach = true)
             }
 
-        });
+        })
+        if (saltearEach) break tabla;
         console.log(repetidos);
-        for (repetido of repetidos) {
-            condicion = intervalos(item, repetido, condicion)
-            if (condicion) break tabla;
+        //     for (repetido of repetidos) {
+        //         condicion = intervalos(item, repetido, condicion)
+        //         if (condicion) break tabla;
 
-        }
+        //     }
+        // }
+
     }
     return condicion;
 };
