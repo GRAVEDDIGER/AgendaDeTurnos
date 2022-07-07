@@ -35,5 +35,11 @@ const enviarPaciente = document.getElementById("enviarPaciente").addEventListene
     ) {
         configurarPaciente(dniPaciente.value);
         PacienteObj.guardarLocal();
-    } else alert("Hay datos requeridos con errores");
+    } else {
+        swal({
+            title: "Error!",
+            text: "Hay datos requeridos con errores",
+            icon: "error",
+        });
+    } //alert("Hay datos requeridos con errores");
 });
