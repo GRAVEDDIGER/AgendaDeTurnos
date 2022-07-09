@@ -26,7 +26,7 @@ const superposicion = () => {
       }
     });
     if (saltearEach) break tabla;
-      }
+  }
   return condicion;
 };
 /////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,22 @@ const botonAgregar = document
     else
       document.getElementById("duplicado1").classList.remove("turnoDuplicado");
   });
-
+const limpiarModal = () => {
+  const inputModal = document.querySelectorAll(".modal input");
+  inputModal.forEach((e) => {
+    e.value = "";
+  });
+};
+const botonSalir = document.getElementById("botonSalir");
+const cuerpoTabla = document.querySelector("tbody");
+botonSalir.addEventListener("click", (e) => {
+  const remover = cuerpoTabla.querySelectorAll("td");
+  remover.forEach((e) => {
+    e.remove();
+  });
+  limpiarModal();
+  arrayTabla1 = [];
+});
 //EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
 const botonGuardar = document
   .getElementById("botonGuardar")
@@ -98,7 +113,6 @@ const botonGuardar = document
         .classList.remove("turnoDuplicado");
     } else {
       elModal.hide();
-
     }
   });
 
@@ -129,11 +143,48 @@ const eliminar = document
       }
     }
   });
+const colocarFilas = () => {
+  const fragmento = new DocumentFragment();
+  const templateTurnos = document.getElementById("configuracionTurnos").content;
+  arrayTabla1.forEach((indice) => {
+    templateTurnos.querySelectorAll("tr td")[0].textContent = indice.dia;
+    templateTurnos.querySelectorAll("tr td")[1].textContent = indice.inicio;
+    templateTurnos.querySelectorAll("tr td")[2].textContent = indice.fin;
+    templateTurnos.querySelectorAll("tr td")[3].textContent = indice.intervalo;
+  });
+  const clon = templateTurnos.cloneNode(true);
+  fragmento.appendChild(clon);
+  document.querySelector("table tbody").appendChild(fragmento);
+};
+const extraerDatosProfesional = (indice) => {
+  apellidoInput.value = profesionalObj[indice].apellido;
+  nombreInput.value = profesionalObj[indice].nombre;
+  telefonoInput.value = profesionalObj[indice].telefono;
+  especialidadInput.value = profesionalObj[indice].especialidad;
+  matriculaInput.value = profesionalObj[indice].matricula;
+  const objetoIterar = profesionalObj[indice].configuracionTurnos.dias;
+  Object.keys(objetoIterar).forEach((dia) => {
+    Object.keys(objetoIterar[dia]).forEach((bandaHoraria) => {
+      if (objetoIterar[dia][bandaHoraria].ivTurnos !== 0) {
+        arrayTabla1.push(
+          new Tabla1(
+            dia,
+            objetoIterar[dia][bandaHoraria].inicio,
+            objetoIterar[dia][bandaHoraria].fin,
+            objetoIterar[dia][bandaHoraria].ivTurnos
+          )
+        );
+      }
+    });
+  });
+  colocarFilas();
+};
 const enviarPaciente = document.getElementById("enviarPaciente");
 const documentoInput = document.getElementById("dni");
-documentoInput.addEventListener("change", (e) =>
-  validarDniOc(parseInt(e.target.value), profesionalObj)
-);
+documentoInput.addEventListener("change", (e) => {
+  const dniDuplicado = validarDniOc(parseInt(e.target.value), profesionalObj);
+  if (dniDuplicado !== -1) extraerDatosProfesional(dniDuplicado);
+});
 const apellidoInput = document.getElementById("apellido");
 apellidoInput.addEventListener("change", (e) =>
   validarApellidoOc(e.target.value)
@@ -188,8 +239,8 @@ const enviarProfesional = document
     switch (validacionDni) {
       case -1:
         profesionalObj.push(profesionalTransitorio);
-        const ultimo=profesionalObj.length-1
-        profesionalObj[ultimo].generarTurnos()
+        const ultimo = profesionalObj.length - 1;
+        profesionalObj[ultimo].generarTurnos();
         break;
 
       case false:
@@ -201,7 +252,7 @@ const enviarProfesional = document
         break;
       default:
         profesionalObj[validacionDni] = profesionalTransitorio;
-        profesionalObj[profesionalObj.length-1].generarTurnos()
+        profesionalObj[profesionalObj.length - 1].generarTurnos();
         break;
     }
 

@@ -33,57 +33,12 @@ class Paciente {
   guardarLocal() {
     localStorage.setItem("pacientes", JSON.stringify(this));
   }
-  leerDniLocal() {
-    if (localBolean) {
-      pacientesLocal.dni.forEach((dni) => {
-        if (this.dni[0] === undefined) this.dni[0] = dni;
-        else this.dni.push(dni);
-      });
-    }
-  }
-  leerApellidoLocal() {
-    if (localBolean) {
-      pacientesLocal.apellido.forEach((apellido) => {
-        if (this.apellido[0] === undefined) this.apellido[0] = apellido;
-        else this.apellido.push(apellido);
-      });
-    }
-  }
-  leerNombreLocal() {
-    if (localBolean) {
-      pacientesLocal.nombre.forEach((nombre) => {
-        if (this.nombre[0] === undefined) this.nombre[0] = nombre;
-        else this.nombre.push(nombre);
-      });
-    }
-  }
-  leerTelefonoLocal() {
-    if (localBolean) {
-      pacientesLocal.telefono.forEach((telefono) => {
-        if (this.telefono[0] === undefined) this.telefono[0] = telefono;
-        else this.telefono.push(telefono);
-      });
-    }
-  }
-  leerDireccionLocal() {
-    if (localBolean) {
-      pacientesLocal.direccion.forEach((direccion) => {
-        if (this.direccion[0] === undefined) this.direccion[0] = direccion;
-        else this.direccion.push(direccion);
-      });
-    }
-  }
-  leerLocal() {
-    if (localBolean) {
-      this.leerDniLocal();
-      this.leerApellidoLocal();
-      this.leerNombreLocal();
-      this.leerTelefonoLocal();
-      this.leerDireccionLocal();
-    }
+}
+class generadorHoras {
+  constructor(hora) {
+    this[hora] = "libre";
   }
 }
-
 class Profesional {
   constructor(
     ivTurnos,
@@ -165,31 +120,49 @@ class Profesional {
     this.telefono = telefono;
     this.matricula = matricula;
   }
-  guardarLocal(){
-    localStorage.setItem("profesionales",JSON.stringify(profesionalObj))
+  guardarLocal() {
+    localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
     Object.keys(this.configuracionTurnos.dias).forEach((dia) => {
-      let horaInicial,minutosIniciales,horaFinal,minutosFinales;
-      let horaString,minString=""
+      let horaInicial, minutosIniciales, horaFinal, minutosFinales;
+      let horaString,
+        minString = "";
       if (dia.length > 0) {
         Object.keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
-                  
-          console.log(this.configuracionTurnos.dias[dia][horario].inicio.split(":"));
-          [horaInicial,minutosIniciales] =this.configuracionTurnos.dias[dia][horario].inicio.split(":");
-          [horaFinal,minutosFinales] =this.configuracionTurnos.dias[dia][horario].fin.split(":");
-          let diferenciaEnMinutos =(new Date().setHours(horaFinal, minutosFinales) -new Date().setHours(horaInicial, minutosIniciales)) /60000;
+          console.log(
+            this.configuracionTurnos.dias[dia][horario].inicio.split(":")
+          );
+          [horaInicial, minutosIniciales] =
+            this.configuracionTurnos.dias[dia][horario].inicio.split(":");
+          [horaFinal, minutosFinales] =
+            this.configuracionTurnos.dias[dia][horario].fin.split(":");
+          let diferenciaEnMinutos =
+            (new Date().setHours(horaFinal, minutosFinales) -
+              new Date().setHours(horaInicial, minutosIniciales)) /
+            60000;
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
-          let intervaloTurnos=parseInt(this.configuracionTurnos.dias[dia][horario].ivTurnos)
-          for (let index = 0;index <= diferenciaEnMinutos-intervaloTurnos; index += intervaloTurnos ) {
-            (hora.toString().length<2) ?  horaString="0"+hora.toString() : horaString= hora.toString();
-            (min.toString().length<2) ?  minString="0"+min.toString() : minString= min.toString();
-            let clave='{'+'"'+horaString+":"+minString+':"'+'"libre"}'
-            this.configuracionTurnos.dias[dia][0].horas.push(clave);
+          let intervaloTurnos = parseInt(
+            this.configuracionTurnos.dias[dia][horario].ivTurnos
+          );
+          for (
+            let index = 0;
+            index <= diferenciaEnMinutos - intervaloTurnos;
+            index += intervaloTurnos
+          ) {
+            hora.toString().length < 2
+              ? (horaString = "0" + hora.toString())
+              : (horaString = hora.toString());
+            min.toString().length < 2
+              ? (minString = "0" + min.toString())
+              : (minString = min.toString());
+            let clave = '"' + horaString + ":" + minString + '"';
+            this.configuracionTurnos.dias[dia][0].horas.push(
+              new generadorHoras(clave)
+            );
             min += intervaloTurnos;
-            
 
             if (min >= 60) {
               min -= 60;
@@ -200,8 +173,7 @@ class Profesional {
       }
     });
   }
-};
-
+}
 
 //////////////////////////
 // VARIABLES GLOBALES   //
@@ -213,13 +185,11 @@ let pacienteObj = [];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
 const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
-const profesionalesLocal=JSON.parse(localStorage.getItem("profesionales"))
-if (profesionalesLocal!=null)  profesionalObj=profesionalesLocal;
-if (pacientesLocal!=null)  pacienteObj=pacientesLocal;
+const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
+if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
+if (pacientesLocal != null) pacienteObj = pacientesLocal;
 
-
-console.log(profesionalObj)
-
+console.log(profesionalObj);
 
 let opcion = 1;
 let indice;
@@ -248,22 +218,6 @@ const intervalos = (
   return condicion;
 };
 
-// const configurarPaciente = (dni) => {
-//   let indice;
-//   indice = validarDni(dni);
-//   if (indice === 0) pacienteObj.dni[0] = dni;
-//   pacienteObj.apellido[indice] = document.getElementById("apellido").value;
-//   pacienteObj.nombre[indice] = document.getElementById("apellido").value;
-//   telefonoPaciente(false, document.getElementById("telefono").value, indice);
-//   pacienteObj.direccion[indice].calle = document.getElementById("calle").value;
-//   pacienteObj.direccion[indice].numero =
-//     document.getElementById("altura").value;
-//   pacienteObj.direccion[indice].cPostal = document.getElementById("CPA").value;
-//   pacienteObj.direccion[indice].localidad =
-//     document.getElementById("localidad").value;
-
-// limpiarPaciente();
-// };
 const generarPaciente = () => {
   const pacienteTransitorio = new Paciente();
   pacienteTransitorio.apellido = apellidoInput.value;
@@ -291,7 +245,6 @@ const limpiarPaciente = () => {
 
 const validarDniOc = (valor, arrayObjeto) => {
   let resultado;
-  const error = document.getElementById("errInv");
   if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
     documentoInput.classList.toggle("error");
     document.getElementById("enviarPaciente").disabled = true;
@@ -300,12 +253,11 @@ const validarDniOc = (valor, arrayObjeto) => {
     documentoInput.classList.remove("error");
     document.getElementById("enviarPaciente").disabled = false;
     resultado = arrayObjeto.findIndex((objeto) => {
-      if (objeto.dni === valor) return valor;
+      if (parseInt(objeto.dni) === valor) return valor;
     });
     return resultado;
   }
 };
-
 const validarApellidoOc = (e) => {
   if (e.length < 3) {
     apellidoInput.classList.add("error");
