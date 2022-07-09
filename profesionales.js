@@ -13,6 +13,29 @@ diaTab.forEach((item) => {
         diaSemana = item.id;
     });
 });
+const superposicion = () => {
+    let condicion = false;
+    let repetidos = [];
+    tabla: for (item of arrayTabla1) {
+        let saltearEach = false;
+        repetidos = arrayTabla1.forEach((e) => {
+            if ((e.dia === item.dia) && (JSON.stringify(e) !== JSON.stringify(item))) {
+                condicion = intervalos(item, e, condicion) && (saltearEach = true)
+            }
+
+        })
+        if (saltearEach) break tabla;
+        console.log(repetidos);
+        //     for (repetido of repetidos) {
+        //         condicion = intervalos(item, repetido, condicion)
+        //         if (condicion) break tabla;
+
+        //     }
+        // }
+
+    }
+    return condicion;
+};
 /////////////////////////////////////////////////////////////////////////////////
 // FUNCION QUE BUSCA REGISTROS DUPLICADOS ANTES DE AGREGAR UNA FILA A LA TABLA //
 /////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +141,7 @@ const eliminar = document
 const enviarPaciente = document.getElementById("enviarPaciente")
 const documentoInput = document.getElementById("dni");
 documentoInput.addEventListener("change", (e) =>
-    validarDniOc(parseInt(e.target.value))
+    validarDniOc(parseInt(e.target.value),profesionalObj)
 );
 const apellidoInput = document.getElementById("apellido");
 apellidoInput.addEventListener("change", (e) =>
@@ -132,8 +155,11 @@ const telefonoInput = document.getElementById("telefono");
 telefonoInput.addEventListener("change", (e) =>
     validarTelefonoOc(e.target.value)
 );
-const enviarProfesional = document.getElementById("enviarProfesional").addEventListener("click", e => {
+const especialidadInput = document.getElementById("especialidad")
+const matriculaInput =document.getElementById("matricula")
+const generarProfesional= ()=> {
     const profesionalTransitorio = new Profesional
+    
     for (fila of arrayTabla1) {
         if (profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos === 0) {
             profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos = fila.intervalo
@@ -148,37 +174,43 @@ const enviarProfesional = document.getElementById("enviarProfesional").addEventL
             })
         }
     }
-    profesionalObj.configuracionTurnos = profesionalTransitorio.configuracionTurnos
-    console.log(profesionalObj)
+    profesionalTransitorio.apProfesional=apellidoInput.value;
+    profesionalTransitorio.dniProfesional=documentoInput.value;
+    profesionalTransitorio.nmProfesional=nombreInput.value;
+    profesionalTransitorio.espProfesional=especialidadInput.value;
+    profesionalTransitorio.telProfesional=telefonoInput.value;
+    profesionalTransitorio.matProfesional=matriculaInput.value;
+
+return profesionalTransitorio
+
+}
+const enviarProfesional = document.getElementById("enviarPaciente").addEventListener("click", e => {
+    const profesionalTransitorio =generarProfesional()
+    const validacionDni = validarDniOc(documentoInput.value, profesionalObj)
+    switch (validacionDni) {
+        case -1:
+            profesionalObj.push(profesionalTransitorio)
+            break;
+
+        case false:
+            swal({
+                title: "Error!",
+                text: "No es un DNI valido!",
+                icon: "error",
+            });
+            break;
+        default:
+            profesionalObj[validacionDni]=profesionalTransitorio
+
+            break;
+
+    }
+
+localStorage.setItem("profesionales",JSON.stringify(profesionalObj))
+limpiarPaciente();
+
 
 })
 
 
 
-/////////////////////////////////////////////////
-//funcion que evalua superposicion  de horarios//
-/////////////////////////////////////////////////
-
-const superposicion = () => {
-    let condicion = false;
-    let repetidos = [];
-    tabla: for (item of arrayTabla1) {
-        let saltearEach = false;
-        repetidos = arrayTabla1.forEach((e) => {
-            if ((e.dia === item.dia) && (JSON.stringify(e) !== JSON.stringify(item))) {
-                condicion = intervalos(item, e, condicion) && (saltearEach = true)
-            }
-
-        })
-        if (saltearEach) break tabla;
-        console.log(repetidos);
-        //     for (repetido of repetidos) {
-        //         condicion = intervalos(item, repetido, condicion)
-        //         if (condicion) break tabla;
-
-        //     }
-        // }
-
-    }
-    return condicion;
-};

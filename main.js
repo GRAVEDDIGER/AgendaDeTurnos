@@ -34,7 +34,7 @@ class Paciente {
       numero: numero,
       cPostal: cpa,
       localidad: localidad,
-    }, ];
+    },];
     this.dni = [dni];
   }
   guardarLocal() {
@@ -96,7 +96,6 @@ class Profesional {
     nmProfesional,
     apProfesional,
     dniProfesional,
-    matriculaProfesional,
     espProfesional,
     matProfesional,
     telProfesional
@@ -156,7 +155,6 @@ class Profesional {
     this.nmProfesional = nmProfesional;
     this.apProfesional = apProfesional;
     this.dniProfesional = dniProfesional;
-    this.matriculaProfesional = matriculaProfesional;
     this.espProfesional = espProfesional;
     this.telProfesional = telProfesional;
     this.matProfesional = matProfesional;
@@ -212,16 +210,18 @@ class Profesional {
 //////////////////////////
 let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARDADOS COMO ARRAY DE OBJETOS
 let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
+let profesionalObj = [];
+let pacienteObj =[];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
 const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
 let localBolean;
 if (localStorage.getItem("pacientes") === undefined || localStorage.getItem("pacientes") === null) localBolean = false;
 else localBolean = true;
+if (localStorage.getItem("profesionales") !== undefined || localStorage.getItem("profesionales") !== null) profesionalObj= JSON.parse(localStorage.getItem("profesionales"))
 let opcion = 1;
 let indice;
-let profesionalObj = new Profesional();
-let PacienteObj = new Paciente();
+
 
 /////////////////////////////////////////////////
 // funciones                                   //
@@ -240,70 +240,43 @@ const intervalos = ({
   if ((parseInt(repetidosFin) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) condicion = true
   return condicion
 }
-const errDNI = () => {
-  alert("DNI debe ser un numero");
-  let dni = parseInt(prompt("Ingrese su DNI:"));
-  if (dni.isNaN) errDNI();
-  else PacienteObj.dni = dni;
-};
-const telefonoPaciente = (error, telefono, indice) => {
-  let regexTelefono =
-    /\(?[0-9]{3}[0-9]?[0-9]?\)?[-]?([0-9]{2})?[0-9]?[-]?[0-9]{2}[0-9]?[-]?[0-9]{4}/g;
-  if (error) alert("ingresaste mal el numero de telefono");
-  let condicion = regexTelefono.test(telefono);
-  if (condicion) {
-    PacienteObj.telefono[indice] = telefono;
-  } else alert("Esta mal ingresado el telefono");
-};
-const validarDni = (item) => {
-  //version optimizada de validarDni
-  let documento = PacienteObj.dni;
-  if (documento[0] === undefined) indice = 0;
-  else {
-    indice = documento.indexOf(item);
-    if (indice === -1) {
-      documento.push(item);
-      agregarDomicilio();
-      indice = documento.length - 1;
-    } else alert("Ese DNI ya existe se modificaron los datos");
-  }
-  return indice;
-};
+
+// const configurarPaciente = (dni) => {
+//   let indice;
+//   indice = validarDni(dni);
+//   if (indice === 0) pacienteObj.dni[0] = dni;
+//   pacienteObj.apellido[indice] = document.getElementById("apellido").value;
+//   pacienteObj.nombre[indice] = document.getElementById("apellido").value;
+//   telefonoPaciente(false, document.getElementById("telefono").value, indice);
+//   pacienteObj.direccion[indice].calle = document.getElementById("calle").value;
+//   pacienteObj.direccion[indice].numero =
+//     document.getElementById("altura").value;
+//   pacienteObj.direccion[indice].cPostal = document.getElementById("CPA").value;
+//   pacienteObj.direccion[indice].localidad =
+//     document.getElementById("localidad").value;
 
 
-const agregarDomicilio = () => {
-  PacienteObj.direccion.push({
-    calle: "",
-    numero: "",
-    cPostal: "",
-    localidad: "",
-  });
-};
-const configurarPaciente = (dni) => {
-  let indice;
-  indice = validarDni(dni);
-  if (indice === 0) PacienteObj.dni[0] = dni;
-  PacienteObj.apellido[indice] = document.getElementById("apellido").value;
-  PacienteObj.nombre[indice] = document.getElementById("apellido").value;
-  telefonoPaciente(false, document.getElementById("telefono").value, indice);
-  PacienteObj.direccion[indice].calle = document.getElementById("calle").value;
-  PacienteObj.direccion[indice].numero =
-    document.getElementById("altura").value;
-  PacienteObj.direccion[indice].cPostal = document.getElementById("CPA").value;
-  PacienteObj.direccion[indice].localidad =
-    document.getElementById("localidad").value;
+// limpiarPaciente();
+// };
+const generarPaciente=()=>{
+  const pacienteTransitorio =new Paciente
+  pacienteTransitorio.apellido=apellidoInput.value
+  pacienteTransitorio.nombre=nombreInput.value
+  pacienteTransitorio.dni=documentoInput.value
+  pacienteTransitorio.telefono=telefonoInput.value
+  pacienteTransitorio.direccion.calle=calleInput.value
+  pacienteTransitorio.direccion.numero =alturaInput.value
+  pacienteTransitorio.direccion.localidad=localidadInput.value
+  pacienteTransitorio.direccion.cPostal=cpaInput.value 
+  return pacienteTransitorio
+}
+const limpiarPaciente = () => { // generar un cleaner para todas las ventanas con un foreach 
+  const limpiar = document.querySelectorAll("input")
+console.log(limpiar)
+limpiar.forEach(element =>{
+  element.value=""
+})
 
-  limpiarPaciente();
-};
-const limpiarPaciente = () => {
-  document.getElementById("apellido").value = "";
-  document.getElementById("nombre").value = "";
-  document.getElementById("dni").value = "";
-  document.getElementById("telefono").value = "";
-  document.getElementById("calle").value = "";
-  document.getElementById("localidad").value = "";
-  document.getElementById("altura").value = "";
-  document.getElementById("CPA").value = "";
 };
 
 
@@ -311,28 +284,23 @@ const limpiarPaciente = () => {
 //         VALIDACIONES              //
 ///////////////////////////////////////
 
-const validarDniOc = (valor) => {
-  const documentos = PacienteObj.dni;
+const validarDniOc = (valor, arrayObjeto) => {
+let resultado;
   const error = document.getElementById("errInv");
-  if (documentos.includes(valor.toString())) {
-    //SE FIJA SI YA ESTA REGISTRADO EN EL OBJETO
-    error.classList.remove("invisibleErr");
-    error.classList.add("naranja");
-    //aca debberia hacer un pull de datos del objeto
-  } else {
-    error.classList.add("invisibleErr");
-    error.classList.remove("naranja");
-  }
-  if (isNaN(valor) || parseInt(valor) < 100000) {
-    //EVALUA QUE SEA UN NUMERO
+  if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
     documentoInput.classList.toggle("error");
     document.getElementById("enviarPaciente").disabled = true;
-    return false;
+    return false
   } else {
     documentoInput.classList.remove("error");
     document.getElementById("enviarPaciente").disabled = false;
-    return true;
+    resultado= arrayObjeto.findIndex(objeto => {
+      if (objeto.dniProfesional === valor) return valor
+    })
+    return resultado
+
   }
+
 };
 
 const validarApellidoOc = (e) => {

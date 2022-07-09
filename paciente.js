@@ -4,13 +4,16 @@
 
 const inicio = window.addEventListener("DOMContentLoaded", (e) => {
     if (localBolean) {
-        PacienteObj.leerLocal()
+        pacienteObj.leerLocal()
     }
 });
-
+const calleInput = document.getElementById("calle")
+const alturaInput = document.getElementById("altura")
+const localidadInput = document.getElementById("localidad")
+const cpaInput = document.getElementById("cpa")
 const documentoInput = document.getElementById("dni");
 documentoInput.addEventListener("change", (e) =>
-    validarDniOc(parseInt(e.target.value))
+    validarDniOc(parseInt(e.target.value),pacienteObj)
 );
 const apellidoInput = document.getElementById("apellido");
 apellidoInput.addEventListener("change", (e) =>
@@ -24,22 +27,28 @@ const telefonoInput = document.getElementById("telefono");
 telefonoInput.addEventListener("change", (e) =>
     validarTelefonoOc(e.target.value)
 );
-const enviarPaciente = document.getElementById("enviarPaciente").addEventListener("click", (e) => {
-    e.preventDefault();
-    const dniPaciente = document.getElementById("dni");
-    if (
-        validarDniOc(parseInt(documentoInput.value)) &&
-        validarApellidoOc(apellidoInput.value) &&
-        validarNombreOc(nombreInput.value) &&
-        validarTelefonoOc(telefonoInput.value)
-    ) {
-        configurarPaciente(dniPaciente.value);
-        PacienteObj.guardarLocal();
-    } else {
-        swal({
-            title: "Error!",
-            text: "Hay datos requeridos con errores",
-            icon: "error",
-        });
-    } //alert("Hay datos requeridos con errores");
+const validarTodo = () => {
+    if (validarApellidoOc(apellidoInput.value)) {
+        if (validarNombreOc(nombreInput.value)) {
+            if (validarTelefonoOc(telefonoInput.value)) return true
+        }
+    }
+    return false
+}
+const enviarPaciente = document.getElementById("enviarPaciente")
+enviarPaciente.addEventListener("click", (e) => {
+    const pacienteTransitorio = generarPaciente();
+    const otrasValidaciones = validarTodo();
+    const validacionDni = validarDniOc(documentoInput.value, pacienteObj)
+    if (otrasValidaciones) {
+        if (validacionDni === -1) pacienteObj.push(pacienteTransitorio)
+        else if (validacionDni === false) {
+            swal({
+                title: "Error!",
+                text: "No es un DNI valido!",
+                icon: "error",
+            });
+        } else pacienteObj[validacionDni] = pacienteTransitorio
+    }
+    limpiarPaciente()
 });
