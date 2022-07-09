@@ -5,6 +5,8 @@
 /////////////////////////////////////////
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
 /////////////////////////////////////////
+const elModal = new bootstrap.Modal(document.getElementById("modal1"));
+
 diaTab.forEach((item) => {
   item.addEventListener("click", () => {
     let previo = document.getElementById(diaSemana);
@@ -24,14 +26,7 @@ const superposicion = () => {
       }
     });
     if (saltearEach) break tabla;
-    console.log(repetidos);
-    //     for (repetido of repetidos) {
-    //         condicion = intervalos(item, repetido, condicion)
-    //         if (condicion) break tabla;
-
-    //     }
-    // }
-  }
+      }
   return condicion;
 };
 /////////////////////////////////////////////////////////////////////////////////
@@ -102,10 +97,8 @@ const botonGuardar = document
         .getElementById("superposicion")
         .classList.remove("turnoDuplicado");
     } else {
-      const elModal = new bootstrap.Modal(document.getElementById("modal1"));
       elModal.hide();
-      // document.querySelector(".modal").hide() //.classList.add("d-none")
-      //guardar en objeto
+
     }
   });
 
@@ -195,6 +188,8 @@ const enviarProfesional = document
     switch (validacionDni) {
       case -1:
         profesionalObj.push(profesionalTransitorio);
+        const ultimo=profesionalObj.length-1
+        profesionalObj[ultimo].generarTurnos()
         break;
 
       case false:

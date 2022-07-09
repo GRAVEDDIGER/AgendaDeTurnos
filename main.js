@@ -15,10 +15,6 @@ class Tabla1 {
     this.intervalo = intervalo;
   }
 }
-
-  
-
-
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = [apellido];
@@ -168,23 +164,29 @@ class Profesional {
     this.telefono = telefono;
     this.matricula = matricula;
   }
+  guardarLocal(){
+    localStorage.setItem("profesionales",JSON.stringify(profesionalObj))
+  }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
     keys(this.configuracionTurnos.dias).forEach((dia) => {
-      let hi,mi,hf,mf;
+      let horaInicial,minutosIniciales,horaFinal,minutosFinales;
+      let horaString,minString=""
       if (dia.length > 0) {
         keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
-          const uno =this.configuracionTurnos.dias[dia][horario].inicio.split(":");
-          const dos=this.configuracionTurnos.dias[dia][horario].fin.split(":");
+                  
           console.log(this.configuracionTurnos.dias[dia][horario].inicio.split(":"));
-          [hi,mi] =uno;
-          [hf,mf] =dos;
+          [horaInicial,minutosIniciales] =this.configuracionTurnos.dias[dia][horario].inicio.split(":");
+          [horaFinal,minutosFinales] =this.configuracionTurnos.dias[dia][horario].fin.split(":");
           let diferenciaEnMinutos =(new Date().setHours(horaFinal, minutosFinales) -new Date().setHours(horaInicial, minutosIniciales)) /60000;
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
-          for (Index = 0;index <= diferenciaEnMinutos; index += horario.ivTurnos ) {
-            this.configuracionTurnos.dias[dia][0].horas.push(`${hora}:${min}`);
-            min += ivTurnos;
+          let intervaloTurnos=parseInt(this.configuracionTurnos.dias[dia][horario].ivTurnos)
+          for (let index = 0;index <= diferenciaEnMinutos-intervaloTurnos; index += intervaloTurnos ) {
+            (hora.toString().length<2) ?  horaString="0"+hora.toString() : horaString= hora.toString();
+            (min.toString().length<2) ?  minString="0"+min.toString() : minString= min.toString();
+            this.configuracionTurnos.dias[dia][0].horas.push(`${horaString}:${minString}`);
+            min += intervaloTurnos;
             if (min >= 60) {
               min -= 60;
               hora++;
@@ -197,50 +199,6 @@ class Profesional {
 };
 
 
-//     for (let dia in this.configuracionTurnos.dias) {
-//       //loop que recorre los dias de la semana
-
-//       if (this.configuracionTurnos.dias[dia].length > 0) {
-//         //evalua si el dia de la semana recorrido tiene algun horario asignado
-//         for (let innerDia in this.configuracionTurnos.dias[dia]) {
-//           //for que recorre los horarios asignados a cada dia en particular
-//           const horaInicio =
-//             this.configuracionTurnos.dias[dia][innerDia].horaInicio.split(":");
-//           const horaFinal =
-//             this.configuracionTurnos.dias[dia][innerDia].horaFin.split(":");
-//           let [hi, mi] = horaInicio; // dectructuracion de los array en 4 variables de cadena
-//           let [hf, mf] = horaFinal;
-//           let intervalo = parseInt(this.configuracionTurnos.ivTurnos);
-//           let diferenciaHoras = new Date(
-//             new Date().setHours(parseInt(hf), parseInt(mf)) -
-//               new Date().setHours(parseInt(hi), parseInt(mi))
-//           ); //se parsean a entero los valores destructuradsos se generan dos dates y se restan me devuelve un date con la diferencia en ms
-//           let hor = parseInt(hi);
-//           let min = parseInt(mi);
-//           let horario = "";
-//           let maxMinutos = diferenciaHoras.valueOf() / 60000;
-//           for (let minutos = 0; minutos <= maxMinutos; minutos += intervalo) {
-//             min > 59 ? ((min = 0), hor++) : (min = min);
-
-//             horario +=
-//               '"' +
-//               (hor < 10 ? "0" + hor.toString().trim() : hor.toString().trim()) +
-//               ":" +
-//               (min < 10 ? "0" + min.toString().trim() : min.toString().trim()) +
-//               '"' +
-//               ":" +
-//               '"LIBRE",';
-//             min += intervalo;
-//           }
-//           horario = "{ " + horario.substring(0, horario.length - 1) + "}";
-//           this.configuracionTurnos.dias[dia].push(JSON.parse(horario));
-//         }
-//         //aca hay que generar el objeto con los turnos existentes
-//       }
-//     }
-//   }
-// }
-
 //////////////////////////
 // VARIABLES GLOBALES   //
 //////////////////////////
@@ -251,18 +209,14 @@ let pacienteObj = [];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
 const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
-let localBolean;
-if (
-  localStorage.getItem("pacientes") === undefined ||
-  localStorage.getItem("pacientes") === null
-)
-  localBolean = false;
-else localBolean = true;
-let pros = localStorage.getItem("profesionales");
-console.log(typeof pros);
-if (pros !== "null") {
-  profesionalObj.push(JSON.parse(localStorage.getItem("profesionales")));
-}
+const profesionalesLocal=JSON.parse(localStorage.getItem("profesionales"))
+if (profesionalesLocal!=null)  profesionalObj=profesionalesLocal;
+if (pacientesLocal!=null)  pacienteObj=pacientesLocal;
+
+
+console.log(profesionalObj)
+
+
 let opcion = 1;
 let indice;
 
