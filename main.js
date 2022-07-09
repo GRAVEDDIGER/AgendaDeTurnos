@@ -83,6 +83,7 @@ class Paciente {
     }
   }
 }
+
 class Profesional {
   constructor(
     ivTurnos,
@@ -169,11 +170,11 @@ class Profesional {
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
-    keys(this.configuracionTurnos.dias).forEach((dia) => {
+    Object.keys(this.configuracionTurnos.dias).forEach((dia) => {
       let horaInicial,minutosIniciales,horaFinal,minutosFinales;
       let horaString,minString=""
       if (dia.length > 0) {
-        keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
+        Object.keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
                   
           console.log(this.configuracionTurnos.dias[dia][horario].inicio.split(":"));
           [horaInicial,minutosIniciales] =this.configuracionTurnos.dias[dia][horario].inicio.split(":");
@@ -185,8 +186,11 @@ class Profesional {
           for (let index = 0;index <= diferenciaEnMinutos-intervaloTurnos; index += intervaloTurnos ) {
             (hora.toString().length<2) ?  horaString="0"+hora.toString() : horaString= hora.toString();
             (min.toString().length<2) ?  minString="0"+min.toString() : minString= min.toString();
-            this.configuracionTurnos.dias[dia][0].horas.push(`${horaString}:${minString}`);
+            let clave='{'+'"'+horaString+":"+minString+':"'+'"libre"}'
+            this.configuracionTurnos.dias[dia][0].horas.push(clave);
             min += intervaloTurnos;
+            
+
             if (min >= 60) {
               min -= 60;
               hora++;
