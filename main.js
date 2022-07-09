@@ -1,6 +1,5 @@
 //"use-strict"
 
-
 //////////////////////////////////////////////////
 // CLASES                                       //
 //////////////////////////////////////////////////
@@ -17,24 +16,22 @@ class Tabla1 {
   }
 }
 
-class Horario {
-  constructor(a, b) {
-    this.horaInicio = a;
-    this.horaFin = b;
-  }
-}
+  
+
 
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = [apellido];
     this.nombre = [nombre];
     this.telefono = [telefono];
-    this.direccion = [{
-      calle: calle,
-      numero: numero,
-      cPostal: cpa,
-      localidad: localidad,
-    },];
+    this.direccion = [
+      {
+        calle: calle,
+        numero: numero,
+        cPostal: cpa,
+        localidad: localidad,
+      },
+    ];
     this.dni = [dni];
   }
   guardarLocal() {
@@ -93,117 +90,156 @@ class Paciente {
 class Profesional {
   constructor(
     ivTurnos,
-    nmProfesional,
-    apProfesional,
-    dniProfesional,
-    espProfesional,
-    matProfesional,
-    telProfesional
+    nombre,
+    apellido,
+    dni,
+    especialidad,
+    matricula,
+    telefono
   ) {
     this.configuracionTurnos = {
-
       dias: {
-        lunes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: []
-        }],
-        martes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
-        miercoles: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
+        lunes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
+        martes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
+        miercoles: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        jueves: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
+        jueves: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        viernes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
+        viernes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        sabado: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
+        sabado: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        domingo: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }],
-
+        domingo: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
       },
     };
-    this.nmProfesional = nmProfesional;
-    this.apProfesional = apProfesional;
-    this.dniProfesional = dniProfesional;
-    this.espProfesional = espProfesional;
-    this.telProfesional = telProfesional;
-    this.matProfesional = matProfesional;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.dni = dni;
+    this.especialidad = especialidad;
+    this.telefono = telefono;
+    this.matricula = matricula;
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
-    for (let dia in this.configuracionTurnos.dias) {
-      //loop que recorre los dias de la semana
-
-      if (this.configuracionTurnos.dias[dia].length > 0) {
-        //evalua si el dia de la semana recorrido tiene algun horario asignado
-        for (let innerDia in this.configuracionTurnos.dias[dia]) {
-          //for que recorre los horarios asignados a cada dia en particular
-          const horaInicio =
-            this.configuracionTurnos.dias[dia][innerDia].horaInicio.split(":");
-          const horaFinal =
-            this.configuracionTurnos.dias[dia][innerDia].horaFin.split(":");
-          let [hi, mi] = horaInicio; // dectructuracion de los array en 4 variables de cadena
-          let [hf, mf] = horaFinal;
-          let intervalo = parseInt(this.configuracionTurnos.ivTurnos);
-          let diferenciaHoras = new Date(
-            new Date().setHours(parseInt(hf), parseInt(mf)) -
-            new Date().setHours(parseInt(hi), parseInt(mi))
-          ); //se parsean a entero los valores destructuradsos se generan dos dates y se restan me devuelve un date con la diferencia en ms
-          let hor = parseInt(hi);
-          let min = parseInt(mi);
-          let horario = "";
-          let maxMinutos = diferenciaHoras.valueOf() / 60000;
-          for (let minutos = 0; minutos <= maxMinutos; minutos += intervalo) {
-            min > 59 ? ((min = 0), hor++) : (min = min);
-
-            horario +=
-              '"' +
-              (hor < 10 ? "0" + hor.toString().trim() : hor.toString().trim()) +
-              ":" +
-              (min < 10 ? "0" + min.toString().trim() : min.toString().trim()) +
-              '"' +
-              ":" +
-              '"LIBRE",';
-            min += intervalo;
+    keys(this.configuracionTurnos.dias).forEach((dia) => {
+      let hi,mi,hf,mf;
+      if (dia.length > 0) {
+        keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
+          const uno =this.configuracionTurnos.dias[dia][horario].inicio.split(":");
+          const dos=this.configuracionTurnos.dias[dia][horario].fin.split(":");
+          console.log(this.configuracionTurnos.dias[dia][horario].inicio.split(":"));
+          [hi,mi] =uno;
+          [hf,mf] =dos;
+          let diferenciaEnMinutos =(new Date().setHours(horaFinal, minutosFinales) -new Date().setHours(horaInicial, minutosIniciales)) /60000;
+          let min = parseInt(minutosIniciales);
+          let hora = parseInt(horaInicial);
+          for (Index = 0;index <= diferenciaEnMinutos; index += horario.ivTurnos ) {
+            this.configuracionTurnos.dias[dia][0].horas.push(`${hora}:${min}`);
+            min += ivTurnos;
+            if (min >= 60) {
+              min -= 60;
+              hora++;
+            }
           }
-          horario = "{ " + horario.substring(0, horario.length - 1) + "}";
-          this.configuracionTurnos.dias[dia].push(JSON.parse(horario));
-        }
-        //aca hay que generar el objeto con los turnos existentes
+        });
       }
-    }
+    });
   }
-}
+};
+
+
+//     for (let dia in this.configuracionTurnos.dias) {
+//       //loop que recorre los dias de la semana
+
+//       if (this.configuracionTurnos.dias[dia].length > 0) {
+//         //evalua si el dia de la semana recorrido tiene algun horario asignado
+//         for (let innerDia in this.configuracionTurnos.dias[dia]) {
+//           //for que recorre los horarios asignados a cada dia en particular
+//           const horaInicio =
+//             this.configuracionTurnos.dias[dia][innerDia].horaInicio.split(":");
+//           const horaFinal =
+//             this.configuracionTurnos.dias[dia][innerDia].horaFin.split(":");
+//           let [hi, mi] = horaInicio; // dectructuracion de los array en 4 variables de cadena
+//           let [hf, mf] = horaFinal;
+//           let intervalo = parseInt(this.configuracionTurnos.ivTurnos);
+//           let diferenciaHoras = new Date(
+//             new Date().setHours(parseInt(hf), parseInt(mf)) -
+//               new Date().setHours(parseInt(hi), parseInt(mi))
+//           ); //se parsean a entero los valores destructuradsos se generan dos dates y se restan me devuelve un date con la diferencia en ms
+//           let hor = parseInt(hi);
+//           let min = parseInt(mi);
+//           let horario = "";
+//           let maxMinutos = diferenciaHoras.valueOf() / 60000;
+//           for (let minutos = 0; minutos <= maxMinutos; minutos += intervalo) {
+//             min > 59 ? ((min = 0), hor++) : (min = min);
+
+//             horario +=
+//               '"' +
+//               (hor < 10 ? "0" + hor.toString().trim() : hor.toString().trim()) +
+//               ":" +
+//               (min < 10 ? "0" + min.toString().trim() : min.toString().trim()) +
+//               '"' +
+//               ":" +
+//               '"LIBRE",';
+//             min += intervalo;
+//           }
+//           horario = "{ " + horario.substring(0, horario.length - 1) + "}";
+//           this.configuracionTurnos.dias[dia].push(JSON.parse(horario));
+//         }
+//         //aca hay que generar el objeto con los turnos existentes
+//       }
+//     }
+//   }
+// }
 
 //////////////////////////
 // VARIABLES GLOBALES   //
@@ -211,17 +247,24 @@ class Profesional {
 let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARDADOS COMO ARRAY DE OBJETOS
 let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
 let profesionalObj = [];
-let pacienteObj =[];
+let pacienteObj = [];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
 const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
 let localBolean;
-if (localStorage.getItem("pacientes") === undefined || localStorage.getItem("pacientes") === null) localBolean = false;
+if (
+  localStorage.getItem("pacientes") === undefined ||
+  localStorage.getItem("pacientes") === null
+)
+  localBolean = false;
 else localBolean = true;
-if (localStorage.getItem("profesionales") !== undefined || localStorage.getItem("profesionales") !== null) profesionalObj= JSON.parse(localStorage.getItem("profesionales"))
+let pros = localStorage.getItem("profesionales");
+console.log(typeof pros);
+if (pros !== "null") {
+  profesionalObj.push(JSON.parse(localStorage.getItem("profesionales")));
+}
 let opcion = 1;
 let indice;
-
 
 /////////////////////////////////////////////////
 // funciones                                   //
@@ -229,17 +272,23 @@ let indice;
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
-const intervalos = ({
-  inicio: itemInicio,
-  fin: itemFin
-}, {
-  inicio: repetidosInicio,
-  fin: repetidosFin
-}, condicion) => {
-  if ((parseInt(repetidosInicio) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) condicion = true
-  if ((parseInt(repetidosFin) > parseInt(itemInicio)) && (parseInt(repetidosInicio) < parseInt(itemFin))) condicion = true
-  return condicion
-}
+const intervalos = (
+  { inicio: itemInicio, fin: itemFin },
+  { inicio: repetidosInicio, fin: repetidosFin },
+  condicion
+) => {
+  if (
+    parseInt(repetidosInicio) > parseInt(itemInicio) &&
+    parseInt(repetidosInicio) < parseInt(itemFin)
+  )
+    condicion = true;
+  if (
+    parseInt(repetidosFin) > parseInt(itemInicio) &&
+    parseInt(repetidosInicio) < parseInt(itemFin)
+  )
+    condicion = true;
+  return condicion;
+};
 
 // const configurarPaciente = (dni) => {
 //   let indice;
@@ -255,52 +304,48 @@ const intervalos = ({
 //   pacienteObj.direccion[indice].localidad =
 //     document.getElementById("localidad").value;
 
-
 // limpiarPaciente();
 // };
-const generarPaciente=()=>{
-  const pacienteTransitorio =new Paciente
-  pacienteTransitorio.apellido=apellidoInput.value
-  pacienteTransitorio.nombre=nombreInput.value
-  pacienteTransitorio.dni=documentoInput.value
-  pacienteTransitorio.telefono=telefonoInput.value
-  pacienteTransitorio.direccion.calle=calleInput.value
-  pacienteTransitorio.direccion.numero =alturaInput.value
-  pacienteTransitorio.direccion.localidad=localidadInput.value
-  pacienteTransitorio.direccion.cPostal=cpaInput.value 
-  return pacienteTransitorio
-}
-const limpiarPaciente = () => { // generar un cleaner para todas las ventanas con un foreach 
-  const limpiar = document.querySelectorAll("input")
-console.log(limpiar)
-limpiar.forEach(element =>{
-  element.value=""
-})
-
+const generarPaciente = () => {
+  const pacienteTransitorio = new Paciente();
+  pacienteTransitorio.apellido = apellidoInput.value;
+  pacienteTransitorio.nombre = nombreInput.value;
+  pacienteTransitorio.dni = documentoInput.value;
+  pacienteTransitorio.telefono = telefonoInput.value;
+  pacienteTransitorio.direccion.calle = calleInput.value;
+  pacienteTransitorio.direccion.numero = alturaInput.value;
+  pacienteTransitorio.direccion.localidad = localidadInput.value;
+  pacienteTransitorio.direccion.cPostal = cpaInput.value;
+  return pacienteTransitorio;
 };
-
+const limpiarPaciente = () => {
+  // generar un cleaner para todas las ventanas con un foreach
+  const limpiar = document.querySelectorAll("input");
+  console.log(limpiar);
+  limpiar.forEach((element) => {
+    element.value = "";
+  });
+};
 
 ///////////////////////////////////////
 //         VALIDACIONES              //
 ///////////////////////////////////////
 
 const validarDniOc = (valor, arrayObjeto) => {
-let resultado;
+  let resultado;
   const error = document.getElementById("errInv");
   if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
     documentoInput.classList.toggle("error");
     document.getElementById("enviarPaciente").disabled = true;
-    return false
+    return false;
   } else {
     documentoInput.classList.remove("error");
     document.getElementById("enviarPaciente").disabled = false;
-    resultado= arrayObjeto.findIndex(objeto => {
-      if (objeto.dniProfesional === valor) return valor
-    })
-    return resultado
-
+    resultado = arrayObjeto.findIndex((objeto) => {
+      if (objeto.dni === valor) return valor;
+    });
+    return resultado;
   }
-
 };
 
 const validarApellidoOc = (e) => {

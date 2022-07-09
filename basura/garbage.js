@@ -137,12 +137,12 @@
 // };
 
 // const configurarProfesional = () => {
-//   profesionalObj.apProfesional = prompt(
+//   profesionalObj.apellido = prompt(
 //     "Apellido del profesional"
 //   ).toUpperCase();
-//   profesionalObj.nmProfesional = prompt("Nombre del profesional").toUpperCase();
-//   profesionalObj.dniProfesional = prompt("DNI del profesional").toUpperCase();
-//   profesionalObj.espProfesional = prompt(
+//   profesionalObj.nombre = prompt("Nombre del profesional").toUpperCase();
+//   profesionalObj.dni = prompt("DNI del profesional").toUpperCase();
+//   profesionalObj.especialidad = prompt(
 //     "Especialidad del profesional"
 //   ).toUpperCase();
 //   profesionalObj.matriculaProfesional = prompt(
