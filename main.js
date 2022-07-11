@@ -20,14 +20,12 @@ class Paciente {
     this.apellido = [apellido];
     this.nombre = [nombre];
     this.telefono = [telefono];
-    this.direccion = [
-      {
-        calle: calle,
-        numero: numero,
-        cPostal: cpa,
-        localidad: localidad,
-      },
-    ];
+    this.direccion = [{
+      calle: calle,
+      numero: numero,
+      cPostal: cpa,
+      localidad: localidad,
+    }, ];
     this.dni = [dni];
   }
   guardarLocal() {
@@ -51,66 +49,52 @@ class Profesional {
   ) {
     this.configuracionTurnos = {
       dias: {
-        lunes: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
-        martes: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
-        miercoles: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
+        lunes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
+        martes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
+        miercoles: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
 
-        jueves: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
+        jueves: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
 
-        viernes: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
+        viernes: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
 
-        sabado: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
+        sabado: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
 
-        domingo: [
-          {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
-        ],
+        domingo: [{
+          ivTurnos: 0,
+          inicio: "",
+          fin: "",
+          horas: [],
+        }, ],
       },
     };
     this.nombre = nombre;
@@ -125,19 +109,22 @@ class Profesional {
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
-    Object.keys(this.configuracionTurnos.dias).forEach((dia) => {
+    const objetoAIterar = this.configuracionTurnos.dias
+    Object.keys(objetoAIterar).forEach((dia) => {
+      if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = []
       let horaInicial, minutosIniciales, horaFinal, minutosFinales;
       let horaString,
         minString = "";
-      if (dia.length > 0) {
-        Object.keys(this.configuracionTurnos.dias[dia]).forEach((horario) => {
+
+      if (objetoAIterar[dia].ivTurnos > 0) {
+        Object.keys(objetoAIterar[dia]).forEach((horario) => {
           console.log(
-            this.configuracionTurnos.dias[dia][horario].inicio.split(":")
+            objetoAIterar[dia][horario].inicio.split(":")
           );
           [horaInicial, minutosIniciales] =
-            this.configuracionTurnos.dias[dia][horario].inicio.split(":");
+          objetoAIterar[dia][horario].inicio.split(":");
           [horaFinal, minutosFinales] =
-            this.configuracionTurnos.dias[dia][horario].fin.split(":");
+          objetoAIterar[dia][horario].fin.split(":");
           let diferenciaEnMinutos =
             (new Date().setHours(horaFinal, minutosFinales) -
               new Date().setHours(horaInicial, minutosIniciales)) /
@@ -145,21 +132,19 @@ class Profesional {
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
           let intervaloTurnos = parseInt(
-            this.configuracionTurnos.dias[dia][horario].ivTurnos
+            objetoAIterar[dia][horario].ivTurnos
           );
           for (
-            let index = 0;
-            index <= diferenciaEnMinutos - intervaloTurnos;
-            index += intervaloTurnos
+            let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
           ) {
-            hora.toString().length < 2
-              ? (horaString = "0" + hora.toString())
-              : (horaString = hora.toString());
-            min.toString().length < 2
-              ? (minString = "0" + min.toString())
-              : (minString = min.toString());
+            hora.toString().length < 2 ?
+              (horaString = "0" + hora.toString()) :
+              (horaString = hora.toString());
+            min.toString().length < 2 ?
+              (minString = "0" + min.toString()) :
+              (minString = min.toString());
             let clave = '"' + horaString + ":" + minString + '"';
-            this.configuracionTurnos.dias[dia][0].horas.push(
+            objetoAIterar[dia][0].horas.push(
               new generadorHoras(clave)
             );
             min += intervaloTurnos;
@@ -200,9 +185,13 @@ let indice;
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
-const intervalos = (
-  { inicio: itemInicio, fin: itemFin },
-  { inicio: repetidosInicio, fin: repetidosFin },
+const intervalos = ({
+    inicio: itemInicio,
+    fin: itemFin
+  }, {
+    inicio: repetidosInicio,
+    fin: repetidosFin
+  },
   condicion
 ) => {
   if (
@@ -253,7 +242,7 @@ const validarDniOc = (valor, arrayObjeto) => {
     documentoInput.classList.remove("error");
     document.getElementById("enviarPaciente").disabled = false;
     resultado = arrayObjeto.findIndex((objeto) => {
-      if (parseInt(objeto.dni) === valor) return valor;
+      if (parseInt(objeto.dni) === parseInt(valor)) return valor;
     });
     return resultado;
   }
