@@ -6,6 +6,14 @@
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
 /////////////////////////////////////////
 const elModal = new bootstrap.Modal(document.getElementById("modal1"));
+const request = async () => {
+  const resultado = await axios("../datos.json");
+  console.log(resultado.data);
+  resultado.data.forEach((e, i, a) => {
+    profesionalObj[i] = e;
+  });
+};
+document.addEventListener("DOMContentLoaded", request());
 
 diaTab.forEach((item) => {
   item.addEventListener("click", () => {

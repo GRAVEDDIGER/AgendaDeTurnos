@@ -127,13 +127,13 @@ class Profesional {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
     Object.keys(objetoAIterar).forEach((dia) => {
-      if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = [];
+      // if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = [];
       let horaInicial, minutosIniciales, horaFinal, minutosFinales;
       let horaString,
         minString = "";
 
-      if (objetoAIterar[dia].ivTurnos > 0) {
-        Object.keys(objetoAIterar[dia]).forEach((horario) => {
+      Object.keys(objetoAIterar[dia]).forEach((horario) => {
+        if (objetoAIterar[dia][horario].ivTurnos !== 0) {
           console.log(objetoAIterar[dia][horario].inicio.split(":"));
           [horaInicial, minutosIniciales] =
             objetoAIterar[dia][horario].inicio.split(":");
@@ -166,8 +166,8 @@ class Profesional {
               hora++;
             }
           }
-        });
-      }
+        }
+      });
     });
   }
 }
@@ -185,14 +185,7 @@ let contador = 0;
 // const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
 // if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
 // if (pacientesLocal != null) pacienteObj = pacientesLocal;
-const request = async () => {
-  const resultado = await axios("datos.json");
-  console.log(resultado.data);
-  resultado.data.forEach((e, i, a) => {
-    profesionalObj[i] = e;
-  });
-};
-request();
+
 console.log(profesionalObj);
 
 let opcion = 1;
