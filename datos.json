@@ -1,0 +1,44 @@
+[
+  {
+    "configuracionTurnos": {
+      "dias": {
+        "lunes": [
+          { "ivTurnos": "15", "inicio": "08:00", "fin": "12:00", "horas": [] }
+        ],
+        "martes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "miercoles": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "jueves": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "viernes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "sabado": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "domingo": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }]
+      }
+    },
+    "nombre": "ADRIAN",
+    "apellido": "ABADIN",
+    "dni": "28278216",
+    "especialidad": "REUMATOLOGO",
+    "telefono": "111222222",
+    "matricula": "123456"
+  },
+  {
+    "configuracionTurnos": {
+      "dias": {
+        "lunes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "martes": [
+          { "ivTurnos": "15", "inicio": "08:00", "fin": "12:00", "horas": [] }
+        ],
+        "miercoles": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "jueves": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "viernes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "sabado": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
+        "domingo": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }]
+      }
+    },
+    "nombre": "ALICIA",
+    "apellido": "LUCIO",
+    "dni": "28934218",
+    "especialidad": "ENFERMERA",
+    "telefono": "1234567891",
+    "matricula": "1"
+  }
+]

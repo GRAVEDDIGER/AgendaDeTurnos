@@ -20,12 +20,14 @@ class Paciente {
     this.apellido = [apellido];
     this.nombre = [nombre];
     this.telefono = [telefono];
-    this.direccion = [{
-      calle: calle,
-      numero: numero,
-      cPostal: cpa,
-      localidad: localidad,
-    }, ];
+    this.direccion = [
+      {
+        calle: calle,
+        numero: numero,
+        cPostal: cpa,
+        localidad: localidad,
+      },
+    ];
     this.dni = [dni];
   }
   guardarLocal() {
@@ -49,52 +51,66 @@ class Profesional {
   ) {
     this.configuracionTurnos = {
       dias: {
-        lunes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
-        martes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
-        miercoles: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
+        lunes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
+        martes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
+        miercoles: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        jueves: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
+        jueves: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        viernes: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
+        viernes: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        sabado: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
+        sabado: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
 
-        domingo: [{
-          ivTurnos: 0,
-          inicio: "",
-          fin: "",
-          horas: [],
-        }, ],
+        domingo: [
+          {
+            ivTurnos: 0,
+            inicio: "",
+            fin: "",
+            horas: [],
+          },
+        ],
       },
     };
     this.nombre = nombre;
@@ -109,44 +125,40 @@ class Profesional {
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
-    const objetoAIterar = this.configuracionTurnos.dias
+    const objetoAIterar = this.configuracionTurnos.dias;
     Object.keys(objetoAIterar).forEach((dia) => {
-      if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = []
+      if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = [];
       let horaInicial, minutosIniciales, horaFinal, minutosFinales;
       let horaString,
         minString = "";
 
       if (objetoAIterar[dia].ivTurnos > 0) {
         Object.keys(objetoAIterar[dia]).forEach((horario) => {
-          console.log(
-            objetoAIterar[dia][horario].inicio.split(":")
-          );
+          console.log(objetoAIterar[dia][horario].inicio.split(":"));
           [horaInicial, minutosIniciales] =
-          objetoAIterar[dia][horario].inicio.split(":");
+            objetoAIterar[dia][horario].inicio.split(":");
           [horaFinal, minutosFinales] =
-          objetoAIterar[dia][horario].fin.split(":");
+            objetoAIterar[dia][horario].fin.split(":");
           let diferenciaEnMinutos =
             (new Date().setHours(horaFinal, minutosFinales) -
               new Date().setHours(horaInicial, minutosIniciales)) /
             60000;
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
-          let intervaloTurnos = parseInt(
-            objetoAIterar[dia][horario].ivTurnos
-          );
+          let intervaloTurnos = parseInt(objetoAIterar[dia][horario].ivTurnos);
           for (
-            let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
+            let index = 0;
+            index <= diferenciaEnMinutos - intervaloTurnos;
+            index += intervaloTurnos
           ) {
-            hora.toString().length < 2 ?
-              (horaString = "0" + hora.toString()) :
-              (horaString = hora.toString());
-            min.toString().length < 2 ?
-              (minString = "0" + min.toString()) :
-              (minString = min.toString());
+            hora.toString().length < 2
+              ? (horaString = "0" + hora.toString())
+              : (horaString = hora.toString());
+            min.toString().length < 2
+              ? (minString = "0" + min.toString())
+              : (minString = min.toString());
             let clave = '"' + horaString + ":" + minString + '"';
-            objetoAIterar[dia][0].horas.push(
-              new generadorHoras(clave)
-            );
+            objetoAIterar[dia][0].horas.push(new generadorHoras(clave));
             min += intervaloTurnos;
 
             if (min >= 60) {
@@ -169,11 +181,18 @@ let profesionalObj = [];
 let pacienteObj = [];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
-const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
-const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
-if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
-if (pacientesLocal != null) pacienteObj = pacientesLocal;
-
+// const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
+// const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
+// if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
+// if (pacientesLocal != null) pacienteObj = pacientesLocal;
+const request = async () => {
+  const resultado = await axios("datos.json");
+  console.log(resultado.data);
+  resultado.data.forEach((e, i, a) => {
+    profesionalObj[i] = e;
+  });
+};
+request();
 console.log(profesionalObj);
 
 let opcion = 1;
@@ -185,13 +204,9 @@ let indice;
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
-const intervalos = ({
-    inicio: itemInicio,
-    fin: itemFin
-  }, {
-    inicio: repetidosInicio,
-    fin: repetidosFin
-  },
+const intervalos = (
+  { inicio: itemInicio, fin: itemFin },
+  { inicio: repetidosInicio, fin: repetidosFin },
   condicion
 ) => {
   if (
