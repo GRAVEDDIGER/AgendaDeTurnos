@@ -20,5 +20,8 @@
     "url": "https://github.com/GRAVEDDIGER/DESAFIOCODERJS3/issues"
   },
   "homepage": "https://github.com/GRAVEDDIGER/DESAFIOCODERJS3#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "flatpickr": "^4.6.13"
+  }
 }

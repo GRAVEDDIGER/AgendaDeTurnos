@@ -5,12 +5,14 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  Usage
   <link rel="stylesheet" href="../css/style.css" />
   <title>Agenda de turnos</title>
 </head>
 
 <body>
+
   <nav class="navbar navbar-light bg-info">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
@@ -38,50 +40,49 @@
   </nav>
   <h2 class="text-center my-3">Asignar Turnos</h2>
   <div
-    class="container row justify-content-center align-items-center text-center mx-auto mt-5 bg-primary  py-5 border-info border-width-4">
-    <div class="formulario col mx-3 border-info">
-      <div class="mb-3 ">
-        <label for="dataListProfesionales" class="form-label text-light">Seleccione el profesional</label>
-        <input class="form-control" list="datalistOptions" id="dataListProfesionales" placeholder="Escriba...">
-        <datalist id="datalistOptions">
-          <option value="...">
+    class="container row justify-content-center align-items-center text-center mx-auto mt-5 bg-primary  py-5 border-info border-width-4 w-50">
+    <div class="turnos  mx-3 border-info">
+      <div class="mb-3 d-block p-0">
+        <label for="dataListProfesionales" class="form-label text-light p-0">Seleccione el profesional</label>
+        <input class="form-control " list="datalistOptions" id="dataListProfesionales" placeholder="Escriba...">
+        <datalist id="datalistOptions" class="w-100">
+          <option value="No seleccionado"></option>
         </datalist>
 
 
       </div>
-      <div class="mb-3">
-        <input type="text" placeholder="Nombre del profesional" class="form-control" id="nombre" required>
+      <div class="row d-flex p-0">
+        <div class="mb-3 col-6 p-0 calendario">
+          <div id="calendario" data-date="01/25/2020">
+
+          </div>
+
+        </div>
+        <div class="mb-3 col-6 p-0 text-decoration-none list-unstyled  bg-light">
+          <ul class="list-unstyled p-0">
+            <li>.</li>
+          </ul>
+        </div>
       </div>
       <div class="mb-3">
-        <input type="number" placeholder="DNI del profesional" class="form-control" id="dni" required>
-      </div>
-      <div class="mb-3">
-        <input type="phone" placeholder="Telefono del profesional (011)-aaa-bbb-cccc" class="form-control" id="telefono"
-          required>
+        <label for="dataListPacientes" class="form-label text-light p-0">Seleccione el paciente</label>
+        <input class="form-control " list="dataOpcionesPacientes" id="dataListPacientes" placeholder="Escriba...">
+        <datalist id="dataOpcionesPacientes" class="w-100">
+          <option value="Nuevo Paciente..."></option>
+        </datalist>
+
       </div>
     </div>
 
-    <div class="formulario col mx-3">
+    <div class="formulario col w-100">
       <div class="mb-3 ">
-        <input type="text" class="form-control" id="especialidad" placeholder="Especialidad" />
+        <input type="text" class="form-control w-100" id="observaciones" placeholder="Observaciones" />
       </div>
-      <div class="mb-3">
-        <input type="number" placeholder="Matricula" class="form-control" id="matricula">
-      </div>
-      <div class="mb-3 invisible">
-        <input type="number" placeholder="Matricula" class="form-control">
-      </div>
-      <button class=" btn-success text-light mb-3 form-control" id="configurarAgenda" data-bs-toggle="modal"
-        data-bs-target="#modal1">
-        Configurar Agenda
-      </button>
-
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center mx-auto text-center mt-4">
       <button id="enviarPaciente" class="btn-info enviar text-center text-dark">Guardar</button>
       <br>
 
-      <div class="invisibleErr mt-3" id="errInv">Ese DNI ya existe en la base de datos</div>
 
     </div>
 
@@ -193,6 +194,8 @@
     </template>
 
     <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -200,7 +203,7 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"></script>
     <script src="../main.js"></script>
-    <script src="../asignarturnos.js"></script>
+    <script src="../asignarturnos.js" type="module"></script>
 </body>
 
 </html>

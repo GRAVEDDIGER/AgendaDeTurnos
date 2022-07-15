@@ -19,3 +19,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   document.getElementById("datalistOptions").appendChild(fragmento);
 });
+let opciones = {
+  inline: true
+}
+const calendarioElemento = document.getElementById("calendario")
+flatpickr(calendarioElemento, opciones)
+document.querySelector(".flatpickr-days").addEventListener("click", () => {
+  console.log("adrian")
+})
