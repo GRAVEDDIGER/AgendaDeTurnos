@@ -1,0 +1,26 @@
+[
+    {
+        "apellido": "abadin",
+        "nombre": "Adrian",
+        "telefono": "+542344426406",
+        "direccion": {
+            "calle": "Mariano Acosta",
+            "numero": "3010",
+            "cPostal": "7260",
+            "localidad": "Saladillo"
+        },
+        "dni": "28278216"
+    },
+    {
+        "apellido": "Lucio",
+        "nombre": "Alicia",
+        "telefono": "01168233248",
+        "direccion": {
+            "calle": "Mariano Acosta",
+            "numero": "3010",
+            "cPostal": "7260",
+            "localidad": "Saladillo"
+        },
+        "dni": "28934218"
+    }
+]

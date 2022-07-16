@@ -17,18 +17,18 @@ class Tabla1 {
 }
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
-    this.apellido = [apellido];
-    this.nombre = [nombre];
-    this.telefono = [telefono];
-    this.direccion = [
+    this.apellido = apellido;
+    this.nombre = nombre;
+    this.telefono = telefono;
+    this.direccion = 
       {
         calle: calle,
         numero: numero,
         cPostal: cpa,
-        localidad: localidad,
+        localidad: localidad
       },
-    ];
-    this.dni = [dni];
+    
+    this.dni = dni
   }
   guardarLocal() {
     localStorage.setItem("pacientes", JSON.stringify(this));
@@ -41,75 +41,74 @@ class generadorHoras {
 }
 class Profesional {
   constructor(
-    ivTurnos,
+    ivTurnos =0,
+    inicio ="",
+    fin="",
+    horas=[],
     nombre,
     apellido,
     dni,
     especialidad,
     matricula,
     telefono
+    
   ) {
     this.configuracionTurnos = {
       dias: {
         lunes: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,
           },
         ],
         martes: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,
           },
         ],
         miercoles: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,          },
         ],
 
         jueves: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,          },
         ],
 
         viernes: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,          },
         ],
 
         sabado: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,          },
         ],
 
         domingo: [
           {
-            ivTurnos: 0,
-            inicio: "",
-            fin: "",
-            horas: [],
-          },
+            ivTurnos: ivTurnos,
+            inicio: inicio,
+            fin: fin,
+            horas: horas,          },
         ],
       },
     };
@@ -146,6 +145,7 @@ class Profesional {
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
           let intervaloTurnos = parseInt(objetoAIterar[dia][horario].ivTurnos);
+          let horarioProfesional=""
           for (
             let index = 0;
             index <= diferenciaEnMinutos - intervaloTurnos;
@@ -157,15 +157,20 @@ class Profesional {
             min.toString().length < 2
               ? (minString = "0" + min.toString())
               : (minString = min.toString());
-            let clave = '"' + horaString + ":" + minString + '"';
-            objetoAIterar[dia][0].horas.push(new generadorHoras(clave));
+            let clave = `"'${horaString}:${minString}'": "libre",`//  '"' + horaString + ":" + minString + '"'+':"libre",';
+            horarioProfesional +=clave;
+            // objetoAIterar[dia][0].horas.push(new generadorHoras(clave));
             min += intervaloTurnos;
 
             if (min >= 60) {
               min -= 60;
               hora++;
             }
+            console.log("String",horarioProfesional)
           }
+          horarioProfesional = '{'+ horarioProfesional.substring(0,horarioProfesional.length-1)+'}'
+          console.log(horarioProfesional)
+          objetoAIterar[dia][0].horas=JSON.parse(horarioProfesional)
         }
       });
     });

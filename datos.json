@@ -3,14 +3,78 @@
     "configuracionTurnos": {
       "dias": {
         "lunes": [
-          { "ivTurnos": "15", "inicio": "08:00", "fin": "12:00", "horas": [] }
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
         ],
-        "martes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "miercoles": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "jueves": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "viernes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "sabado": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "domingo": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }]
+        "martes": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "miercoles": [
+          {
+            "ivTurnos": "15",
+            "inicio": "08:00",
+            "fin": "12:00",
+            "horas": {
+              "'08:00'": "libre",
+              "'08:15'": "libre",
+              "'08:30'": "libre",
+              "'08:45'": "libre",
+              "'09:00'": "libre",
+              "'09:15'": "libre",
+              "'09:30'": "libre",
+              "'09:45'": "libre",
+              "'10:00'": "libre",
+              "'10:15'": "libre",
+              "'10:30'": "libre",
+              "'10:45'": "libre",
+              "'11:00'": "libre",
+              "'11:15'": "libre",
+              "'11:30'": "libre",
+              "'11:45'": "libre"
+            }
+          }
+        ],
+        "jueves": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "viernes": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "sabado": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "domingo": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ]
       }
     },
     "nombre": "ADRIAN",
@@ -23,15 +87,62 @@
   {
     "configuracionTurnos": {
       "dias": {
-        "lunes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "martes": [
-          { "ivTurnos": "15", "inicio": "08:00", "fin": "12:00", "horas": [] }
+        "lunes": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
         ],
-        "miercoles": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "jueves": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "viernes": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "sabado": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }],
-        "domingo": [{ "ivTurnos": 0, "inicio": "", "fin": "", "horas": [] }]
+        "martes": [
+          {
+            "ivTurnos": "15",
+            "inicio": "08:00",
+            "fin": "12:00",
+            "horas": []
+          }
+        ],
+        "miercoles": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "jueves": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "viernes": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "sabado": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ],
+        "domingo": [
+          {
+            "ivTurnos": 0,
+            "inicio": "",
+            "fin": "",
+            "horas": []
+          }
+        ]
       }
     },
     "nombre": "ALICIA",
