@@ -45,8 +45,26 @@ let opciones = {
 
 const calendarioElemento = document.getElementById("calendario");
 flatpickr(calendarioElemento, opciones);
-document.querySelector(".flatpickr-days").addEventListener("click", () => {
-  console.log("adrian")
+document.querySelector(".flatpickr-day").addEventListener("click", () => {
+  const fechaTurno =profesionalIngreso.value;
+  const ano = new Date(fechaTurno).getFullYear();
+  const mes = new Date(fechaTurno).getMonth();
+  const dia= new Date(fechaTurno).getDate();
+  const fragmento = new DocumentFragment()
+  const objetoDia =profesionalObj[mapProfesionales[profesionalIngreso.value]]
+  .configuracionTurnos
+  .turnos["a"+ano]["m"+mes]["d"+dia]
+  Object.keys(objetoDia).forEach(hora=>{
+    Object.keys(objetoDia[hora]).forEach(minutos =>{
+      if (objetoDia[hora][minutos]==="libre") {
+        const elemento = Document.createElement("li");
+        const nuevoElemento= elemento.textContent(hora+":"+minutos)
+        fragmento.appendChild(nuevoElemento);
+      }
+    })
+document.querySelector("ul").appendChild(fragmento)
+  })
+
 });
 const profesionalIngreso = document.getElementById("dataListProfesionales")
 profesionalIngreso.addEventListener("change",()=>{
