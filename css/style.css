@@ -32,6 +32,46 @@ body > .container-fluid, body > .container-xxl, body > .container-xl, body > .co
   background-color: rgba(108, 117, 125, 0.4);
 }
 
+.fondoAzul {
+  background-color: blue;
+  color: white;
+}
+
+#filaDos {
+  position: relative;
+  overflow: hidden;
+}
+
+#calendario {
+  padding: 0;
+}
+
+#divHorarios {
+  background-color: transparent;
+  position: absolute;
+  right: 0;
+  top: 1px;
+  height: 298px;
+  max-height: 298px;
+}
+
+#ulHorarios {
+  overflow: scroll;
+  max-height: 298px;
+  height: 100%;
+}
+#ulHorarios li:hover {
+  background-color: blue;
+  color: white;
+}
+#ulHorarios li {
+  width: 100%;
+}
+
+.flatpickr-disabled {
+  color: #d6d6d6 !important;
+}
+
 .trashcan {
   width: 1rem;
   z-index: 1;
