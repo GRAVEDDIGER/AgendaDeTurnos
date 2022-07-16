@@ -20,15 +20,13 @@ class Paciente {
     this.apellido = apellido;
     this.nombre = nombre;
     this.telefono = telefono;
-    this.direccion = 
-      {
-        calle: calle,
-        numero: numero,
-        cPostal: cpa,
-        localidad: localidad
-      },
-    
-    this.dni = dni
+    (this.direccion = {
+      calle: calle,
+      numero: numero,
+      cPostal: cpa,
+      localidad: localidad,
+    }),
+      (this.dni = dni);
   }
   guardarLocal() {
     localStorage.setItem("pacientes", JSON.stringify(this));
@@ -41,19 +39,20 @@ class generadorHoras {
 }
 class Profesional {
   constructor(
-    ivTurnos =0,
-    inicio ="",
-    fin="",
-    horas=[],
+    ivTurnos = 0,
+    inicio = "",
+    fin = "",
+    horas = [],
     nombre,
     apellido,
     dni,
     especialidad,
     matricula,
-    telefono
-    
+    telefono,
+    turnos ={}
   ) {
     this.configuracionTurnos = {
+      turnos:turnos,
       dias: {
         lunes: [
           {
@@ -76,7 +75,8 @@ class Profesional {
             ivTurnos: ivTurnos,
             inicio: inicio,
             fin: fin,
-            horas: horas,          },
+            horas: horas,
+          },
         ],
 
         jueves: [
@@ -84,7 +84,8 @@ class Profesional {
             ivTurnos: ivTurnos,
             inicio: inicio,
             fin: fin,
-            horas: horas,          },
+            horas: horas,
+          },
         ],
 
         viernes: [
@@ -92,7 +93,8 @@ class Profesional {
             ivTurnos: ivTurnos,
             inicio: inicio,
             fin: fin,
-            horas: horas,          },
+            horas: horas,
+          },
         ],
 
         sabado: [
@@ -100,7 +102,8 @@ class Profesional {
             ivTurnos: ivTurnos,
             inicio: inicio,
             fin: fin,
-            horas: horas,          },
+            horas: horas,
+          },
         ],
 
         domingo: [
@@ -108,7 +111,8 @@ class Profesional {
             ivTurnos: ivTurnos,
             inicio: inicio,
             fin: fin,
-            horas: horas,          },
+            horas: horas,
+          },
         ],
       },
     };
@@ -145,7 +149,8 @@ class Profesional {
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
           let intervaloTurnos = parseInt(objetoAIterar[dia][horario].ivTurnos);
-          let horarioProfesional=""
+          let horarioProfesional = "";
+          const objetoSalida={} 
           for (
             let index = 0;
             index <= diferenciaEnMinutos - intervaloTurnos;
@@ -157,20 +162,35 @@ class Profesional {
             min.toString().length < 2
               ? (minString = "0" + min.toString())
               : (minString = min.toString());
-            let clave = `"'${horaString}:${minString}'": "libre",`//  '"' + horaString + ":" + minString + '"'+':"libre",';
-            horarioProfesional +=clave;
-            // objetoAIterar[dia][0].horas.push(new generadorHoras(clave));
+             
+            objetoSalida["h"+hora]=objetoSalida["h"+hora]||{};
+            objetoSalida["h"+hora]["m"+min]="libre";
+            let clave = `"'${horaString}:${minString}'": "libre",`; //  '"' + horaString + ":" + minString + '"'+':"libre",';
+            horarioProfesional += clave;
             min += intervaloTurnos;
 
             if (min >= 60) {
               min -= 60;
               hora++;
             }
-            console.log("String",horarioProfesional)
+            console.log("String", horarioProfesional);
           }
-          horarioProfesional = '{'+ horarioProfesional.substring(0,horarioProfesional.length-1)+'}'
-          console.log(horarioProfesional)
-          objetoAIterar[dia][0].horas=JSON.parse(horarioProfesional)
+          horarioProfesional =
+            "{" +
+            horarioProfesional.substring(0, horarioProfesional.length - 1) +
+            "}";
+          console.log(horarioProfesional);
+          const diasActivosProfesional =diasDelMes(dia)
+          diasActivosProfesional.forEach(dia =>{
+            const diaDelMes = "d"+new Date(dia).getDate().toString();
+            const mes= "m"+new Date(dia).getMonth().toString();
+            const ano="a"+new Date(dia).getFullYear().toString();
+            this.configuracionTurnos.turnos[ano]=this.configuracionTurnos.turnos[ano]||{}
+            this.configuracionTurnos.turnos[ano][mes]=this.configuracionTurnos.turnos[ano][mes]||{}
+            this.configuracionTurnos.turnos[ano][mes][diaDelMes]=objetoSalida
+            
+
+          })
         }
       });
     });
@@ -186,6 +206,15 @@ let profesionalObj = [];
 let pacienteObj = [];
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
+const ObjetoDiaSemana = {
+  0: "domingo",
+  1: "lunes",
+  2: "martes",
+  3: "miercoles",
+  4: "jueves",
+  5: "viernes",
+  6: "sabado"
+};
 // const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
 // const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
 // if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
@@ -202,6 +231,63 @@ let indice;
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
+const diasDelMes = (diaLetras) =>{
+console.log(diaLetras)
+  let ano = new Date().getFullYear();
+  let mes = new Date().getMonth();
+  let dia = new Date().getDate();
+  let resultado =  []
+  for (let index = 0; index < 3; index++) {
+    const diasDelMesActual=new Date(ano,mes+1,0).getDate();
+    for (dia;dia<diasDelMesActual;dia++){
+      const condicion = new Date(ano,mes,dia).getDay();
+      if (ObjetoDiaSemana[condicion]===diaLetras){resultado.push(new Date(ano,mes,dia));}
+  
+    }
+    mes ++;
+    dia=1
+  }
+  return resultado;
+  }
+const request = async () => {
+  const resultadoProfesionales = await axios("../datos.json");
+  console.log(resultadoProfesionales.data);
+  respuestaProfesionales = await resultadoProfesionales;
+  respuestaProfesionales.data.forEach((e, i, a) => {
+    profesionalObj[i] = new Profesional(
+      0,
+      "",
+      "",
+      [],         
+      e.nombre,
+      e.apellido,
+      e.dni,
+      e.especialidad,
+      e.matricula,
+      e.telefono,e.configuracionTurnos.turnos
+    ); //e.configuracionTurnos.ivTurnos,e.nombre,e.apellido,e.dni,e.especialidad,e.matricula,e.telefono);
+    profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
+  });
+  const resultadoPacientes = await axios("../paciente.json");
+  console.log(resultadoPacientes);
+  respuestaPacientes = await resultadoPacientes;
+  respuestaPacientes.data.forEach((e, i, a) => {
+    console.log(e);
+    pacienteObj[i] = new Paciente(
+      e.apellido,
+      e.nombre,
+      e.direccion.calle,
+      e.direccion.numero,
+      e.direccion.cPostal,
+      e.telefono,
+      e.dni,
+      e.direccion.localidad
+    );
+  });
+};
+
+
+
 const intervalos = (
   { inicio: itemInicio, fin: itemFin },
   { inicio: repetidosInicio, fin: repetidosFin },
@@ -246,6 +332,7 @@ const limpiarPaciente = () => {
 ///////////////////////////////////////
 
 const validarDniOc = (valor, arrayObjeto) => {
+  request();
   let resultado;
   if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
     documentoInput.classList.toggle("error");

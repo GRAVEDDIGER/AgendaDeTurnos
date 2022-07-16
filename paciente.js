@@ -7,6 +7,7 @@
 //         pacienteObj.leerLocal()
 //     }
 // });
+document.addEventListener("DOMContentLoaded".request())
 const calleInput = document.getElementById("calle");
 const alturaInput = document.getElementById("altura");
 const localidadInput = document.getElementById("localidad");

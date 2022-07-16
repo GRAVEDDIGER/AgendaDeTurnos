@@ -1,6 +1,276 @@
 [
   {
     "configuracionTurnos": {
+      "turnos": {
+        "a2022": {
+          "m6": {
+            "d20": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d27": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          },
+          "m7": {
+            "d3": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d10": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d17": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d24": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          },
+          "m8": {
+            "d7": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d14": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d21": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d28": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          }
+        }
+      },
       "dias": {
         "lunes": [
           {
@@ -23,24 +293,8 @@
             "ivTurnos": "15",
             "inicio": "08:00",
             "fin": "12:00",
-            "horas": {
-              "'08:00'": "libre",
-              "'08:15'": "libre",
-              "'08:30'": "libre",
-              "'08:45'": "libre",
-              "'09:00'": "libre",
-              "'09:15'": "libre",
-              "'09:30'": "libre",
-              "'09:45'": "libre",
-              "'10:00'": "libre",
-              "'10:15'": "libre",
-              "'10:30'": "libre",
-              "'10:45'": "libre",
-              "'11:00'": "libre",
-              "'11:15'": "libre",
-              "'11:30'": "libre",
-              "'11:45'": "libre"
-            }
+            "horas": []
+
           }
         ],
         "jueves": [
@@ -86,6 +340,302 @@
   },
   {
     "configuracionTurnos": {
+      "turnos": {
+        "a2022": {
+          "m6": {
+            "d19": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d26": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          },
+          "m7": {
+            "d2": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d9": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d16": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d23": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d30": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          },
+          "m8": {
+            "d6": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d13": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d20": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            },
+            "d27": {
+              "h8": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h9": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h10": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              },
+              "h11": {
+                "m0": "libre",
+                "m15": "libre",
+                "m30": "libre",
+                "m45": "libre"
+              }
+            }
+          }
+        }
+      },
       "dias": {
         "lunes": [
           {
