@@ -6,7 +6,9 @@ let respuestaPacientes;
 let mapProfesionales = {};
 let mapPacientes = {};
 let flatCalendario;
-let opciones = { inline: true };
+let opciones = {
+  inline: true
+};
 ////////////////
 //  funciones //
 ////////////////
@@ -35,8 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     elemento.value = opcionPaciente;
     fragmentoPaciente.appendChild(elemento)
     mapPacientes[opcionPaciente] = indice
-  }
-  );
+  });
   document.getElementById("datalistOptions").appendChild(fragmento)
   document.getElementById("dataOpcionesPacientes").appendChild(fragmentoPaciente)
 
@@ -62,12 +63,17 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
     })
   })
 
-  flatpickr(document.getElementById("calendario"), { inline: true }).destroy();
-  const opciones = { inline: true, enable: fechasArray };
+  flatpickr(document.getElementById("calendario"), {
+    inline: true
+  }).destroy();
+  const opciones = {
+    inline: true,
+    enable: fechasArray
+  };
   flatpickr(document.getElementById("calendario"), opciones);
   document.querySelectorAll("div .flatpickr-day").forEach(dia => {
-    dia.addEventListener("mouseup", (e) => {
-
+    dia.addEventListener("click", (e) => {
+      borrarHorarios()
       const fechaTurno = e.target.ariaLabel;
       const ano = new Date(fechaTurno).getFullYear();
       const mes = new Date(fechaTurno).getMonth();
@@ -80,8 +86,8 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
         Object.keys(objetoDia[hora]).forEach(minutos => {
           if (objetoDia[hora][minutos] === "libre") {
             let horaLimpia, minutosLimpios;
-            ((hora.substring(1, hora.length)).length < 2) ? horaLimpia = "0" + hora.substring(1, hora.length) : horaLimpia = hora.substring(1, hora.length);
-            ((minutos.substring(1, minutos.length)).length < 2) ? minutosLimpios = "0" + minutos.substring(1, minutos.length) : minutosLimpios = minutos.substring(1, minutos.length);
+            ((hora.substring(1, hora.length)).length < 2) ? horaLimpia = "0" + hora.substring(1, hora.length): horaLimpia = hora.substring(1, hora.length);
+            ((minutos.substring(1, minutos.length)).length < 2) ? minutosLimpios = "0" + minutos.substring(1, minutos.length): minutosLimpios = minutos.substring(1, minutos.length);
 
             const etiqueta = document.createElement("li")
             const contenido = horaLimpia + ":" + minutosLimpios;
@@ -107,20 +113,40 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
 
 
 })
-
+const pacienteIngreso = document.getElementById("dataListPacientes")
+const profesionalInput = document.getElementById("dataListProfesionales")
+const borrarCalendario = () => {
+  flatpickr(document.getElementById("calendario"), {
+    inline: true
+  }).destroy()
+  flatpickr(document.getElementById("calendario"), {
+    inline: true
+  })
+}
+const borrarHorarios = () => {
+  const ulHorarios = document.querySelectorAll(".horarios li")
+  ulHorarios.forEach(nodoHTML => {
+    nodoHTML.remove()
+  })
+}
 const guardarTurno = document.getElementById("guardarTurno")
-guardarTurno.addEventListener("click",()=>{
+guardarTurno.addEventListener("click", () => {
   const profesional = profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].configuracionTurnos.turnos
   const fechaTurno = document.getElementById("calendario").value
-  const ano = new Date(fechaTurno).getFullYear();
-  const mes = new Date(fechaTurno).getMonth();
-  const dia = new Date(fechaTurno).getDate();
-  [hora,minuto] = document.getElementById("divHorarios").value.toString().split(":")
-  hora=parseInt(hora).toString()
-  minuto=parseInt(minuto).toString();
-  const dniPaciente =pacienteObj[mapPacientes[document.getElementById("dataListPacientes").value]].dni;
-  profesional["a"+ano]["m"+mes]["d"+dia]["h"+hora]["m"+minuto] = dniPaciente
+  let anoCadena, mesCadena, diaCadena, hora, minuto;
+  [anoCadena, mesCadena, diaCadena] = fechaTurno.split("-");
+  const ano = new Date(anoCadena, mesCadena, diaCadena).getFullYear();
+  const mes = (new Date(anoCadena, mesCadena, diaCadena).getMonth()) - 1;
+  const dia = new Date(anoCadena, mesCadena, diaCadena).getDate();
 
-  console.log(profesional)
+  [hora, minuto] = document.getElementById("divHorarios").value.toString().split(":");
+  hora = parseInt(hora);
+  minuto = parseInt(minuto).toString();
+  const dniPaciente = pacienteObj[mapPacientes[document.getElementById("dataListPacientes").value]].dni;
+  profesional["a" + ano]["m" + mes]["d" + dia]["h" + hora]["m" + minuto] = dniPaciente;
+  borrarHorarios()
+  borrarCalendario()
+  profesionalInput.value = ""
+  pacienteIngreso.value = ""
+  console.log(profesional);
 })
-
