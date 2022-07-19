@@ -205,25 +205,14 @@ const generarProfesional = () => {
   const profesionalTransitorio = new Profesional();
 
   for (fila of arrayTabla1) {
-    if (
-      profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos ===
-      0
-    ) {
-      profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].ivTurnos =
-        fila.intervalo;
-      profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].inicio =
-        fila.inicio;
-      profesionalTransitorio.configuracionTurnos.dias[fila.dia][0].fin =
-        fila.fin;
-    } else {
-      profesionalTransitorio.configuracionTurnos.dias[fila.dia].push({
-        ivTurnos: fila.intervalo,
-        inicio: fila.inicio,
-        fin: fila.fin,
-        horas: [],
-      });
+      profesionalTransitorio.configuracionTurnos.dias[fila.dia].push(new Dia(
+        fila.intervalo,
+        fila.inicio,
+        fila.fin,
+        
+      ));
     }
-  }
+  
   profesionalTransitorio.apellido = apellidoInput.value;
   profesionalTransitorio.dni = documentoInput.value;
   profesionalTransitorio.nombre = nombreInput.value;

@@ -32,6 +32,80 @@ class Paciente {
     localStorage.setItem("pacientes", JSON.stringify(this));
   }
 }
+
+class ConfiguracionTurnos {
+  constructor(ivTurnos, inicio, fin, turnos) {
+    this.turnos = {}
+    this.dias = new Semana(ivTurnos, inicio, fin)
+  }
+  [Symbol.iterator] = function* () {
+    const valores = Object.values(this);
+    for (let i = 1; i < valores.length; i++) { yield valores[i]; }
+  }
+  porCada = (callback) => {
+    let item;
+    for (item of this) callback(item)
+  }
+  porClave = (callback) => {
+    let clave;
+    for (clave in this) {
+      if (clave !== "porCada") {
+        if (clave !== "porClave") callback(clave,this[clave])
+      }
+    }
+  }
+}
+class Semana {
+  constructor(ivTurnos, inicio, fin) {
+    this.lunes = []
+    this.martes = []
+    this.miercoles = []
+    this.jueves = []
+    this.viernes = []
+    this.sabado = []
+    this.domingo = []
+
+  }
+  [Symbol.iterator] = function* () {
+    const valores = Object.values(this);
+    for (let i = 1; i < valores.length; i++) { yield valores[i]; }
+  }
+  porCada = (callback) => {
+    let item;
+    for (item of this) callback(item)
+  }
+  porClave = (callback) => {
+    let clave;
+    for (clave in this) {
+      if (clave !== "porCada") {
+        if (clave !== "porClave") callback(clave,this[clave])
+      }
+    }
+  }
+}
+class Dia {
+  constructor(ivTurnos, inicio, fin) {
+    this.ivTurnos = ivTurnos
+    this.inicio = inicio
+    this.fin = fin
+  }
+  [Symbol.iterator] = function* () {
+    const valores = Object.values(this);
+    for (let i = 1; i < valores.length; i++) { yield valores[i]; }
+  }
+  porCada = (callback) => {
+    let item;
+    for (item of this) callback(item)
+  }
+  porClave = (callback) => {
+    let clave;
+    for (clave in this) {
+      if (clave !== "porCada") {
+        if (clave !== "porClave") callback(clave,this[clave])
+      }
+    }
+  }
+}
 class generadorHoras {
   constructor(hora) {
     this[hora] = "libre";
@@ -42,80 +116,15 @@ class Profesional {
     ivTurnos = 0,
     inicio = "",
     fin = "",
-    horas = [],
     nombre,
     apellido,
     dni,
     especialidad,
     matricula,
     telefono,
-    turnos ={}
+    turnos = {}
   ) {
-    this.configuracionTurnos = {
-      turnos:turnos,
-      dias: {
-        lunes: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-        martes: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-        miercoles: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-
-        jueves: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-
-        viernes: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-
-        sabado: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-
-        domingo: [
-          {
-            ivTurnos: ivTurnos,
-            inicio: inicio,
-            fin: fin,
-            horas: horas,
-          },
-        ],
-      },
-    };
+    this.configuracionTurnos = new ConfiguracionTurnos(ivTurnos, inicio, fin, turnos)
     this.nombre = nombre;
     this.apellido = apellido;
     this.dni = dni;
@@ -125,6 +134,22 @@ class Profesional {
   }
   guardarLocal() {
     localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
+  }
+  [Symbol.iterator] = function* () {
+    const valores = Object.values(this);
+    for (let i = 1; i < valores.length; i++) { yield valores[i]; }
+  }
+  porCada = (callback) => {
+    let item;
+    for (item of this) callback(item)
+  }
+  porClave = (callback) => {
+    let clave;
+    for (clave in this) {
+      if (clave !== "porCada") {
+        if (clave !== "porClave") callback(clave,this[clave])
+      }
+    }
   }
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
@@ -150,7 +175,7 @@ class Profesional {
           let hora = parseInt(horaInicial);
           let intervaloTurnos = parseInt(objetoAIterar[dia][horario].ivTurnos);
           let horarioProfesional = "";
-          const objetoSalida={} 
+          const objetoSalida = {}
           for (
             let index = 0;
             index <= diferenciaEnMinutos - intervaloTurnos;
@@ -162,9 +187,9 @@ class Profesional {
             min.toString().length < 2
               ? (minString = "0" + min.toString())
               : (minString = min.toString());
-             
-            objetoSalida["h"+hora]=objetoSalida["h"+hora]||{};
-            objetoSalida["h"+hora]["m"+min]="libre";
+
+            objetoSalida["h" + hora] = objetoSalida["h" + hora] || {};
+            objetoSalida["h" + hora]["m" + min] = "libre";
             let clave = `"'${horaString}:${minString}'": "libre",`; //  '"' + horaString + ":" + minString + '"'+':"libre",';
             horarioProfesional += clave;
             min += intervaloTurnos;
@@ -180,15 +205,15 @@ class Profesional {
             horarioProfesional.substring(0, horarioProfesional.length - 1) +
             "}";
           console.log(horarioProfesional);
-          const diasActivosProfesional =diasDelMes(dia)
-          diasActivosProfesional.forEach(dia =>{
-            const diaDelMes = "d"+new Date(dia).getDate().toString();
-            const mes= "m"+new Date(dia).getMonth().toString();
-            const ano="a"+new Date(dia).getFullYear().toString();
-            this.configuracionTurnos.turnos[ano]=this.configuracionTurnos.turnos[ano]||{}
-            this.configuracionTurnos.turnos[ano][mes]=this.configuracionTurnos.turnos[ano][mes]||{}
-            this.configuracionTurnos.turnos[ano][mes][diaDelMes]=objetoSalida
-            
+          const diasActivosProfesional = diasDelMes(dia)
+          diasActivosProfesional.forEach(dia => {
+            const diaDelMes = "d" + new Date(dia).getDate().toString();
+            const mes = "m" + new Date(dia).getMonth().toString();
+            const ano = "a" + new Date(dia).getFullYear().toString();
+            this.configuracionTurnos.turnos[ano] = this.configuracionTurnos.turnos[ano] || {}
+            this.configuracionTurnos.turnos[ano][mes] = this.configuracionTurnos.turnos[ano][mes] || {}
+            this.configuracionTurnos.turnos[ano][mes][diaDelMes] = objetoSalida
+
 
           })
         }
@@ -231,154 +256,161 @@ let indice;
 //////////////////////////////////////////////////
 // evalua que los intervalos no se supoerpongan //
 //////////////////////////////////////////////////
-const diasDelMes = (diaLetras) =>{
-console.log(diaLetras)
+const diasDelMes = (diaLetras) => {
+  console.log(diaLetras)
   let ano = new Date().getFullYear();
   let mes = new Date().getMonth();
   let dia = new Date().getDate();
-  let resultado =  []
+  let resultado = []
   for (let index = 0; index < 3; index++) {
-    const diasDelMesActual=new Date(ano,mes+1,0).getDate();
-    for (dia;dia<diasDelMesActual;dia++){
-      const condicion = new Date(ano,mes,dia).getDay();
-      if (ObjetoDiaSemana[condicion]===diaLetras){resultado.push(new Date(ano,mes,dia));}
-  
+    const diasDelMesActual = new Date(ano, mes + 1, 0).getDate();
+    for (dia; dia < diasDelMesActual; dia++) {
+      const condicion = new Date(ano, mes, dia).getDay();
+      if (ObjetoDiaSemana[condicion] === diaLetras) { resultado.push(new Date(ano, mes, dia)); }
+
     }
-    mes ++;
-    dia=1
+    mes++;
+    dia = 1
   }
   return resultado;
-  }
+}
 const request = async () => {
   const resultadoProfesionales = await axios("../datos.json");
   console.log(resultadoProfesionales.data);
   respuestaProfesionales = await resultadoProfesionales;
   respuestaProfesionales.data.forEach((e, i, a) => {
-    profesionalObj[i] = new Profesional(
-      0,
-      "",
-      "",
-      [],         
-      e.nombre,
-      e.apellido,
-      e.dni,
-      e.especialidad,
-      e.matricula,
-      e.telefono,e.configuracionTurnos.turnos
-    ); //e.configuracionTurnos.ivTurnos,e.nombre,e.apellido,e.dni,e.especialidad,e.matricula,e.telefono);
-    profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
-  });
-  const resultadoPacientes = await axios("../paciente.json");
-  console.log(resultadoPacientes);
-  respuestaPacientes = await resultadoPacientes;
-  respuestaPacientes.data.forEach((e, i, a) => {
-    console.log(e);
-    pacienteObj[i] = new Paciente(
-      e.apellido,
-      e.nombre,
-      e.direccion.calle,
-      e.direccion.numero,
-      e.direccion.cPostal,
-      e.telefono,
-      e.dni,
-      e.direccion.localidad
-    );
-  });
-};
+    profesionalObj[i] = new Profesional();
+    profesionalObj[i].nombre = e.nombre
+    profesionalObj[i].apellido = e.apellido
+    profesionalObj[i].dni = e.dni
+    profesionalObj[i].especialidad = e.especialidad
+    profesionalObj[i].matricula = e.matricula
+    profesionalObj[i].telefono = e.telefono;
+    profesionalObj[i].configuracionTurnos = new ConfiguracionTurnos();
+    profesionalObj[i].configuracionTurnos.dias = new Semana()
+    for (item in profesionalObj[i].configuracionTurnos.dias) {
+      if (item !== "porCada") {
+        if (item !== "porClave") {
+          e.configuracionTurnos.dias[item].forEach(horario => {
+            profesionalObj[i].configuracionTurnos.dias[item].push(new Dia(horario.ivTurnos, horario.inicio, horario.fin))
+          })
+
+        }
+      }
+    }
+   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
+
+      const resultadoPacientes = await axios("../paciente.json");
+      console.log(resultadoPacientes);
+      respuestaPacientes = await resultadoPacientes;
+      respuestaPacientes.data.forEach((e, i, a) => {
+        console.log(e);
+        pacienteObj[i] = new Paciente(
+          e.apellido,
+          e.nombre,
+          e.direccion.calle,
+          e.direccion.numero,
+          e.direccion.cPostal,
+          e.telefono,
+          e.dni,
+          e.direccion.localidad
+        );
+      });
+    };
 
 
 
-const intervalos = (
-  { inicio: itemInicio, fin: itemFin },
-  { inicio: repetidosInicio, fin: repetidosFin },
-  condicion
-) => {
-  if (
-    parseInt(repetidosInicio) > parseInt(itemInicio) &&
-    parseInt(repetidosInicio) < parseInt(itemFin)
-  )
-    condicion = true;
-  if (
-    parseInt(repetidosFin) > parseInt(itemInicio) &&
-    parseInt(repetidosInicio) < parseInt(itemFin)
-  )
-    condicion = true;
-  return condicion;
-};
+    const intervalos = (
+      { inicio: itemInicio, fin: itemFin },
+      { inicio: repetidosInicio, fin: repetidosFin },
+      condicion
+    ) => {
+      if (
+        parseInt(repetidosInicio) > parseInt(itemInicio) &&
+        parseInt(repetidosInicio) < parseInt(itemFin)
+      )
+        condicion = true;
+      if (
+        parseInt(repetidosFin) > parseInt(itemInicio) &&
+        parseInt(repetidosInicio) < parseInt(itemFin)
+      )
+        condicion = true;
+      return condicion;
+    };
 
-const generarPaciente = () => {
-  const pacienteTransitorio = new Paciente();
-  pacienteTransitorio.apellido = apellidoInput.value;
-  pacienteTransitorio.nombre = nombreInput.value;
-  pacienteTransitorio.dni = documentoInput.value;
-  pacienteTransitorio.telefono = telefonoInput.value;
-  pacienteTransitorio.direccion.calle = calleInput.value;
-  pacienteTransitorio.direccion.numero = alturaInput.value;
-  pacienteTransitorio.direccion.localidad = localidadInput.value;
-  pacienteTransitorio.direccion.cPostal = cpaInput.value;
-  return pacienteTransitorio;
-};
-const limpiarPaciente = () => {
-  // generar un cleaner para todas las ventanas con un foreach
-  const limpiar = document.querySelectorAll("input");
-  console.log(limpiar);
-  limpiar.forEach((element) => {
-    element.value = "";
-  });
-};
+    const generarPaciente = () => {
+      const pacienteTransitorio = new Paciente();
+      pacienteTransitorio.apellido = apellidoInput.value;
+      pacienteTransitorio.nombre = nombreInput.value;
+      pacienteTransitorio.dni = documentoInput.value;
+      pacienteTransitorio.telefono = telefonoInput.value;
+      pacienteTransitorio.direccion.calle = calleInput.value;
+      pacienteTransitorio.direccion.numero = alturaInput.value;
+      pacienteTransitorio.direccion.localidad = localidadInput.value;
+      pacienteTransitorio.direccion.cPostal = cpaInput.value;
+      return pacienteTransitorio;
+    };
+    const limpiarPaciente = () => {
+      // generar un cleaner para todas las ventanas con un foreach
+      const limpiar = document.querySelectorAll("input");
+      console.log(limpiar);
+      limpiar.forEach((element) => {
+        element.value = "";
+      });
+    };
 
-///////////////////////////////////////
-//         VALIDACIONES              //
-///////////////////////////////////////
+    ///////////////////////////////////////
+    //         VALIDACIONES              //
+    ///////////////////////////////////////
 
-const validarDniOc = (valor, arrayObjeto) => {
-  request();
-  let resultado;
-  if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
-    documentoInput.classList.toggle("error");
-    document.getElementById("enviarPaciente").disabled = true;
-    return false;
-  } else {
-    documentoInput.classList.remove("error");
-    document.getElementById("enviarPaciente").disabled = false;
-    resultado = arrayObjeto.findIndex((objeto) => {
-      if (parseInt(objeto.dni) === parseInt(valor)) return valor;
-    });
-    return resultado;
-  }
-};
-const validarApellidoOc = (e) => {
-  if (e.length < 3) {
-    apellidoInput.classList.add("error");
-    enviarPaciente.disabled = true;
-    return false;
-  } else {
-    apellidoInput.classList.remove("error");
-    enviarPaciente.disabled = false;
-    return true;
-  }
-};
-const validarNombreOc = (e) => {
-  if (e.length < 3) {
-    nombreInput.classList.add("error");
-    enviarPaciente.disabled = true;
-    return false;
-  } else {
-    nombreInput.classList.remove("error");
-    enviarPaciente.disabled = false;
-    return true;
-  }
-};
-const validarTelefonoOc = (e) => {
-  let regexTelefono =
-    /\(?[0-9]{3}[0-9]?[0-9]?\)?[-]?([0-9]{2})?[0-9]?[-]?[0-9]{2}[0-9]?[-]?[0-9]{4}/g;
-  if (regexTelefono.test(e)) {
-    telefonoInput.classList.remove("error");
-    enviarPaciente.disabled = false;
-    return true;
-  } else {
-    telefonoInput.classList.add("error");
-    enviarPaciente.disabled = true;
-    return false;
-  }
-};
+    const validarDniOc = (valor, arrayObjeto) => {
+      request();
+      let resultado;
+      if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
+        documentoInput.classList.toggle("error");
+        document.getElementById("enviarPaciente").disabled = true;
+        return false;
+      } else {
+        documentoInput.classList.remove("error");
+        document.getElementById("enviarPaciente").disabled = false;
+        resultado = arrayObjeto.findIndex((objeto) => {
+          if (parseInt(objeto.dni) === parseInt(valor)) return valor;
+        });
+        return resultado;
+      }
+    };
+    const validarApellidoOc = (e) => {
+      if (e.length < 3) {
+        apellidoInput.classList.add("error");
+        enviarPaciente.disabled = true;
+        return false;
+      } else {
+        apellidoInput.classList.remove("error");
+        enviarPaciente.disabled = false;
+        return true;
+      }
+    };
+    const validarNombreOc = (e) => {
+      if (e.length < 3) {
+        nombreInput.classList.add("error");
+        enviarPaciente.disabled = true;
+        return false;
+      } else {
+        nombreInput.classList.remove("error");
+        enviarPaciente.disabled = false;
+        return true;
+      }
+    };
+    const validarTelefonoOc = (e) => {
+      let regexTelefono =
+        /\(?[0-9]{3}[0-9]?[0-9]?\)?[-]?([0-9]{2})?[0-9]?[-]?[0-9]{2}[0-9]?[-]?[0-9]{4}/g;
+      if (regexTelefono.test(e)) {
+        telefonoInput.classList.remove("error");
+        enviarPaciente.disabled = false;
+        return true;
+      } else {
+        telefonoInput.classList.add("error");
+        enviarPaciente.disabled = true;
+        return false;
+      }
+    };
