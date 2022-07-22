@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-const profesionalIngreso = document.getElementById("dataListProfesionales").addEventListener("change", console.log("dadada"))
+// const profesionalIngreso = document.getElementById("dataListProfesionales").addEventListener("change", console.log("dadada"))
 
 const calendarioElemento = document.getElementById("calendario");
 flatpickr(calendarioElemento, opciones);
