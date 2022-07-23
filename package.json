@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
-    "start": "sass  --watch scss/style.scss css/style.css"
+    "start": "sass  --watch scss/style.scss css/style.css",
+    "purge": "purgecss --css css/style.css --content index.html --output css/estilo.css"
   },
   "author": "",
   "license": "ISC",
