@@ -247,7 +247,7 @@ const enviarProfesional = document
         break;
       default:
         profesionalObj[validacionDni] = profesionalTransitorio;
-        profesionalObj[profesionalObj.length - 1].generarTurnos();
+        profesionalObj[validacionDni].generarTurnos();
         break;
     }
 

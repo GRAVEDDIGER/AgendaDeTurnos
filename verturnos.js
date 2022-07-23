@@ -9,7 +9,6 @@ let profesionalCadena;
 let mapProfesional = {}
 const datalistProfesional = document.getElementById("dataListProfesionales");
 let calendario = document.getElementById("calendario");
-let arrayDeFechas = [];
 ///////////////
 // FUNCIONES //
 ///////////////
@@ -39,6 +38,8 @@ const iniciarDatalist = () => {
 };
 const agregarEventListenerDatalist = () => {
     document.getElementById("dataListProfesionales").addEventListener("change", e => {
+       if (document.getElementById("dataListProfesionales").value !== "") { 
+        let arrayDeFechas = [];
         const objetoTurnos = profesionalObj[mapProfesional[datalistProfesional.value]].configuracionTurnos.turnos
         objetoTurnos.porClave((anoClave, ano) => {
             ano.porClave((mesClave, mes) => {
@@ -51,11 +52,12 @@ const agregarEventListenerDatalist = () => {
             })
         })
 
-        flatpickr(calendario, opciones).destroy
+        flatpickr(calendario, opciones).destroy()
         iniciarCaledario({
             inline: true,
             enable: arrayDeFechas
-        })
+        })}
+
     })
 };
 const botonGuardar = document.getElementById("botonGuardar")
