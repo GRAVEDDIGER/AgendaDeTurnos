@@ -2,6 +2,7 @@
 //PARA PROBAR ESTA PARTE HAY TURNO ASIGNADO EN DATOS.JSON PARA LA PROFESIONAL LUCIO ALICIA EN EL              //
 //DIA 19/7 AL USARSE UN JSON PARA OBTENER EL OBJETO NO PUEDO GRABAR NUEVOS TURNOS, ESO LO RESUELVE EL BACKEND //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const elModal = new bootstrap.Modal(document.getElementById("modalTurnera")); //REPRESENTA EL MODAL DE LA PAGINA PARA PODERLO DESAPARECER CON CODIGO 
 
 const respuesta = await request()
 /////////////////////////
@@ -111,7 +112,7 @@ botonGuardar.addEventListener("click",evento=>{
      })
      // se agrega el fragmento al  la tabla 
      document.querySelector("table tbody").appendChild(fragmento)
-
+     elModal.hide();
 })
 
 /////////////////////

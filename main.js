@@ -120,7 +120,7 @@ class Turnos {
 /////////////////////////////////////////////////////////////////
 
 
-class Semana {
+class Semana  {
   constructor(ivTurnos, inicio, fin) {
     this.lunes = []
     this.martes = []
@@ -458,35 +458,36 @@ class Profesional {
   //METODO QUE GENERA EL ARBOL DE TURNOS DENTRO DE CONFIGURACIONTURNOS.TURNOS //
   //FALTA OPTIMIZAR USANDO LOS ITERADORES
   ///////////////////////////////////////////////////////////////////////////////
-  generarTurnos=()=> {
+  generarTurnos = () => {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
     objetoAIterar.porClave((diaClave, diaObjeto) => {
       let horaInicial, minutosIniciales, horaFinal, minutosFinales;
-      if (diaObjeto.length>0){ 
-      diaObjeto.forEach((horario) => {
-        if (horario.ivTurnos !== 0) {
-          [horaInicial, minutosIniciales] =
-            horario.inicio.split(":");
-          [horaFinal, minutosFinales] =
-            horario.fin.split(":");
-          let diferenciaEnMinutos =
-            (new Date().setHours(horaFinal, minutosFinales) -
-              new Date().setHours(horaInicial, minutosIniciales)) /
-            60000;
-          let min = parseInt(minutosIniciales);
-          let hora = parseInt(horaInicial);
-          let intervaloTurnos = parseInt(horario.ivTurnos);
-          let horarioProfesional = "";
-          let objetoSalida = new HoraTurno();
-          objetoSalida = gererarObjetoDeSalida(diferenciaEnMinutos, intervaloTurnos, hora, min);
-          const diasActivosProfesional = diasDelMes(diaClave)
-          diasActivosProfesional.forEach(dia => {
-          completarArbolDeTurnos(dia, objetoSalida, this)
-          })
+      if (diaObjeto.length > 0) {
+        diaObjeto.forEach((horario) => {
+          if (horario.ivTurnos !== 0) {
+            [horaInicial, minutosIniciales] =
+              horario.inicio.split(":");
+            [horaFinal, minutosFinales] =
+              horario.fin.split(":");
+            let diferenciaEnMinutos =
+              (new Date().setHours(horaFinal, minutosFinales) -
+                new Date().setHours(horaInicial, minutosIniciales)) /
+              60000;
+            let min = parseInt(minutosIniciales);
+            let hora = parseInt(horaInicial);
+            let intervaloTurnos = parseInt(horario.ivTurnos);
+            let horarioProfesional = "";
+            let objetoSalida = new HoraTurno();
+            objetoSalida = gererarObjetoDeSalida(diferenciaEnMinutos, intervaloTurnos, hora, min);
+            const diasActivosProfesional = diasDelMes(diaClave)
+            diasActivosProfesional.forEach(dia => {
+              completarArbolDeTurnos(dia, objetoSalida, this)
+            })
 
-        }
-      })}
+          }
+        })
+      }
     })
   }
 }
@@ -515,7 +516,7 @@ let indice;
 /////////////////////////////////////////////////
 // funciones                                   //
 /////////////////////////////////////////////////
-const pacientesRequest = async ()=>{
+const pacientesRequest = async () => {
   const resultadoPacientes = await axios("../paciente.json");
   console.log(resultadoPacientes);
   respuestaPacientes = await resultadoPacientes;
@@ -570,7 +571,27 @@ const completarArbolDeTurnos = (dia, objetoSalida, objeto) => {
     objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
   }
 }
+const crearArbolDeTurnos = (respuestaObjeto, profesionalObjeto, i) => {
+  Object.keys(respuestaObjeto).forEach(ano => {
+    profesionalObjeto[ano] = new Ano()
+    Object.keys(respuestaObjeto[ano]).forEach(mes => {
+      profesionalObjeto[ano][mes] = new Mes()
+      // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
+      Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
+        profesionalObjeto[ano][mes][dia] = new DiaTurno();
+        Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
+          profesionalObjeto[ano][mes][dia][hora] = new HoraTurno()
+          Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
+            //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
+            profesionalObjeto[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos]
 
+          })
+        })
+      })
+
+    })
+  })
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FUNCION QUE RECIBE UNA CADENA CON EL DIA DE LA SEMANA Y DEVUELVE UN ARRAY DE OBJETOS DATE DE LOS DIAS DEL MES QUE CUMPEN CON EL STRING//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -613,47 +634,26 @@ const request = async () => {
     profesionalObj[i].configuracionTurnos.dias = new Semana()
     //ESTE FOR ENTRA EN EL OBJETO PROFESIONAL.CONFIGURACIONTURNOS.DIAS E ITERA EN LOS DIAS DE LA SEMANA
     // ITEM REPRESENTA A LA CLAVE DEL DIA DE LA SEMANA, LOS CONDICIONALES EVITAN LOS METODOS DEFINIDAS POR MI EN EL OBJETO
-    for (item in profesionalObj[i].configuracionTurnos.dias) {
-      if (item !== "porCada") {
-        if (item !== "porClave") {
-          if (item !== "addProperty") {
-            e.configuracionTurnos.dias[item].forEach(horario => {
-              //ACA HACE UN PUSH DE LOS DATOS EN EL OBJETO DIA 
-              profesionalObj[i].configuracionTurnos.dias[item].push(new Dia(horario.ivTurnos, horario.inicio, horario.fin))
-            })
-          }
-        }
-      }
-    }
+    const objetoDias = profesionalObj[i].configuracionTurnos.dias
+    const respuestaDias = e.configuracionTurnos.dias
+    objetoDias.porClave((diaClave, diaObjeto) => {
+      respuestaDias[diaClave].forEach(horario => {
+        diaObjeto.push(new Dia(horario.ivTurnos, horario.inicio, horario.fin))
+
+      })
+    })
     //ESTA PARTE DE LA FUNCION RECONSTRUYE EL ARBOL DE TURNOS
     const respuestaObjeto = e.configuracionTurnos.turnos
     const profesionalObjeto = profesionalObj[i].configuracionTurnos.turnos
     //SE ITERA SOBRE LAS CLAVES DE LA RESPUESTA DEL OBJETO TURNOS SE VUELVE A ITERAR SOBRE CADA OBJETO AÑO LUEGO EN CADA OBJETO MES
     //CREA EL OBEJTO ANO LUEGI CREA EL OBJETO MES Y LUEGO EL OBJETO DIA EN EL OBJETO PROFESIONALOBJ
 
-    Object.keys(respuestaObjeto).forEach(ano => {
-      profesionalObj[i].configuracionTurnos.turnos[ano] = new Ano()
-      Object.keys(respuestaObjeto[ano]).forEach(mes => {
-        profesionalObj[i].configuracionTurnos.turnos[ano][mes] = new Mes()
-        // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
-        Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
-          profesionalObjeto[ano][mes][dia] = new DiaTurno();
-          Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
-            profesionalObjeto[ano][mes][dia][hora] = new HoraTurno()
-            Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
-              //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
-              profesionalObjeto[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos]
+    crearArbolDeTurnos(respuestaObjeto, profesionalObjeto, i)
 
-            })
-          })
-        })
-
-      })
-    })
   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
   //AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
   pacientesRequest()
-  
+
 };
 
 

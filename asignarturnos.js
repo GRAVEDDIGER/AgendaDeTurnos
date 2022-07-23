@@ -52,6 +52,7 @@ flatpickr(calendarioElemento, opciones);
 const calendarioDias = document.querySelectorAll("div .flatpickr-day");
 //AL CAMBIAR EL VALUE DEL DATALISTPROFESIONALES GENERA UN NUEVO CALENDARIO QUE SOLO TIENE ENABLED LAS FECHAS EN LAS QUE EL PROFESIONAL ATIENDE
 document.getElementById("dataListProfesionales").addEventListener("change", () => {
+  if (document.getElementById("dataListProfesionales").value !== ""){ 
   const fechasArray = []
   const objetoTurnos = profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].configuracionTurnos.turnos
   const anosArray = Object.keys(objetoTurnos)
@@ -124,7 +125,7 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
   });
 
 
-})
+}})
 const pacienteIngreso = document.getElementById("dataListPacientes")
 const profesionalInput = document.getElementById("dataListProfesionales")
 //FUNCION QUE BORRA EL CALENDARIO Y L DEJA SIN DISABLES
