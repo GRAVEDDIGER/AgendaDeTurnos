@@ -653,22 +653,7 @@ const request = async () => {
   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
   //AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
   pacientesRequest()
-  // const resultadoPacientes = await axios("../paciente.json");
-  // console.log(resultadoPacientes);
-  // respuestaPacientes = await resultadoPacientes;
-  // respuestaPacientes.data.forEach((e, i, a) => {
-  //   console.log(e);
-  //   pacienteObj[i] = new Paciente(
-  //     e.apellido,
-  //     e.nombre,
-  //     e.direccion.calle,
-  //     e.direccion.numero,
-  //     e.direccion.cPostal,
-  //     e.telefono,
-  //     e.dni,
-  //     e.direccion.localidad
-  //   );
-  // });
+  
 };
 
 
