@@ -6,9 +6,10 @@
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
 /////////////////////////////////////////
 
-const elModal = new bootstrap.Modal(document.getElementById("modal1"));
-
-document.addEventListener("DOMContentLoaded", request());
+const elModal = new bootstrap.Modal(document.getElementById("modal1")); //REPRESENTA EL MODAL DE LA PAGINA PARA PODERLO DESAPARECER CON CODIGO 
+document.addEventListener("DOMContentLoaded", request()); //REQUEST DE DATOS AL SERVIDOR 
+//ITERA SOBRE LAS PESTAÑAS DE LOS DIAS DE LA SEMANA EN EL MODAL Y LES COLOCA UN EVENTLISTENER CLICK QUE  PASE EL DATO DE LA PESTAÑA CLIKEADA A LA 
+// VARIABLE DIAsEMANA 
 
 diaTab.forEach((item) => {
   item.addEventListener("click", () => {
@@ -18,6 +19,7 @@ diaTab.forEach((item) => {
     diaSemana = item.id;
   });
 });
+//FUNCION QUE EVALUA LA SUPRPOSICION DE BANDAS HORARIAS 
 const superposicion = () => {
   let condicion = false;
   let repetidos = [];
@@ -51,7 +53,7 @@ function validarTabla(obj) {
   return condicion;
 }
 
-//BOTON QUE AGREGA LOS DATOS INGRESADOS COMO UNA ROW DE LA TABLA
+//BOTON QUE AGREGA LOS DATOS INGRESADOS EN EL MODAL  COMO UNA ROW DE LA TABLA
 const botonAgregar = document
   .getElementById("btnAgregar")
   .addEventListener("click", () => {
@@ -68,7 +70,7 @@ const botonAgregar = document
     if (validarTabla(objetoTabla1)) {
       const templateTurnos = document.getElementById(
         "configuracionTurnos"
-      ).content;
+      ).content; //TEMPLATE DE LA ESTRUCTURA DE LA TABLA QUE SE MODIFICA EN LAS SIGUIENTES LINEAS 
       templateTurnos.querySelectorAll("tr td")[0].textContent = diaSemana;
       templateTurnos.querySelectorAll("tr td")[1].textContent =
         objetoTabla1.inicio;
@@ -76,12 +78,14 @@ const botonAgregar = document
         objetoTabla1.fin;
       templateTurnos.querySelectorAll("tr td")[3].textContent =
         objetoTabla1.intervalo;
-      const clon = document
+      //AQUI SE CLONA EL TEMPLATE Y LUEGO SE AGREGA AL FRAGMENT PARA EVITAR EL REFLOW 
+        const clon = document
         .getElementById("configuracionTurnos")
 
         .content.cloneNode(true);
 
       fragmento.appendChild(clon);
+      //SE HACE APPENDCHILD DEL FRAGMENTO A LA TABLA 
       document.querySelector("table tbody").appendChild(fragmento);
       arrayTabla1.push(objetoTabla1);
 
@@ -90,7 +94,11 @@ const botonAgregar = document
     else
       document.getElementById("duplicado1").classList.remove("turnoDuplicado");
   });
-const limpiarModal = () => {
+
+///////////////////////////////////////////
+// FUNCION QUE LIMPIA LOS DATOS DEL MODAL//
+///////////////////////////////////////////
+  const limpiarModal = () => {
   const inputModal = document.querySelectorAll(".modal input");
   inputModal.forEach((e) => {
     e.value = "";
@@ -98,6 +106,11 @@ const limpiarModal = () => {
 };
 const botonSalir = document.getElementById("botonSalir");
 const cuerpoTabla = document.querySelector("tbody");
+////////////////////////////////////////////
+//AL HACER CLICK EN SALIR ELIMINA LOS DATOS
+//DE LA TABLA Y LLAMA A LIMPIARMODAL()
+// LUEGO CIERRA EL MODAL
+////////////////////////////////////////////
 botonSalir.addEventListener("click", (e) => {
   const remover = cuerpoTabla.querySelectorAll("td");
   remover.forEach((e) => {
@@ -106,7 +119,13 @@ botonSalir.addEventListener("click", (e) => {
   limpiarModal();
   arrayTabla1 = [];
 });
-//EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
+
+//////////////////////////////////////////////////////////////////
+//AL HACER CLICK EN GUARDAR EVALUA SI HAY SUPERPOSICION 
+// SI HAY SUPERPOSICION MUESTRA ERROR Y NO CIERRA 
+// SI ESTA TODO BIEN CIERRA EL MODAL Y DEJA LOS DATOS Y EL DOM
+//CARGADOS
+/////////////////////////////////////////////////////////////////
 const botonGuardar = document
   .getElementById("botonGuardar")
   .addEventListener("click", () => {
@@ -118,7 +137,7 @@ const botonGuardar = document
       elModal.hide();
     }
   });
-
+//EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
 const eliminar = document
   .querySelector("table")
   .addEventListener("click", (e) => {
@@ -146,6 +165,9 @@ const eliminar = document
       }
     }
   });
+//////////////////////////////////////////////////////////////
+//FUNCION QUE CARGA EL DOM DE LA TABLA DESDE EL ARRAYTABLA1 //
+//////////////////////////////////////////////////////////////
 const colocarFilas = () => {
   const fragmento = new DocumentFragment();
   const templateTurnos = document.getElementById("configuracionTurnos").content;
@@ -159,6 +181,8 @@ const colocarFilas = () => {
   fragmento.appendChild(clon);
   document.querySelector("table tbody").appendChild(fragmento);
 };
+//FUNCION QUE EXTRAE LOS DAOS DEL PROFESIONAL PASADO POR INDICE A LOS INPUT
+//LUEGO CONSTRUYE EL OBJETO TABLA 1 Y DE AHI LLAMA A LA FUNCION COLOCARFILAS PARA QUE ARME EL DOM DEL MODAL 
 const extraerDatosProfesional = (indice) => {
   apellidoInput.value = profesionalObj[indice].apellido;
   nombreInput.value = profesionalObj[indice].nombre;
@@ -183,11 +207,13 @@ const extraerDatosProfesional = (indice) => {
   colocarFilas();
 };
 const enviarPaciente = document.getElementById("enviarPaciente");
+//EVENT LISENER ON CHANGE DEL CAMPO DNI QUE VALIDA LOS DATOS Y SI ENCUENTRA EL DNI LLAMA A LAS FUNCIONES PARA TRAER LOS DATOS
 const documentoInput = document.getElementById("dni");
 documentoInput.addEventListener("change", (e) => {
   const dniDuplicado = validarDniOc(parseInt(e.target.value), profesionalObj);
   if (dniDuplicado !== -1) extraerDatosProfesional(dniDuplicado);
 });
+//VALIDACIONES ON CHANGE DE LOS CAMPOS REQUERIDOS 
 const apellidoInput = document.getElementById("apellido");
 apellidoInput.addEventListener("change", (e) =>
   validarApellidoOc(e.target.value)
@@ -202,6 +228,8 @@ telefonoInput.addEventListener("change", (e) =>
 );
 const especialidadInput = document.getElementById("especialidad");
 const matriculaInput = document.getElementById("matricula");
+
+//FUNCION QUE GENERA UN OBJETO TRANSITORIO CON LOS DATOS DEL PROFESIONAL CARGADOS EN LOS INPUT Y EN EL MODAL 
 const generarProfesional = () => {
   const profesionalTransitorio = new Profesional();
 
@@ -223,6 +251,8 @@ const generarProfesional = () => {
 
   return profesionalTransitorio;
 };
+//AL HACER CLICK EN ENVIAR REALIZA LAS VALIDACIONES GENERAL EL OBJETO TRANSITORIO Y LO PUSHEA AL ARRAY DE OBJETOS PROFESIONALOBJ
+//AL TERMINAR ESO GENERALOS TURNOSUSANDO EL METODO DEL OBJETO 
 const enviarProfesional = document
   .getElementById("enviarPaciente")
   .addEventListener("click", (e) => {
@@ -254,8 +284,4 @@ const enviarProfesional = document
     localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
     limpiarPaciente();
   });
-const sheetId = "1KyAFa81gbNh3ts3UaNKVE-_vFz2tPwymtVe2Vea_Lgs";
 
-const escribirSheet = async () => {
-  axios();
-};

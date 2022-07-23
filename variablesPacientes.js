@@ -1,7 +1,12 @@
 
-const extraerDatosPaciente = (indice) =>{
-
-}
+///////////////////////////////////////////////////////
+// VARIABLES DE LA PAGINA CONFIGURACION DE PACIENTES //
+///////////////////////////////////////////////////////
+// LAS VARIABLES XXXXInput representan a los input de la pagina 
+// Todos los datos que son requeridos tienen validacion y tienen asignado un evento onChange para validar 
+// aparte al enviar los datos se vuelve a correr la validacion de esos elementos 
+// en el evento change del input del DNI al encontrar un valor que ya esta en la base de datos obtiene los datos y los pasa a los input
+// para modificar los datos 
 const calleInput = document.getElementById("calle");
 const alturaInput = document.getElementById("altura");
 const localidadInput = document.getElementById("localidad");

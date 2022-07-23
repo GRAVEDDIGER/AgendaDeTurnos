@@ -17,6 +17,7 @@ let opciones = {
 ////////////////////////
 //MANIPULACION DEL DOM//
 ////////////////////////
+// AL TERMINAR LA CARGA HACE UN REQUEST AL SERVIDOR Y AL TERMINAR GENERA LAS LISTAS DE LOS SELECT DEL MODAL
 document.addEventListener("DOMContentLoaded", async () => {
   await request();
   const fragmento = new DocumentFragment();
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const elemento = document.createElement("option");
     elemento.value = opcionPaciente;
     fragmentoPaciente.appendChild(elemento)
+    // GENERA UN MAP DONDE LA CLAVE ES LA CADENA ASIGNADA AL SELECT DEL DATALIST Y EL INDICE ES EL INDICE DEL ARRAY DE PROFESIONALES
     mapPacientes[opcionPaciente] = indice
   });
   document.getElementById("datalistOptions").appendChild(fragmento)
@@ -44,45 +46,51 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // const profesionalIngreso = document.getElementById("dataListProfesionales").addEventListener("change", console.log("dadada"))
-
+//CREA UN ELEMENTO INLINE CON EL CALENDARIO USANDO LA LIBRERIA FLATPICKR 
 const calendarioElemento = document.getElementById("calendario");
 flatpickr(calendarioElemento, opciones);
 const calendarioDias = document.querySelectorAll("div .flatpickr-day");
-
+//AL CAMBIAR EL VALUE DEL DATALISTPROFESIONALES GENERA UN NUEVO CALENDARIO QUE SOLO TIENE ENABLED LAS FECHAS EN LAS QUE EL PROFESIONAL ATIENDE
 document.getElementById("dataListProfesionales").addEventListener("change", () => {
   const fechasArray = []
   const objetoTurnos = profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].configuracionTurnos.turnos
   const anosArray = Object.keys(objetoTurnos)
+  // ITERA SOBRE LAS CLAVES DEL OBJETO TURNOS (LOS AÑOS)
   anosArray.forEach(ano => {
     const mesesArray = Object.keys(objetoTurnos[ano])
+    //ITERA SOBRE LOS MESES DE CADA AÑO 
     mesesArray.forEach(mes => {
       const diasArray = Object.keys(objetoTurnos[ano][mes])
+      //ITERA SOBRE LOS DIAS DE CADA MES 
       diasArray.forEach(dia => {
+        //AGREGA EL CADA DIA PRESENTE EN EL OBJETO PROFESIONAL AL ELEMENTO FECHASARRAY
         fechasArray.push(new Date(ano.substring(1, ano.length), mes.substring(1, mes.length), dia.substring(1, dia.length)))
       })
     })
   })
-
+//BORRA EL CALENDARIO ANTERIOR 
   flatpickr(document.getElementById("calendario"), {
     inline: true
   }).destroy();
+  //GENERA UN NUEVO CALENDARIO QE TIENE ENABLED SOLO LOS DIAS QUE ESTAN EN FECHASARRAY
   const opciones = {
     inline: true,
     enable: fechasArray
   };
   flatpickr(document.getElementById("calendario"), opciones);
+  //EVENTLISENER QUE  AL HACER CLICK EN UN DIA DEL CALENDARIO GENERA LOS HORARIOS DISPONIBLES POR EL PROFESIONAL 
   document.querySelectorAll("div .flatpickr-day").forEach(dia => {
     dia.addEventListener("click", (e) => {
       borrarHorarios()
-      const fechaTurno = e.target.ariaLabel;
-      const ano = new Date(fechaTurno).getFullYear();
-      const mes = new Date(fechaTurno).getMonth();
-      const diaTurno = new Date(fechaTurno).getDate();
+      const fechaTurno = e.target.ariaLabel; //OBTIENE LA FECHA SELECCIONADA POR EL USUARIO 
+      const ano = new Date(fechaTurno).getFullYear(); //TOMA LA FECHA SELECCIONADA Y LA PASA A UN OBJETO DATE Y DE AHI EXTRAE EL AÑO
+      const mes = new Date(fechaTurno).getMonth(); //HACE LO MISMO CON EL MES 
+      const diaTurno = new Date(fechaTurno).getDate(); //Y CON EL DIA 
       const fragmento = new DocumentFragment();
-      const indiceProfesionales = mapProfesionales[document.getElementById("dataListProfesionales").value];
-      const turnos = profesionalObj[indiceProfesionales].configuracionTurnos.turnos
-      const objetoDia = turnos["a" + ano]["m" + mes]["d" + diaTurno];
-      objetoDia.porClave((horaClave,horaObjeto)=>{
+      const indiceProfesionales = mapProfesionales[document.getElementById("dataListProfesionales").value]; //OBTIENE EL INDICE DEL PROFESIONAL SELECCIONADO
+      const turnos = profesionalObj[indiceProfesionales].configuracionTurnos.turnos //REPRESENTA AL OBJETO TURNOS DENTRO DEL PROFESIONAL SELECCIONADO
+      const objetoDia = turnos["a" + ano]["m" + mes]["d" + diaTurno]; //REPRESENTA AL DIA DEL OBJETO TURNOS DEL PROFESIONAL SELECCIONADO 
+      objetoDia.porClave((horaClave,horaObjeto)=>{ 
         horaObjeto.porClave((minutosClave,minutosObjeto)=>{
           if (minutosObjeto=== 'libre'){
             let horaLimpia, minutosLimpios;

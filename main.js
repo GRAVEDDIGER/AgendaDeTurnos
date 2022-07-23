@@ -6,7 +6,6 @@
 //////////////////////////////////////////////////
 //CLASE DE OBJETO CON LA CONFIGURACION DE TURNOS//
 //////////////////////////////////////////////////
-
 class Tabla1 {
   constructor(dia, inicio, fin, intervalo) {
     this.dia = dia;
@@ -15,6 +14,9 @@ class Tabla1 {
     this.intervalo = intervalo;
   }
 }
+///////////////////////////////
+// CLASE DEL OBJETO PACIENTE //
+///////////////////////////////
 class Paciente {
   constructor(apellido, nombre, calle, numero, cpa, telefono, dni, localidad) {
     this.apellido = apellido;
@@ -32,12 +34,17 @@ class Paciente {
     localStorage.setItem("pacientes", JSON.stringify(this));
   }
 }
-
+///////////////////////////////////////////////////////////////////////////////
+// OBJETO CONFIGURACIONTURNOS QUE SE ENCUENTRA DENTRO DEL OBJETO PROFESIONAL //
+///////////////////////////////////////////////////////////////////////////////
 class ConfiguracionTurnos {
   constructor(ivTurnos, inicio, fin, turnos) {
       this.turnos = new Turnos()
       this.dias = new Semana(ivTurnos, inicio, fin)
     }
+/////////////////////////////////////////
+//FUNCION GENERADORA EN SYMBOL.ITERATOR//
+/////////////////////////////////////////
     [Symbol.iterator] = function* () {
       const claves = Object.keys(this);
       let valores = []
@@ -52,12 +59,18 @@ class ConfiguracionTurnos {
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
+  ///////////////////////////////////////////////////////
+  //FUNCION SIMILAR AL FOREACH SIN USO LA VOY A REMOVER//
+  ///////////////////////////////////////////////////////
   porCada = (callback) => {
     let item;
     for (item of this) {
       if (typeof item !== 'function') callback(item)
     }
   }
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //FUNCION SIMILAR A FOREACH QUE ITERA POR CLAVES Y DEVUELVE EN CALLBACK UNA VARIABLE QUE MUESTRA LA CLAVE Y OTRA EL VALOR//
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   porClave = (callback) => {
     let clave;
     for (clave in this) {
@@ -67,6 +80,9 @@ class ConfiguracionTurnos {
     }
   }
 }
+/////////////////////////////////////////////////////////////////
+//OBJETO TURNOS QUE SE ENCUENTRA DENTRO DE CONFIGURACION TURNOS//
+/////////////////////////////////////////////////////////////////
 class Turnos {
   constructor() {}
     [Symbol.iterator] = function* () {
@@ -98,6 +114,12 @@ class Turnos {
     }
   }
 }
+
+/////////////////////////////////////////////////////////////////
+//OBJETO SEMANA QUE SE ENCUENTRA DENTRO DE CONFIGURACION TURNOS//
+/////////////////////////////////////////////////////////////////
+
+
 class Semana {
   constructor(ivTurnos, inicio, fin) {
       this.lunes = []
@@ -138,6 +160,10 @@ class Semana {
     }
   }
 }
+/////////////////////////////////////////////////
+//OBJETO DIA QUE SE ENCUENTRA DENTRO DE SEMANA //
+/////////////////////////////////////////////////
+
 class Dia {
   constructor(ivTurnos, inicio, fin) {
       this.ivTurnos = ivTurnos
@@ -170,12 +196,19 @@ class Dia {
     }
   }
 }
+/////////////////////////////////////////////////////////////////
+//OBJETO QUE SE USA PARA PASAR LOS DATOS DEL LISTADO DE TURNOS //
+/////////////////////////////////////////////////////////////////
 class ListadoDeTurnos {constructor(hora,minutos,dni){
   this.hora=hora
   this.minutos=minutos
   this.dni=dni
 
 }}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO ANO QUE SE UBICA DENTRO DEL OBJETO TURNOS REPRESENTA A TODOS LOS TURNOS DE ESE AÑO//
+/////////////////////////////////////////////////////////////////////////////////////////////
 class Ano {
   constructor() {
 
@@ -210,6 +243,9 @@ class Ano {
     }
   }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO MES QUE SE UBICA DENTRO DEL OBJETO ANO REPRESENTA A TODOS LOS TURNOS DE ESE MES//
+/////////////////////////////////////////////////////////////////////////////////////////////
 class Mes {
   constructor() {
 
@@ -247,6 +283,9 @@ class Mes {
     }
   }
 }
+//////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO DIA QUE SE UBICA DENTRO DEL OBJETO MES REPRESENTA A TODOS LOS TURNOS DE ESE DIA//
+//////////////////////////////////////////////////////////////////////////////////////////
 class DiaTurno {
   constructor(dia,valor) {
     this[dia]=valor
@@ -281,6 +320,9 @@ class DiaTurno {
     }
   }
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO HORATURNO QUE SE UBICA DENTRO DEL OBJETO DIA REPRESENTA A TODOS LOS TURNOS DE ESA HORA//
+/////////////////////////////////////////////////////////////////////////////////////////////////
 class HoraTurno {
   constructor() {
 
@@ -315,6 +357,9 @@ class HoraTurno {
     }
   }
 }
+///////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO MINUTOS QUE SE UBICA DENTRO DEL HORAS TURNOS REPRESENTA AL TURNO DE ESE HORARIO //
+///////////////////////////////////////////////////////////////////////////////////////////
 class Minutos {
   constructor() {}
   addProperty = (propiedad, valor) => {
@@ -351,6 +396,12 @@ class generadorHoras {
     this[hora] = "libre";
   }
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+//OBJETO PROFESIONAL CONTIENE TODOS LOS DATOS DEL PROFESIONAL, LA CONFIGURACION DE LA TURNERA Y //
+//LOS TURNOS GENERADOS
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Profesional {
   constructor(
     ivTurnos = 0,
@@ -372,6 +423,7 @@ class Profesional {
     this.telefono = telefono;
     this.matricula = matricula;
   }
+  //FUNCION QUE GUARDA EN LOCALSTORAGE AL ARRAYDEOBJETOS PROFESIONALOBJ
   guardarLocal() {
       localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
     }
@@ -400,6 +452,10 @@ class Profesional {
         if (clave!== "undefined") callback(clave, this[clave])
     }
   }
+  ///////////////////////////////////////////////////////////////////////////////
+  //METODO QUE GENERA EL ARBOL DE TURNOS DENTRO DE CONFIGURACIONTURNOS.TURNOS //
+  //FALTA OPTIMIZAR USANDO LOS ITERADORES
+  ///////////////////////////////////////////////////////////////////////////////
   generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
@@ -483,24 +539,17 @@ const ObjetoDiaSemana = {
   5: "viernes",
   6: "sabado"
 };
-// const pacientesLocal = JSON.parse(localStorage.getItem("pacientes"));
-// const profesionalesLocal = JSON.parse(localStorage.getItem("profesionales"));
-// if (profesionalesLocal != null) profesionalObj = profesionalesLocal;
-// if (pacientesLocal != null) pacienteObj = pacientesLocal;
-
-console.log(profesionalObj);
-
 let opcion = 1;
 let indice;
 
 /////////////////////////////////////////////////
 // funciones                                   //
 /////////////////////////////////////////////////
-//////////////////////////////////////////////////
-// evalua que los intervalos no se supoerpongan //
-//////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCION QUE RECIBE UNA CADENA CON EL DIA DE LA SEMANA Y DEVUELVE UN ARRAY DE OBJETOS DATE DE LOS DIAS DEL MES QUE CUMPEN CON EL STRING//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const diasDelMes = (diaLetras) => {
-  console.log(diaLetras)
+
   let ano = new Date().getFullYear();
   let mes = new Date().getMonth();
   let dia = new Date().getDate();
@@ -519,6 +568,9 @@ const diasDelMes = (diaLetras) => {
   }
   return resultado;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCION QUE HACE UN GET A UN JSON Y OBTIENE LOS DATOS DE LOS PROFESIONALES Y LOS PACIENTES //
+//LUEGO ARMA LOS OBJETOS SEGUN SU ESTRUCTURA ORIGNIAL 
 const request = async () => {
   const resultadoProfesionales = await axios("../datos.json");
   console.log(resultadoProfesionales.data);
@@ -533,28 +585,37 @@ const request = async () => {
     profesionalObj[i].telefono = e.telefono;
     profesionalObj[i].configuracionTurnos = new ConfiguracionTurnos();
     profesionalObj[i].configuracionTurnos.dias = new Semana()
+    //ESTE FOR ENTRA EN EL OBJETO PROFESIONAL.CONFIGURACIONTURNOS.DIAS E ITERA EN LOS DIAS DE LA SEMANA
+    // ITEM REPRESENTA A LA CLAVE DEL DIA DE LA SEMANA, LOS CONDICIONALES EVITAN LOS METODOS DEFINIDAS POR MI EN EL OBJETO
     for (item in profesionalObj[i].configuracionTurnos.dias) {
       if (item !== "porCada") {
         if (item !== "porClave") {
           if (item !== "addProperty") {
             e.configuracionTurnos.dias[item].forEach(horario => {
+              //ACA HACE UN PUSH DE LOS DATOS EN EL OBJETO DIA 
               profesionalObj[i].configuracionTurnos.dias[item].push(new Dia(horario.ivTurnos, horario.inicio, horario.fin))
             })
           }
         }
       }
     }
+    //ESTA PARTE DE LA FUNCION RECONSTRUYE EL ARBOL DE TURNOS
     const respuestaObjeto =e.configuracionTurnos.turnos
     const profesionalObjeto =profesionalObj[i].configuracionTurnos.turnos
+    //SE ITERA SOBRE LAS CLAVES DE LA RESPUESTA DEL OBJETO TURNOS SE VUELVE A ITERAR SOBRE CADA OBJETO AÑO LUEGO EN CADA OBJETO MES
+    //CREA EL OBEJTO ANO LUEGI CREA EL OBJETO MES Y LUEGO EL OBJETO DIA EN EL OBJETO PROFESIONALOBJ
+
     Object.keys(respuestaObjeto).forEach(ano =>{
       profesionalObj[i].configuracionTurnos.turnos[ano]= new Ano()
       Object.keys(respuestaObjeto[ano]).forEach(mes=>{
         profesionalObj[i].configuracionTurnos.turnos[ano][mes]= new Mes()
+        // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
         Object.keys(respuestaObjeto[ano][mes]).forEach(dia =>{
         profesionalObjeto[ano][mes][dia] = new DiaTurno();
         Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora=>{
           profesionalObjeto[ano][mes][dia][hora]=new HoraTurno()
           Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos=>{
+            //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
             profesionalObjeto[ano][mes][dia][hora][minutos] =respuestaObjeto[ano][mes][dia][hora][minutos]
 
           })
@@ -564,7 +625,7 @@ const request = async () => {
       })
     })
   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
-
+//AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
   const resultadoPacientes = await axios("../paciente.json");
   console.log(resultadoPacientes);
   respuestaPacientes = await resultadoPacientes;
@@ -583,6 +644,10 @@ const request = async () => {
   });
 };
 
+//////////////////////////////////////////////////
+// FUNCION LLAMADA DESDE PROFESIONALES.HTML     //
+// evalua que los intervalos no se supoerpongan //
+//////////////////////////////////////////////////
 
 
 const intervalos = ({
@@ -606,7 +671,9 @@ const intervalos = ({
     condicion = true;
   return condicion;
 };
-
+/////////////////////////////////////////////////////////////////////////////
+//FUNCION QUE GENERA UN OBJETO TRANSITORIO TOMANDO LOS DATOS DE LOS INPUTS //
+/////////////////////////////////////////////////////////////////////////////
 const generarPaciente = () => {
   const pacienteTransitorio = new Paciente();
   pacienteTransitorio.apellido = apellidoInput.value;
@@ -619,6 +686,9 @@ const generarPaciente = () => {
   pacienteTransitorio.direccion.cPostal = cpaInput.value;
   return pacienteTransitorio;
 };
+////////////////////////////////////////////////////////
+//FUNCION QUE VACIA LOS INPUTS DE LA PAGINA INDEX.HTML//
+////////////////////////////////////////////////////////
 const limpiarPaciente = () => {
   // generar un cleaner para todas las ventanas con un foreach
   const limpiar = document.querySelectorAll("input");
@@ -632,21 +702,30 @@ const limpiarPaciente = () => {
 //         VALIDACIONES              //
 ///////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+//FUNCION QUE VALIDA EL DNI SE LE PASA UN VALOR Y UN ARRAY DE OBJETOS PARA QUE ANALICE              //
+//PUEDE DEVOLVER FALSE CUANDO EL DATO INGRESADO NO ES COMPATIBLE CON UN DNI, -1 SI ES UN DNI VALIDO //
+//Y NO EXISTE EN LA BASE DE DATOS Y DEVUELVE OTRO NUMERO SI ES VALIDO Y SE ENCUENTRA EN LA BD       //
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 const validarDniOc = (valor, arrayObjeto) => {
   let resultado;
   if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
+    //SI NO ES UN DATO VALIDO DESACTIVA EL BOTON ENVIAR Y MUESTRA EL ERROR
     documentoInput.classList.toggle("error");
     document.getElementById("enviarPaciente").disabled = true;
     return false;
   } else {
+    // SI EL DATO ES VALIDO DESACTIVA CUALQUIER MENSAJE DE ERROR PREVIO Y ACTIVA EL BOTON ENVIAR 
     documentoInput.classList.remove("error");
     document.getElementById("enviarPaciente").disabled = false;
+    // BUSCA SI EL DNI ESTA REPETIDO 
     resultado = arrayObjeto.findIndex((objeto) => {
       if (parseInt(objeto.dni) === parseInt(valor)) return valor;
     });
     return resultado;
   }
 };
+// VALIDACIONES GENERALES DE APELLIDO, NOMBRE Y TELEFONO COMO DATOS REQUERIDOS 
 const validarApellidoOc = (e) => {
   if (e.length < 3) {
     apellidoInput.classList.add("error");
