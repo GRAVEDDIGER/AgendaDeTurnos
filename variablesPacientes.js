@@ -27,10 +27,15 @@ telefonoInput.addEventListener("change", (e) =>
 documentoInput.addEventListener("change", (e) =>
   {
     const condicion =validarDniOc(parseInt(e.target.value), pacienteObj)
-    if (condicion === -1) {
+    if (condicion !== -1) {
         apellidoInput.value = pacienteObj[condicion].apellido
         nombreInput.value = pacienteObj[condicion].nombre
-        Input.value = pacienteObj[condicion].nombre
+        telefonoInput.value = pacienteObj[condicion].telefono
+        calleInput.value = pacienteObj[condicion].direccion.calle
+        alturaInput.value = pacienteObj[condicion].direccion.numero
+        localidadInput.value = pacienteObj[condicion].direccion.localidad
+        cpaInput.value= pacienteObj[condicion].direccion.cPostal
+
 
     }
 }
