@@ -90,22 +90,26 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
       const indiceProfesionales = mapProfesionales[document.getElementById("dataListProfesionales").value]; //OBTIENE EL INDICE DEL PROFESIONAL SELECCIONADO
       const turnos = profesionalObj[indiceProfesionales].configuracionTurnos.turnos //REPRESENTA AL OBJETO TURNOS DENTRO DEL PROFESIONAL SELECCIONADO
       const objetoDia = turnos["a" + ano]["m" + mes]["d" + diaTurno]; //REPRESENTA AL DIA DEL OBJETO TURNOS DEL PROFESIONAL SELECCIONADO 
-      objetoDia.porClave((horaClave,horaObjeto)=>{ 
-        horaObjeto.porClave((minutosClave,minutosObjeto)=>{
+      objetoDia.porClave((horaClave,horaObjeto)=>{ //UTILIZA LA FUNCION ITERADORA ITERANDO ENTRE LAS HORAS DEL OBJETO
+        horaObjeto.porClave((minutosClave,minutosObjeto)=>{//AQUI ITERA ENTRE LOS MINUTOS DEL OBJETO 
           if (minutosObjeto=== 'libre'){
             let horaLimpia, minutosLimpios;
+            //EL OPERADOR TERNARIO GENERA 2 STRINGS HORALIMPIO Y MINUTOSLIMPIO CON LA NOTACION XX:XX
             ((horaClave.substring(1, horaClave.length)).length < 2) ? horaLimpia = "0" + horaClave.substring(1, horaClave.length): horaLimpia = horaClave.substring(1, horaClave.length);
             ((minutosClave.substring(1, minutosClave.length)).length < 2) ? minutosLimpios = "0" + minutosClave.substring(1, minutosClave.length): minutosLimpios = minutosClave.substring(1, minutosClave.length);
             const etiqueta = document.createElement("li")
             const contenido = horaLimpia + ":" + minutosLimpios;
             const nuevoElemento = etiqueta.textContent = contenido
             fragmento.appendChild(etiqueta);
+            //SE AGREGA EL HORARIO AL FRAGMENTO
           }
         })
       })
 
       document.getElementById("ulHorarios").appendChild(fragmento)
+      //SE AGREGA EL FRAGMENTO AL DIV DE LOS HORARIOS 
       const nodoHtml = document.querySelectorAll(".horarios li")
+      //AL HACER CLICK SOBRE UN ITEM DEL UL DE HORARIOS LE PONE LA CLASE AZUL Y SE LA SACA A TODOS LOS OTROS QUE YA LA TENGAN 
       nodoHtml.forEach(nodo => {
         nodo.addEventListener("click", (e) => {
           document.getElementById("divHorarios").value = e.target.textContent
@@ -123,6 +127,7 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
 })
 const pacienteIngreso = document.getElementById("dataListPacientes")
 const profesionalInput = document.getElementById("dataListProfesionales")
+//FUNCION QUE BORRA EL CALENDARIO Y L DEJA SIN DISABLES
 const borrarCalendario = () => {
   flatpickr(document.getElementById("calendario"), {
     inline: true
@@ -131,12 +136,14 @@ const borrarCalendario = () => {
     inline: true
   })
 }
+//FUNCION QUE BORRA LOS ITEMS DE ULHORARIOS 
 const borrarHorarios = () => {
   const ulHorarios = document.querySelectorAll(".horarios li")
   ulHorarios.forEach(nodoHTML => {
     nodoHTML.remove()
   })
 }
+//EVENTLISTENER QUE HAL HACER CLICK EN GUARDAR GENERA EL ARBOL DE TURNO DEL TURNO ASIGNADO 
 const guardarTurno = document.getElementById("guardarTurno")
 guardarTurno.addEventListener("click", () => {
   const profesional = profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].configuracionTurnos.turnos
@@ -156,5 +163,6 @@ guardarTurno.addEventListener("click", () => {
   borrarCalendario()
   profesionalInput.value = ""
   pacienteIngreso.value = ""
-  console.log(profesional);
+  //ASI QUEDA EL OBJETO PROFESIONALOBJ ACTUALIZADO SOLO QUEDA ENVIARLO AL BACKEND 
+  //EN EL SIMULADOR AL NO HABER BACKEND EL TURNO NO QUEDA GUARDADO EN NINGUN LADO.
 })
