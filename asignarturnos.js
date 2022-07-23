@@ -82,13 +82,12 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
       const indiceProfesionales = mapProfesionales[document.getElementById("dataListProfesionales").value];
       const turnos = profesionalObj[indiceProfesionales].configuracionTurnos.turnos
       const objetoDia = turnos["a" + ano]["m" + mes]["d" + diaTurno];
-      Object.keys(objetoDia).forEach(hora => {
-        Object.keys(objetoDia[hora]).forEach(minutos => {
-          if (objetoDia[hora][minutos] === "libre") {
+      objetoDia.porClave((horaClave,horaObjeto)=>{
+        horaObjeto.porClave((minutosClave,minutosObjeto)=>{
+          if (minutosObjeto=== 'libre'){
             let horaLimpia, minutosLimpios;
-            ((hora.substring(1, hora.length)).length < 2) ? horaLimpia = "0" + hora.substring(1, hora.length): horaLimpia = hora.substring(1, hora.length);
-            ((minutos.substring(1, minutos.length)).length < 2) ? minutosLimpios = "0" + minutos.substring(1, minutos.length): minutosLimpios = minutos.substring(1, minutos.length);
-
+            ((horaClave.substring(1, horaClave.length)).length < 2) ? horaLimpia = "0" + horaClave.substring(1, horaClave.length): horaLimpia = horaClave.substring(1, horaClave.length);
+            ((minutosClave.substring(1, minutosClave.length)).length < 2) ? minutosLimpios = "0" + minutosClave.substring(1, minutosClave.length): minutosLimpios = minutosClave.substring(1, minutosClave.length);
             const etiqueta = document.createElement("li")
             const contenido = horaLimpia + ":" + minutosLimpios;
             const nuevoElemento = etiqueta.textContent = contenido
@@ -96,6 +95,7 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
           }
         })
       })
+
       document.getElementById("ulHorarios").appendChild(fragmento)
       const nodoHtml = document.querySelectorAll(".horarios li")
       nodoHtml.forEach(nodo => {

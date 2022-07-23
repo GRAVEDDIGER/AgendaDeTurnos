@@ -5,6 +5,7 @@
 /////////////////////////////////////////
 //FUNCION QUE CAPTURA DIA DE LA SEMANA //
 /////////////////////////////////////////
+
 const elModal = new bootstrap.Modal(document.getElementById("modal1"));
 
 document.addEventListener("DOMContentLoaded", request());

@@ -62,7 +62,8 @@ class ConfiguracionTurnos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -92,7 +93,8 @@ class Turnos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -131,7 +133,8 @@ class Semana {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -162,10 +165,17 @@ class Dia {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
+class ListadoDeTurnos {constructor(hora,minutos,dni){
+  this.hora=hora
+  this.minutos=minutos
+  this.dni=dni
+
+}}
 class Ano {
   constructor() {
 
@@ -195,7 +205,8 @@ class Ano {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -207,6 +218,9 @@ class Mes {
   addProperty = (propiedad, valor) => {
       this[propiedad] = valor
     }
+    // addObject = (objeto) => {
+    //   this=objeto    
+    // }
     [Symbol.iterator] = function* () {
       const claves = Object.keys(this);
       let valores = []
@@ -228,13 +242,14 @@ class Mes {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
 class DiaTurno {
-  constructor() {
-
+  constructor(dia,valor) {
+    this[dia]=valor
 
     }
     [Symbol.iterator] = function* () {
@@ -261,7 +276,8 @@ class DiaTurno {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -294,7 +310,8 @@ class HoraTurno {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -324,7 +341,8 @@ class Minutos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -378,7 +396,8 @@ class Profesional {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') callback(clave, this[clave])
+      if (typeof valor !== 'function') 
+        if (clave!== "undefined") callback(clave, this[clave])
     }
   }
   generarTurnos() {
@@ -410,27 +429,12 @@ class Profesional {
           for (
             let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
           ) {
-            // hora.toString().length < 2 ?
-            //   (horaString = "0" + hora.toString()) :
-            //   (horaString = hora.toString());
-            // min.toString().length < 2 ?
-            //   (minString = "0" + min.toString()) :
-            //   (minString = min.toString());
+            
             let horaString = "h" + hora.toString()
             let minutosString = "m" + min.toString()
             if (objetoSalida[horaString] === undefined) objetoSalida.addProperty(horaString, new Minutos())
             if (objetoSalida[horaString][minutosString] === undefined) objetoSalida[horaString].addProperty(minutosString, "libre")
-
-            // if (objetoSalida[horaString] === undefined) {
-            //   objetoSalida = new HoraTurno(hora);
-            // }
-            // // objetoSalida["h" + hora] = objetoSalida["h" + hora] || new HoraTurno(hora);
-            // if (objetoSalida[horaString][minutosString] === undefined) {
-            //   objetoSalida[horaString] = new Minutos(min);
-            // }
-            // // objetoSalida["h" + hora]["m" + min] = objetoSalida["h" + hora]["m" + min] || new Minutos(min)
-            // let clave = `"'${horaString}:${minString}'": "libre",`; //  '"' + horaString + ":" + minString + '"'+':"libre",';
-            // horarioProfesional += clave;
+          
             min += intervaloTurnos;
 
             if (min >= 60) {
@@ -439,11 +443,7 @@ class Profesional {
             }
             console.log("String", horarioProfesional);
           }
-          // horarioProfesional =
-          //   "{" +
-          //   horarioProfesional.substring(0, horarioProfesional.length - 1) +
-          //   "}";
-          // console.log(horarioProfesional);
+         
           const diasActivosProfesional = diasDelMes(dia)
           diasActivosProfesional.forEach(dia => {
             const diaDelMes = "d" + new Date(dia).getDate().toString();
@@ -451,15 +451,12 @@ class Profesional {
             const ano = "a" + new Date(dia).getFullYear().toString();
             if (this.configuracionTurnos.turnos[ano] === undefined)
               this.configuracionTurnos.turnos.addProperty(ano, new Ano());
-            // this.configuracionTurnos.turnos[ano] = this.configuracionTurnos.turnos[ano] || new Ano(ano)
             if (this.configuracionTurnos.turnos[ano][mes] === undefined)
               this.configuracionTurnos.turnos[ano].addProperty(mes, new Mes());
-            // this.configuracionTurnos.turnos[ano][mes] = this.configuracionTurnos.turnos[ano][mes] || new Mes(mes)
             if (this.configuracionTurnos.turnos[ano][mes][diaDelMes] === undefined) {
               this.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, new DiaTurno());
               this.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
             }
-            // this.configuracionTurnos.turnos[ano][mes][diaDelMes] = this.configuracionTurnos.turnos[ano][mes][diaDelMes] || new DiaTurno(diaDelMes, objetoSalida)
 
           })
         }
@@ -547,6 +544,25 @@ const request = async () => {
         }
       }
     }
+    const respuestaObjeto =e.configuracionTurnos.turnos
+    const profesionalObjeto =profesionalObj[i].configuracionTurnos.turnos
+    Object.keys(respuestaObjeto).forEach(ano =>{
+      profesionalObj[i].configuracionTurnos.turnos[ano]= new Ano()
+      Object.keys(respuestaObjeto[ano]).forEach(mes=>{
+        profesionalObj[i].configuracionTurnos.turnos[ano][mes]= new Mes()
+        Object.keys(respuestaObjeto[ano][mes]).forEach(dia =>{
+        profesionalObjeto[ano][mes][dia] = new DiaTurno();
+        Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora=>{
+          profesionalObjeto[ano][mes][dia][hora]=new HoraTurno()
+          Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos=>{
+            profesionalObjeto[ano][mes][dia][hora][minutos] =respuestaObjeto[ano][mes][dia][hora][minutos]
+
+          })
+        })
+        })
+        
+      })
+    })
   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
 
   const resultadoPacientes = await axios("../paciente.json");
@@ -617,7 +633,6 @@ const limpiarPaciente = () => {
 ///////////////////////////////////////
 
 const validarDniOc = (valor, arrayObjeto) => {
-  request();
   let resultado;
   if (isNaN(parseInt(valor)) || parseInt(valor) < 100000) {
     documentoInput.classList.toggle("error");
