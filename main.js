@@ -28,7 +28,7 @@ class Paciente {
       cPostal: cpa,
       localidad: localidad,
     }),
-    (this.dni = dni);
+      (this.dni = dni);
   }
   guardarLocal() {
     localStorage.setItem("pacientes", JSON.stringify(this));
@@ -39,23 +39,23 @@ class Paciente {
 ///////////////////////////////////////////////////////////////////////////////
 class ConfiguracionTurnos {
   constructor(ivTurnos, inicio, fin, turnos) {
-      this.turnos = new Turnos()
-      this.dias = new Semana(ivTurnos, inicio, fin)
-    }
-/////////////////////////////////////////
-//FUNCION GENERADORA EN SYMBOL.ITERATOR//
-/////////////////////////////////////////
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this.turnos = new Turnos()
+    this.dias = new Semana(ivTurnos, inicio, fin)
+  }
+  /////////////////////////////////////////
+  //FUNCION GENERADORA EN SYMBOL.ITERATOR//
+  /////////////////////////////////////////
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -75,8 +75,8 @@ class ConfiguracionTurnos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -84,18 +84,18 @@ class ConfiguracionTurnos {
 //OBJETO TURNOS QUE SE ENCUENTRA DENTRO DE CONFIGURACION TURNOS//
 /////////////////////////////////////////////////////////////////
 class Turnos {
-  constructor() {}
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+  constructor() { }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -109,8 +109,8 @@ class Turnos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -122,26 +122,26 @@ class Turnos {
 
 class Semana {
   constructor(ivTurnos, inicio, fin) {
-      this.lunes = []
-      this.martes = []
-      this.miercoles = []
-      this.jueves = []
-      this.viernes = []
-      this.sabado = []
-      this.domingo = []
+    this.lunes = []
+    this.martes = []
+    this.miercoles = []
+    this.jueves = []
+    this.viernes = []
+    this.sabado = []
+    this.domingo = []
 
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -155,8 +155,8 @@ class Semana {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -166,21 +166,21 @@ class Semana {
 
 class Dia {
   constructor(ivTurnos, inicio, fin) {
-      this.ivTurnos = ivTurnos
-      this.inicio = inicio
-      this.fin = fin
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this.ivTurnos = ivTurnos
+    this.inicio = inicio
+    this.fin = fin
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -191,20 +191,22 @@ class Dia {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
 /////////////////////////////////////////////////////////////////
 //OBJETO QUE SE USA PARA PASAR LOS DATOS DEL LISTADO DE TURNOS //
 /////////////////////////////////////////////////////////////////
-class ListadoDeTurnos {constructor(hora,minutos,dni){
-  this.hora=hora
-  this.minutos=minutos
-  this.dni=dni
+class ListadoDeTurnos {
+  constructor(hora, minutos, dni) {
+    this.hora = hora
+    this.minutos = minutos
+    this.dni = dni
 
-}}
+  }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //OBJETO ANO QUE SE UBICA DENTRO DEL OBJETO TURNOS REPRESENTA A TODOS LOS TURNOS DE ESE AÑO//
@@ -215,19 +217,19 @@ class Ano {
 
   }
   addProperty = (propiedad, valor) => {
-      this[propiedad] = valor
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this[propiedad] = valor
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -238,8 +240,8 @@ class Ano {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -252,22 +254,22 @@ class Mes {
 
   }
   addProperty = (propiedad, valor) => {
-      this[propiedad] = valor
-    }
-    // addObject = (objeto) => {
-    //   this=objeto    
-    // }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this[propiedad] = valor
+  }
+  // addObject = (objeto) => {
+  //   this=objeto    
+  // }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -278,8 +280,8 @@ class Mes {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -287,21 +289,21 @@ class Mes {
 //OBJETO DIA QUE SE UBICA DENTRO DEL OBJETO MES REPRESENTA A TODOS LOS TURNOS DE ESE DIA//
 //////////////////////////////////////////////////////////////////////////////////////////
 class DiaTurno {
-  constructor(dia,valor) {
-    this[dia]=valor
+  constructor(dia, valor) {
+    this[dia] = valor
 
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -315,7 +317,7 @@ class DiaTurno {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
+      if (typeof valor !== 'function')
         if (clave !== "undefined") callback(clave, this[clave])
     }
   }
@@ -329,19 +331,19 @@ class HoraTurno {
 
   }
   addProperty = (propiedad, valor) => {
-      this[propiedad] = valor
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this[propiedad] = valor
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -352,8 +354,8 @@ class HoraTurno {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -361,21 +363,21 @@ class HoraTurno {
 //OBJETO MINUTOS QUE SE UBICA DENTRO DEL HORAS TURNOS REPRESENTA AL TURNO DE ESE HORARIO //
 ///////////////////////////////////////////////////////////////////////////////////////////
 class Minutos {
-  constructor() {}
+  constructor() { }
   addProperty = (propiedad, valor) => {
-      this[propiedad] = valor
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    this[propiedad] = valor
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -386,8 +388,8 @@ class Minutos {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
 }
@@ -425,19 +427,19 @@ class Profesional {
   }
   //FUNCION QUE GUARDA EN LOCALSTORAGE AL ARRAYDEOBJETOS PROFESIONALOBJ
   guardarLocal() {
-      localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
-    }
-    [Symbol.iterator] = function* () {
-      const claves = Object.keys(this);
-      let valores = []
-      claves.forEach(e => {
-        valores.push(this[e])
-      })
+    localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
+  }
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
 
-      for (let i = 1; i < valores.length; i++) {
-        yield valores[i];
-      }
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
     }
+  }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -448,76 +450,44 @@ class Profesional {
     let clave;
     for (clave in this) {
       const valor = this[clave]
-      if (typeof valor !== 'function') 
-        if (clave!== "undefined") callback(clave, this[clave])
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
     }
   }
   ///////////////////////////////////////////////////////////////////////////////
   //METODO QUE GENERA EL ARBOL DE TURNOS DENTRO DE CONFIGURACIONTURNOS.TURNOS //
   //FALTA OPTIMIZAR USANDO LOS ITERADORES
   ///////////////////////////////////////////////////////////////////////////////
-  generarTurnos() {
+  generarTurnos=()=> {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
-    Object.keys(objetoAIterar).forEach((dia) => {
-      // if (objetoAIterar[dia][0].horas !== []) objetoAIterar[dia][0].horas = [];
+    objetoAIterar.porClave((diaClave, diaObjeto) => {
       let horaInicial, minutosIniciales, horaFinal, minutosFinales;
-      let horaString,
-        minString = "";
-
-      Object.keys(objetoAIterar[dia]).forEach((horario) => {
-        if (objetoAIterar[dia][horario].ivTurnos !== 0) {
-          console.log(objetoAIterar[dia][horario].inicio.split(":"));
+      if (diaObjeto.length>0){ 
+      diaObjeto.forEach((horario) => {
+        if (horario.ivTurnos !== 0) {
           [horaInicial, minutosIniciales] =
-          objetoAIterar[dia][horario].inicio.split(":");
+            horario.inicio.split(":");
           [horaFinal, minutosFinales] =
-          objetoAIterar[dia][horario].fin.split(":");
+            horario.fin.split(":");
           let diferenciaEnMinutos =
             (new Date().setHours(horaFinal, minutosFinales) -
               new Date().setHours(horaInicial, minutosIniciales)) /
             60000;
           let min = parseInt(minutosIniciales);
           let hora = parseInt(horaInicial);
-          let intervaloTurnos = parseInt(objetoAIterar[dia][horario].ivTurnos);
+          let intervaloTurnos = parseInt(horario.ivTurnos);
           let horarioProfesional = "";
-          let objetoSalida = new HoraTurno
-
-          for (
-            let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
-          ) {
-            
-            let horaString = "h" + hora.toString()
-            let minutosString = "m" + min.toString()
-            if (objetoSalida[horaString] === undefined) objetoSalida.addProperty(horaString, new Minutos())
-            if (objetoSalida[horaString][minutosString] === undefined) objetoSalida[horaString].addProperty(minutosString, "libre")
-          
-            min += intervaloTurnos;
-
-            if (min >= 60) {
-              min -= 60;
-              hora++;
-            }
-            console.log("String", horarioProfesional);
-          }
-         
-          const diasActivosProfesional = diasDelMes(dia)
+          let objetoSalida = new HoraTurno();
+          objetoSalida = gererarObjetoDeSalida(diferenciaEnMinutos, intervaloTurnos, hora, min);
+          const diasActivosProfesional = diasDelMes(diaClave)
           diasActivosProfesional.forEach(dia => {
-            const diaDelMes = "d" + new Date(dia).getDate().toString();
-            const mes = "m" + new Date(dia).getMonth().toString();
-            const ano = "a" + new Date(dia).getFullYear().toString();
-            if (this.configuracionTurnos.turnos[ano] === undefined)
-              this.configuracionTurnos.turnos.addProperty(ano, new Ano());
-            if (this.configuracionTurnos.turnos[ano][mes] === undefined)
-              this.configuracionTurnos.turnos[ano].addProperty(mes, new Mes());
-            if (this.configuracionTurnos.turnos[ano][mes][diaDelMes] === undefined) {
-              this.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, new DiaTurno());
-              this.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
-            }
-
+          completarArbolDeTurnos(dia, objetoSalida, this)
           })
+
         }
-      });
-    });
+      })}
+    })
   }
 }
 
@@ -545,6 +515,62 @@ let indice;
 /////////////////////////////////////////////////
 // funciones                                   //
 /////////////////////////////////////////////////
+const pacientesRequest = async ()=>{
+  const resultadoPacientes = await axios("../paciente.json");
+  console.log(resultadoPacientes);
+  respuestaPacientes = await resultadoPacientes;
+  respuestaPacientes.data.forEach((e, i, a) => {
+    console.log(e);
+    pacienteObj[i] = new Paciente(
+      e.apellido,
+      e.nombre,
+      e.direccion.calle,
+      e.direccion.numero,
+      e.direccion.cPostal,
+      e.telefono,
+      e.dni,
+      e.direccion.localidad
+    );
+  })
+}
+
+const gererarObjetoDeSalida = (diferenciaEnMinutos, intervaloTurnos, hora, min) => {
+  let objetoSalida = new HoraTurno();
+
+  //
+  for (
+    let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
+  ) {
+
+    let horaString = "h" + hora.toString()
+    let minutosString = "m" + min.toString()
+    if (objetoSalida[horaString] === undefined) objetoSalida.addProperty(horaString, new Minutos())
+    if (objetoSalida[horaString][minutosString] === undefined) objetoSalida[horaString].addProperty(minutosString, "libre")
+
+    min += intervaloTurnos;
+
+    if (min >= 60) {
+      min -= 60;
+      hora++;
+    }
+  }
+  return objetoSalida
+}
+//////////////////////////////////////
+const completarArbolDeTurnos = (dia, objetoSalida, objeto) => {
+  const diaDelMes = "d" + new Date(dia).getDate().toString();
+  const mes = "m" + new Date(dia).getMonth().toString();
+  const ano = "a" + new Date(dia).getFullYear().toString();
+  if (objeto.configuracionTurnos.turnos[ano] === undefined)
+    objeto.configuracionTurnos.turnos.addProperty(ano, new Ano());
+  if (objeto.configuracionTurnos.turnos[ano][mes] === undefined)
+    objeto.configuracionTurnos.turnos[ano].addProperty(mes, new Mes());
+  if (objeto.configuracionTurnos.turnos[ano][mes][diaDelMes] === undefined) {
+    objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, new DiaTurno());
+    objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
+  }
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FUNCION QUE RECIBE UNA CADENA CON EL DIA DE LA SEMANA Y DEVUELVE UN ARRAY DE OBJETOS DATE DE LOS DIAS DEL MES QUE CUMPEN CON EL STRING//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -600,49 +626,51 @@ const request = async () => {
       }
     }
     //ESTA PARTE DE LA FUNCION RECONSTRUYE EL ARBOL DE TURNOS
-    const respuestaObjeto =e.configuracionTurnos.turnos
-    const profesionalObjeto =profesionalObj[i].configuracionTurnos.turnos
+    const respuestaObjeto = e.configuracionTurnos.turnos
+    const profesionalObjeto = profesionalObj[i].configuracionTurnos.turnos
     //SE ITERA SOBRE LAS CLAVES DE LA RESPUESTA DEL OBJETO TURNOS SE VUELVE A ITERAR SOBRE CADA OBJETO AÑO LUEGO EN CADA OBJETO MES
     //CREA EL OBEJTO ANO LUEGI CREA EL OBJETO MES Y LUEGO EL OBJETO DIA EN EL OBJETO PROFESIONALOBJ
 
-    Object.keys(respuestaObjeto).forEach(ano =>{
-      profesionalObj[i].configuracionTurnos.turnos[ano]= new Ano()
-      Object.keys(respuestaObjeto[ano]).forEach(mes=>{
-        profesionalObj[i].configuracionTurnos.turnos[ano][mes]= new Mes()
+    Object.keys(respuestaObjeto).forEach(ano => {
+      profesionalObj[i].configuracionTurnos.turnos[ano] = new Ano()
+      Object.keys(respuestaObjeto[ano]).forEach(mes => {
+        profesionalObj[i].configuracionTurnos.turnos[ano][mes] = new Mes()
         // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
-        Object.keys(respuestaObjeto[ano][mes]).forEach(dia =>{
-        profesionalObjeto[ano][mes][dia] = new DiaTurno();
-        Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora=>{
-          profesionalObjeto[ano][mes][dia][hora]=new HoraTurno()
-          Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos=>{
-            //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
-            profesionalObjeto[ano][mes][dia][hora][minutos] =respuestaObjeto[ano][mes][dia][hora][minutos]
+        Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
+          profesionalObjeto[ano][mes][dia] = new DiaTurno();
+          Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
+            profesionalObjeto[ano][mes][dia][hora] = new HoraTurno()
+            Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
+              //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
+              profesionalObjeto[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos]
 
+            })
           })
         })
-        })
-        
+
       })
     })
   }) //profesionalObj[i].configuracionTurnos = e.configuracionTurnos;
-//AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
-  const resultadoPacientes = await axios("../paciente.json");
-  console.log(resultadoPacientes);
-  respuestaPacientes = await resultadoPacientes;
-  respuestaPacientes.data.forEach((e, i, a) => {
-    console.log(e);
-    pacienteObj[i] = new Paciente(
-      e.apellido,
-      e.nombre,
-      e.direccion.calle,
-      e.direccion.numero,
-      e.direccion.cPostal,
-      e.telefono,
-      e.dni,
-      e.direccion.localidad
-    );
-  });
+  //AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
+  pacientesRequest()
+  // const resultadoPacientes = await axios("../paciente.json");
+  // console.log(resultadoPacientes);
+  // respuestaPacientes = await resultadoPacientes;
+  // respuestaPacientes.data.forEach((e, i, a) => {
+  //   console.log(e);
+  //   pacienteObj[i] = new Paciente(
+  //     e.apellido,
+  //     e.nombre,
+  //     e.direccion.calle,
+  //     e.direccion.numero,
+  //     e.direccion.cPostal,
+  //     e.telefono,
+  //     e.dni,
+  //     e.direccion.localidad
+  //   );
+  // });
 };
+
 
 //////////////////////////////////////////////////
 // FUNCION LLAMADA DESDE PROFESIONALES.HTML     //
@@ -651,12 +679,12 @@ const request = async () => {
 
 
 const intervalos = ({
-    inicio: itemInicio,
-    fin: itemFin
-  }, {
-    inicio: repetidosInicio,
-    fin: repetidosFin
-  },
+  inicio: itemInicio,
+  fin: itemFin
+}, {
+  inicio: repetidosInicio,
+  fin: repetidosFin
+},
   condicion
 ) => {
   if (
@@ -671,6 +699,8 @@ const intervalos = ({
     condicion = true;
   return condicion;
 };
+
+
 /////////////////////////////////////////////////////////////////////////////
 //FUNCION QUE GENERA UN OBJETO TRANSITORIO TOMANDO LOS DATOS DE LOS INPUTS //
 /////////////////////////////////////////////////////////////////////////////
