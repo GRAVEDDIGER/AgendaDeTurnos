@@ -55,17 +55,15 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
   if (document.getElementById("dataListProfesionales").value !== "") {
     const fechasArray = []
     const objetoTurnos = profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].configuracionTurnos.turnos
-    const anosArray = Object.keys(objetoTurnos)
     // ITERA SOBRE LAS CLAVES DEL OBJETO TURNOS (LOS AÑOS)
-    anosArray.forEach(ano => {
-      const mesesArray = Object.keys(objetoTurnos[ano])
+    objetoTurnos.porClave((ano, anoObjeto) => {
       //ITERA SOBRE LOS MESES DE CADA AÑO 
-      mesesArray.forEach(mes => {
-        const diasArray = Object.keys(objetoTurnos[ano][mes])
+      objetoTurnos[ano].porClave((mes, mesObjeto) => {
         //ITERA SOBRE LOS DIAS DE CADA MES 
-        diasArray.forEach(dia => {
+        objetoTurnos[ano][mes].porClave((diaClave, dia) => {
           //AGREGA EL CADA DIA PRESENTE EN EL OBJETO PROFESIONAL AL ELEMENTO FECHASARRAY
-          fechasArray.push(new Date(ano.substring(1, ano.length), mes.substring(1, mes.length), dia.substring(1, dia.length)))
+
+          fechasArray.push(new Date(ano.substring(1, ano.length), mes.substring(1, mes.length), diaClave.substring(1, diaClave.length)))
         })
       })
     })
