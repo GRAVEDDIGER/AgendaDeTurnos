@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fragmentoPaciente = new DocumentFragment();
   pacienteObj.forEach((objeto, indice) => {
     const opcionPaciente = `${objeto.apellido} ${objeto.nombre} ${objeto.dni}`;
-    console.log("pacientes", opcionPaciente)
+//    //console.log("pacientes", opcionPaciente)
     const elemento = document.createElement("option");
     elemento.value = opcionPaciente;
     fragmentoPaciente.appendChild(elemento)
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 });
 
-// const profesionalIngreso = document.getElementById("dataListProfesionales").addEventListener("change", console.log("dadada"))
+// const profesionalIngreso = document.getElementById("dataListProfesionales").addEventListener("change", //console.log("dadada"))
 //CREA UN ELEMENTO INLINE CON EL CALENDARIO USANDO LA LIBRERIA FLATPICKR 
 const calendarioElemento = document.getElementById("calendario");
 flatpickr(calendarioElemento, opciones);

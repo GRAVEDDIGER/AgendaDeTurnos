@@ -518,10 +518,10 @@ let indice;
 /////////////////////////////////////////////////
 const pacientesRequest = async () => {
   const resultadoPacientes = await axios("../paciente.json");
-  console.log(resultadoPacientes);
+  //console.log(resultadoPacientes);
   respuestaPacientes = await resultadoPacientes;
   respuestaPacientes.data.forEach((e, i, a) => {
-    console.log(e);
+    //console.log(e);
     pacienteObj[i] = new Paciente(
       e.apellido,
       e.nombre,
@@ -620,7 +620,7 @@ const diasDelMes = (diaLetras) => {
 //LUEGO ARMA LOS OBJETOS SEGUN SU ESTRUCTURA ORIGNIAL 
 const request = async () => {
   const resultadoProfesionales = await axios("../datos.json");
-  console.log(resultadoProfesionales.data);
+  //console.log(resultadoProfesionales.data);
   respuestaProfesionales = await resultadoProfesionales;
   respuestaProfesionales.data.forEach((e, i, a) => {
     profesionalObj[i] = new Profesional();
@@ -707,7 +707,7 @@ const generarPaciente = () => {
 const limpiarPaciente = () => {
   // generar un cleaner para todas las ventanas con un foreach
   const limpiar = document.querySelectorAll("input");
-  console.log(limpiar);
+  //console.log(limpiar);
   limpiar.forEach((element) => {
     element.value = "";
   });

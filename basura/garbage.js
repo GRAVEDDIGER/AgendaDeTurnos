@@ -78,7 +78,7 @@
 //   //MUESTRA LOS TURNOS LIBRES Y PERMITE SELECCIONAR EL HORARIO. CARGA EL DNI DEL PACIENTE EN EL HORARIO
 //   // EL PARAMETRO OPCION ES EL DATO SELECCIONADO POR EL USUARIO DEL DIA DE SEMANA
 
-//   console.log(profesionalObj.configuracionTurnos.dias[opcion].length);
+//   //console.log(profesionalObj.configuracionTurnos.dias[opcion].length);
 //   const dia = profesionalObj.configuracionTurnos.dias[opcion];
 //   let libres = [];
 //   let numero = 1;
@@ -93,7 +93,7 @@
 //       }
 //     }
 
-//     console.log(libres); //NO ENTIENDO PORQUE ME PONEUN ESPACIO DESPUES DE LA COMA
+//     //console.log(libres); //NO ENTIENDO PORQUE ME PONEUN ESPACIO DESPUES DE LA COMA
 //   }
 //   let opcionWhile = 1;
 //   while (opcionWhile != 0) {
@@ -110,7 +110,7 @@
 //       profesionalObj.configuracionTurnos.dias[opcion][
 //         profesionalObj.configuracionTurnos.dias[opcion].length - 1
 //       ][`${turnoSel}`] = rta;
-//       console.log("Turno Asignado");
+//       //console.log("Turno Asignado");
 //       opcionWhile = 0;
 //     }
 //   }

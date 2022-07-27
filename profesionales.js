@@ -150,7 +150,7 @@ const eliminar = document
         e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
         e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
       );
-      console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
+      //console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
 
       for (item in arrayTabla1) {
         const objetoString1 = JSON.stringify(arrayTabla1[item]);

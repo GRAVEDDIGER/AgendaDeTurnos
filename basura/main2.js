@@ -103,7 +103,7 @@ const eliminar = document
         e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
         e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
       );
-      console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
+      //console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
 
       for (item in arrayTabla1) {
         const comparacion1 =JSON.stringify(arrayTabla1[item]);
@@ -133,7 +133,7 @@ const superposicion = () => {
     repetidos = arrayTabla1.filter(e => {
       if (e.dia == item.dia && JSON.stringify(e) !== JSON.stringify(item)) return true
     })
-    console.log(repetidos)
+    //console.log(repetidos)
     for (repetido of repetidos) {
       if ((parseInt(item.inicio) >= parseInt(repetido.inicio) && parseInt(item.inicio) <= parseInt(repetido.fin)) || (parseInt(item.fin) >= parseInt(repetido.inicio) && parseInt(item.fin) <= parseInt(repetido.fin))) {
         condicion = true
