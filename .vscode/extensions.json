@@ -2,6 +2,7 @@
     "recommendations": [
         "mgmcdermott.vscode-language-babel",
         "anbuselvanrocky.bootstrap5-vscode",
-        "kisstkondoros.vscode-codemetrics"
+        "kisstkondoros.vscode-codemetrics",
+        "2gua.rainbow-brackets"
     ]
 }
