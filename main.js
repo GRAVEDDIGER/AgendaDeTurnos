@@ -30,8 +30,36 @@ class Paciente {
     }),
       (this.dni = dni);
   }
+
+
   guardarLocal() {
-    localStorage.setItem("pacientes", JSON.stringify(this));
+    localStorage.setItem("pacientes", JSON.stringify(pacienteObj));
+  }
+  //FUNCIONES DE ITERACION
+  [Symbol.iterator] = function* () {
+    const claves = Object.keys(this);
+    let valores = []
+    claves.forEach(e => {
+      valores.push(this[e])
+    })
+
+    for (let i = 1; i < valores.length; i++) {
+      yield valores[i];
+    }
+  }
+  porCada = (callback) => {
+    let item;
+    for (item of this) {
+      if (typeof item !== 'function') callback(item)
+    }
+  }
+  porClave = (callback) => {
+    let clave;
+    for (clave in this) {
+      const valor = this[clave]
+      if (typeof valor !== 'function')
+        if (clave !== "undefined") callback(clave, this[clave])
+    }
   }
 }
 ///////////////////////////////////////////////////////////////////////////////
@@ -454,6 +482,7 @@ class Profesional {
         if (clave !== "undefined") callback(clave, this[clave])
     }
   }
+
   ///////////////////////////////////////////////////////////////////////////////
   //METODO QUE GENERA EL ARBOL DE TURNOS DENTRO DE CONFIGURACIONTURNOS.TURNOS //
   //FALTA OPTIMIZAR USANDO LOS ITERADORES
@@ -499,6 +528,8 @@ let arrayTabla1 = []; //ARRAY QUE REPRESENTA TODOS LOS VALORES DE LA TABLA GUARD
 let diaSemana = "lunes"; //VARIABLE QUE ALMACENA EL DIA DE LA SEMANA SELECCIONADO EN EL TAB BAR
 let profesionalObj = [];
 let pacienteObj = [];
+let mapPacientes = {};
+
 const diaTab = document.querySelectorAll("ul .nav-item button");
 let contador = 0;
 const ObjetoDiaSemana = {
@@ -517,11 +548,16 @@ let indice;
 // funciones                                   //
 /////////////////////////////////////////////////
 const pacientesRequest = async () => {
-  const resultadoPacientes = await axios("../paciente.json");
-  //console.log(resultadoPacientes);
-  respuestaPacientes = await resultadoPacientes;
+  let respuestaPacientes ={data:[]};
+  if (localStorage.getItem("pacientes")) { 
+    respuestaPacientes.data = JSON.parse(localStorage.getItem("pacientes"))
+  } 
+  else { 
+  //resultadoPacientes = await axios("../paciente.json");
+  respuestaPacientes = await axios("../paciente.json");
+  //respuestaPacientes = await resultadoPacientes;
+  }
   respuestaPacientes.data.forEach((e, i, a) => {
-    //console.log(e);
     pacienteObj[i] = new Paciente(
       e.apellido,
       e.nombre,
@@ -619,9 +655,17 @@ const diasDelMes = (diaLetras) => {
 //FUNCION QUE HACE UN GET A UN JSON Y OBTIENE LOS DATOS DE LOS PROFESIONALES Y LOS PACIENTES //
 //LUEGO ARMA LOS OBJETOS SEGUN SU ESTRUCTURA ORIGNIAL 
 const request = async () => {
-  const resultadoProfesionales = await axios("../datos.json");
+  let respuestaProfesionales={data:[]};
+  if (localStorage.getItem("profesionales")) {
+      respuestaProfesionales.data = JSON.parse(localStorage.getItem("profesionales"));
+     }
+  else
+  {
+   resultadoProfesionales = await axios("../datos.json");
   //console.log(resultadoProfesionales.data);
+  
   respuestaProfesionales = await resultadoProfesionales;
+  }
   respuestaProfesionales.data.forEach((e, i, a) => {
     profesionalObj[i] = new Profesional();
     profesionalObj[i].nombre = e.nombre

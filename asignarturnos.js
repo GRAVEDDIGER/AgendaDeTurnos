@@ -4,7 +4,6 @@
 let respuestaProfesionales;
 let respuestaPacientes;
 let mapProfesionales = {};
-let mapPacientes = {};
 let flatCalendario;
 let opciones = {
   inline: true
@@ -19,7 +18,7 @@ let opciones = {
 ////////////////////////
 // AL TERMINAR LA CARGA HACE UN REQUEST AL SERVIDOR Y AL TERMINAR GENERA LAS LISTAS DE LOS SELECT DEL MODAL
 document.addEventListener("DOMContentLoaded", async () => {
-  await request();
+  const respuesta =await request();
   const fragmento = new DocumentFragment();
   profesionalObj.forEach((objeto, indice) => {
     const opcion = `${objeto.apellido} ${objeto.nombre} ${objeto.especialidad}`;
@@ -29,16 +28,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     mapProfesionales[opcion] = indice;
 
   });
-  await request();
+ const respuesta2= await pacientesRequest();
   const fragmentoPaciente = new DocumentFragment();
   pacienteObj.forEach((objeto, indice) => {
     const opcionPaciente = `${objeto.apellido} ${objeto.nombre} ${objeto.dni}`;
+    mapPacientes[opcionPaciente] = indice;
+
 //    //console.log("pacientes", opcionPaciente)
     const elemento = document.createElement("option");
     elemento.value = opcionPaciente;
-    fragmentoPaciente.appendChild(elemento)
+    fragmentoPaciente.appendChild(elemento);
     // GENERA UN MAP DONDE LA CLAVE ES LA CADENA ASIGNADA AL SELECT DEL DATALIST Y EL INDICE ES EL INDICE DEL ARRAY DE PROFESIONALES
-    mapPacientes[opcionPaciente] = indice
   });
   document.getElementById("datalistOptions").appendChild(fragmento)
   document.getElementById("dataOpcionesPacientes").appendChild(fragmentoPaciente)
@@ -159,6 +159,7 @@ guardarTurno.addEventListener("click", () => {
   minuto = parseInt(minuto).toString();
   const dniPaciente = pacienteObj[mapPacientes[document.getElementById("dataListPacientes").value]].dni;
   profesional["a" + ano]["m" + mes]["d" + dia]["h" + hora]["m" + minuto] = dniPaciente;
+  profesionalObj[mapProfesionales[document.getElementById("dataListProfesionales").value]].guardarLocal()
   borrarHorarios()
   borrarCalendario()
   profesionalInput.value = ""

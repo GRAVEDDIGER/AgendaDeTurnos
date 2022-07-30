@@ -3,7 +3,7 @@
 //////////////////////////////////////////
 
 // HACE UN REQUEST A UN JSON EN EL SERVIDOR. 
-const respuesta=await request()
+const respuesta=await pacientesRequest();
 
 
 // FUNCION QUE REALIZA TODAS LAS VALIDACIONES ANTES DE GUARDAR UN NUEVO PACIENTE 
@@ -28,14 +28,19 @@ enviarPaciente.addEventListener("click", (e) => {
   const otrasValidaciones = validarTodo();
   const validacionDni = validarDniOc(documentoInput.value, pacienteObj);
   if (otrasValidaciones) {
-    if (validacionDni === -1) pacienteObj.push(pacienteTransitorio);
+    if (validacionDni === -1) {pacienteObj.push(pacienteTransitorio);
+    pacienteObj[pacienteObj.length-1].guardarLocal()
+    }
     else if (validacionDni === false) {
       swal({
         title: "Error!",
         text: "No es un DNI valido!",
         icon: "error",
       });
-    } else pacienteObj[validacionDni] = pacienteTransitorio;
+    } else {pacienteObj[validacionDni] = pacienteTransitorio;
+      pacienteObj[validacionDni].guardarLocal()
+    }
   }
+  
   limpiarPaciente();
 });

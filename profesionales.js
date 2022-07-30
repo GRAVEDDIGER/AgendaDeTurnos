@@ -266,6 +266,8 @@ const enviarProfesional = document
         profesionalObj.push(profesionalTransitorio);
         const ultimo = profesionalObj.length - 1;
         profesionalObj[ultimo].generarTurnos();
+        profesionalObj[ultimo].guardarLocal();
+
         break;
 
       case false:
@@ -278,6 +280,7 @@ const enviarProfesional = document
       default:
         profesionalObj[validacionDni] = profesionalTransitorio;
         profesionalObj[validacionDni].generarTurnos();
+        profesionalObj[validacionDni].guardarLocal();
         break;
     }
 

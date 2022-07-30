@@ -4,7 +4,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const elModal = new bootstrap.Modal(document.getElementById("modalTurnera")); //REPRESENTA EL MODAL DE LA PAGINA PARA PODERLO DESAPARECER CON CODIGO 
 
-const respuesta = await request()
+const respuesta = await request();
+const respuesta2 = await pacientesRequest();
 /////////////////////////
 // VARIABLES GLOBALES  //
 /////////////////////////
