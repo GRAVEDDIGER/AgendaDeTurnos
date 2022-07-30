@@ -44,7 +44,7 @@ const iniciarDatalist = () => {
         elemento.value = profesionalCadena;
         fragmento.appendChild(elemento);
     })
-    datalistProfesional.appendChild(fragmento);
+    document.getElementById("datalistOptions").appendChild(fragmento);
 };
 //al cambiar el datalist genera un arraydeFechas que contiene las fechas donde el profesional atiende
 const agregarEventListenerDatalist = () => {
@@ -81,7 +81,7 @@ botonGuardar.addEventListener("click",evento=>{
     [ano,mes,dia] = fechaSeleccionada.split("-");
     mes="m"+(parseInt(mes)-1).toString()
     ano="a"+ano
-    dia="d"+dia
+    dia="d"+ (parseInt(dia)).toString();
     const turnosProfesional =profesionalObj[mapProfesional[  datalistProfesional.value]].configuracionTurnos.turnos
     //obtiene la fecha del calendario la divide y se usa un destructuring para generar los datos de dia mes y año
 

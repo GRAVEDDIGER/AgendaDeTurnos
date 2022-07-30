@@ -11,7 +11,21 @@ let opciones = {
 ////////////////
 //  funciones //
 ////////////////
-
+const borrarCalendario = () => {
+  flatpickr(document.getElementById("calendario"), {
+    inline: true
+  }).destroy()
+  flatpickr(document.getElementById("calendario"), {
+    inline: true
+  })
+}
+//FUNCION QUE BORRA LOS ITEMS DE ULHORARIOS 
+const borrarHorarios = () => {
+  const ulHorarios = document.querySelectorAll(".horarios li")
+  ulHorarios.forEach(nodoHTML => {
+    nodoHTML.remove()
+  })
+}
 
 ////////////////////////
 //MANIPULACION DEL DOM//
@@ -78,6 +92,7 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
     };
     flatpickr(document.getElementById("calendario"), opciones);
     //EVENTLISENER QUE  AL HACER CLICK EN UN DIA DEL CALENDARIO GENERA LOS HORARIOS DISPONIBLES POR EL PROFESIONAL 
+    document.getElementById("calendario").addEventListener("change",cambio=>{
     document.querySelectorAll("div .flatpickr-day").forEach(dia => {
       dia.addEventListener("click", (e) => {
         borrarHorarios()
@@ -121,28 +136,19 @@ document.getElementById("dataListProfesionales").addEventListener("change", () =
         })
       })
     });
-
-
+///////////////
+})
   }
 })
+
 const pacienteIngreso = document.getElementById("dataListPacientes")
 const profesionalInput = document.getElementById("dataListProfesionales")
 //FUNCION QUE BORRA EL CALENDARIO Y L DEJA SIN DISABLES
-const borrarCalendario = () => {
-  flatpickr(document.getElementById("calendario"), {
-    inline: true
-  }).destroy()
-  flatpickr(document.getElementById("calendario"), {
-    inline: true
-  })
-}
-//FUNCION QUE BORRA LOS ITEMS DE ULHORARIOS 
-const borrarHorarios = () => {
-  const ulHorarios = document.querySelectorAll(".horarios li")
-  ulHorarios.forEach(nodoHTML => {
-    nodoHTML.remove()
-  })
-}
+
+document.getElementById("dataListProfesionales").addEventListener("click",(e)=>{
+  e.value =""
+  borrarHorarios()})
+
 //EVENTLISTENER QUE HAL HACER CLICK EN GUARDAR GENERA EL ARBOL DE TURNO DEL TURNO ASIGNADO 
 const guardarTurno = document.getElementById("guardarTurno")
 guardarTurno.addEventListener("click", () => {
