@@ -36,8 +36,8 @@ class Paciente {
     localStorage.setItem("pacientes", JSON.stringify(pacienteObj));
   }
   //FUNCIONES DE ITERACION
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
+  *[Symbol.iterator]() { 
+      const claves = Object.keys(this);
     let valores = []
     claves.forEach(e => {
       valores.push(this[e])
@@ -47,13 +47,13 @@ class Paciente {
       yield valores[i];
     }
   }
-  porCada = (callback) => {
+  porCada(callback){
     let item;
     for (item of this) {
       if (typeof item !== 'function') callback(item)
     }
   }
-  porClave = (callback) => {
+  porClave(callback){
     let clave;
     for (clave in this) {
       const valor = this[clave]
