@@ -474,7 +474,10 @@ input {
 .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
   color: rgba(0, 0, 0, 0.9);
 }
-
+.error{ 
+  background-color: red !important;
+  color:white !important;
+}
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
