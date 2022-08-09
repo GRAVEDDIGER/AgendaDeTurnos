@@ -37,7 +37,7 @@ domEnviar.addEventListener("click", () => {
        if (otrasValidar) {
             if (validacionDni ===-1) {
                 pacienteObjeto.push(pacienteTransitorio);
-                pacienteObjeto[length-1].guardarLocal();
+                pacienteObjeto[length].guardarLocal();
             }else{
                 pacienteObjeto[validacionDni] = pacienteTransitorio
                 pacienteObjeto[validacionDni].guardarLocal();

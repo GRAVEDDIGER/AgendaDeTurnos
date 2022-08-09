@@ -34,7 +34,7 @@
             (this.dni = dni);
     }
      guardarLocal() {
-        localStorage.setItem("pacientes", JSON.stringify(pacienteObj));
+        localStorage.setItem("pacientes", JSON.stringify(pacienteObjeto));
     }
 
 }
