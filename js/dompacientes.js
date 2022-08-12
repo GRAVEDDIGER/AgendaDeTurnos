@@ -1,26 +1,41 @@
 'use-strict'
+pacienteObjeto = await pacientesRequest()
 
-pacienteObjeto=await pacientesRequest()
+Validar = new Validaciones();
 
-Validar =new Validaciones();
+FuncionesGenerales = new OtrasFunciones();
 
-FuncionesGenerales=new OtrasFunciones();
-
-Fabrica =new FabricaDeObjetos;
+Fabrica = new FabricaDeObjetos;
 ////////////////////////
 //VARIABLES GLOBALES  //
 ////////////////////////
-
+let pacienteObjeto = [];
+let Validar;
+let Solicitar;
+let FuncionesGenerales;
+let Fabrica;
+///////////////////////
+// VARIABLES DEL DOM //
+///////////////////////
+const domNombre = document.getElementById("nombre");
+const domApellido = document.getElementById("apellido");
+const domDni = document.getElementById("dni");
+const domTelefono = document.getElementById("telefono");
+const domCalle = document.getElementById("calle");
+const domAltura = document.getElementById("altura");
+const domLocalidad = document.getElementById("localidad");
+const domCpa = document.getElementById("cpa");
+const domEnviar = document.getElementById("enviarPaciente");
 
 
 
 //////////////////////////////
 //Event Listeners onChange  //
 //////////////////////////////
-domTelefono.addEventListener("change",()=> Validar.validarTelefonoOc(domTelefono,domEnviar));
-domNombre.addEventListener("change",()=>Validar.validarNombreOc(domNombre,domEnviar));
-domApellido.addEventListener("change",()=> Validar.validarApellidoOc(domApellido,domEnviar));
-domDni.addEventListener("change",()=> Validar.validarDniOc(domDni,pacienteObjeto,domEnviar));
+domTelefono.addEventListener("change", () => Validaciones.validarTelefonoOc(domTelefono, domEnviar));
+domNombre.addEventListener("change", () => Validaciones.validarNombreOc(domNombre, domEnviar));
+domApellido.addEventListener("change", () => Validaciones.validarApellidoOc(domApellido, domEnviar));
+domDni.addEventListener("change", () => Validaciones.validarDniOc(domDni, pacienteObjeto, domEnviar));
 
 ///////////////////////////////
 //Event Listener click enviar//
@@ -29,20 +44,20 @@ domDni.addEventListener("change",()=> Validar.validarDniOc(domDni,pacienteObjeto
 domEnviar.addEventListener("click", () => {
     // El valor de validacionDni sera false si no valida, -1 si es un valor nuevo y un numero si ya se encuentra 
     // en la base de datos
-    const validacionDni = Validar.validarDniOc(domDni, pacienteObjeto,domEnviar) 
-    const pacienteTransitorio = Fabrica.generarPaciente()
+    const validacionDni = Validaciones.validarDniOc(domDni, pacienteObjeto, domEnviar)
+    const pacienteTransitorio = FabricaDeObjetos.generarPaciente()
     let otrasValidar;
     if (validacionDni !== false) {
-        otrasValidar = Validar.validarTodo(domEnviar)
-       if (otrasValidar) {
-            if (validacionDni ===-1) {
+        otrasValidar = Validaciones.validarTodo(domEnviar)
+        if (otrasValidar) {
+            if (validacionDni === -1) {
                 pacienteObjeto.push(pacienteTransitorio);
                 pacienteObjeto[length].guardarLocal();
-            }else{
+            } else {
                 pacienteObjeto[validacionDni] = pacienteTransitorio
                 pacienteObjeto[validacionDni].guardarLocal();
             }
-            
+
         }
     } else {
         swal({
@@ -51,8 +66,5 @@ domEnviar.addEventListener("click", () => {
             icon: "error",
         });
     }
-}
-)
-
-
-
+    OtrasFunciones.limpiarPaciente()
+})

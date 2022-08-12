@@ -41,26 +41,27 @@
     class="container row justify-content-center align-items-center text-center mx-auto mt-5 bg-primary  py-5 border-info border-width-4">
     <div class="formulario col mx-3 border-info">
       <div class="mb-3 ">
-        <input type="text" class="form-control" id="apellido" placeholder="Apellido del profesional" required />
+        <input type="text" class="form-control" id="apellidoProfesional" placeholder="Apellido del profesional"
+          required />
       </div>
       <div class="mb-3">
-        <input type="text" placeholder="Nombre del profesional" class="form-control" id="nombre" required>
+        <input type="text" placeholder="Nombre del profesional" class="form-control" id="nombreProfesional" required>
       </div>
       <div class="mb-3">
-        <input type="number" placeholder="DNI del profesional" class="form-control" id="dni" required>
+        <input type="number" placeholder="DNI del profesional" class="form-control" id="dniProfesional" required>
       </div>
       <div class="mb-3">
-        <input type="phone" placeholder="Telefono del profesional (011)-aaa-bbb-cccc" class="form-control" id="telefono"
-          required>
+        <input type="phone" placeholder="Telefono del profesional (011)-aaa-bbb-cccc" class="form-control"
+          id="telefonoProfesional" required>
       </div>
     </div>
 
     <div class="formulario col mx-3">
       <div class="mb-3 ">
-        <input type="text" class="form-control" id="especialidad" placeholder="Especialidad" />
+        <input type="text" class="form-control" id="especialidadProfesional" placeholder="Especialidad" />
       </div>
       <div class="mb-3">
-        <input type="number" placeholder="Matricula" class="form-control" id="matricula">
+        <input type="number" placeholder="Matricula" class="form-control" id="matriculaProfesional">
       </div>
       <div class="mb-3 invisible">
         <input type="number" placeholder="Matricula" class="form-control">
@@ -72,7 +73,7 @@
 
     </div>
     <div class="d-flex flex-row justify-content-center align-items-center mx-auto text-center mt-4">
-      <button id="enviarPaciente" class="btn-info enviar text-center text-dark">Guardar</button>
+      <button id="enviarProfesional" class="btn-info enviar text-center text-dark">Guardar</button>
       <br>
 
       <div class="invisibleErr mt-3" id="errInv">Ese DNI ya existe en la base de datos</div>
@@ -185,8 +186,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"></script>
-    <script src="../main.js"></script>
-    <script src="../profesionales.js"></script>
+    <script src="../js/clases.js"></script>
+    <script src="../js/variablesprofesionales.js"></script>
+    <script src="../js/funcionesprofesionales.js"></script>
+
+    <script src="../js/domprofesionales.js" type="module"></script>
+    <!-- <script src="../profesionales.js"></script> -->
 </body>
 
 </html>

@@ -28,7 +28,7 @@ class Paciente {
       cPostal: cpa,
       localidad: localidad,
     }),
-      (this.dni = dni);
+    (this.dni = dni);
   }
 
 
@@ -36,8 +36,8 @@ class Paciente {
     localStorage.setItem("pacientes", JSON.stringify(pacienteObj));
   }
   //FUNCIONES DE ITERACION
-  *[Symbol.iterator]() { 
-      const claves = Object.keys(this);
+  *[Symbol.iterator]() {
+    const claves = Object.keys(this);
     let valores = []
     claves.forEach(e => {
       valores.push(this[e])
@@ -47,13 +47,13 @@ class Paciente {
       yield valores[i];
     }
   }
-  porCada(callback){
+  porCada(callback) {
     let item;
     for (item of this) {
       if (typeof item !== 'function') callback(item)
     }
   }
-  porClave(callback){
+  porClave(callback) {
     let clave;
     for (clave in this) {
       const valor = this[clave]
@@ -112,18 +112,18 @@ class ConfiguracionTurnos {
 //OBJETO TURNOS QUE SE ENCUENTRA DENTRO DE CONFIGURACION TURNOS//
 /////////////////////////////////////////////////////////////////
 class Turnos {
-  constructor() { }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
+  constructor() {}
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
 
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
     }
-  }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -148,28 +148,28 @@ class Turnos {
 /////////////////////////////////////////////////////////////////
 
 
-class Semana  {
+class Semana {
   constructor(ivTurnos, inicio, fin) {
-    this.lunes = []
-    this.martes = []
-    this.miercoles = []
-    this.jueves = []
-    this.viernes = []
-    this.sabado = []
-    this.domingo = []
+      this.lunes = []
+      this.martes = []
+      this.miercoles = []
+      this.jueves = []
+      this.viernes = []
+      this.sabado = []
+      this.domingo = []
 
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -194,21 +194,21 @@ class Semana  {
 
 class Dia {
   constructor(ivTurnos, inicio, fin) {
-    this.ivTurnos = ivTurnos
-    this.inicio = inicio
-    this.fin = fin
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      this.ivTurnos = ivTurnos
+      this.inicio = inicio
+      this.fin = fin
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -245,19 +245,19 @@ class Ano {
 
   }
   addProperty = (propiedad, valor) => {
-    this[propiedad] = valor
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      this[propiedad] = valor
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -318,20 +318,20 @@ class Mes {
 //////////////////////////////////////////////////////////////////////////////////////////
 class DiaTurno {
   constructor(dia, valor) {
-    this[dia] = valor
+      this[dia] = valor
 
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   addProperty = (propiedad, valor) => {
     this[propiedad] = valor
   }
@@ -359,19 +359,19 @@ class HoraTurno {
 
   }
   addProperty = (propiedad, valor) => {
-    this[propiedad] = valor
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      this[propiedad] = valor
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -391,21 +391,21 @@ class HoraTurno {
 //OBJETO MINUTOS QUE SE UBICA DENTRO DEL HORAS TURNOS REPRESENTA AL TURNO DE ESE HORARIO //
 ///////////////////////////////////////////////////////////////////////////////////////////
 class Minutos {
-  constructor() { }
+  constructor() {}
   addProperty = (propiedad, valor) => {
-    this[propiedad] = valor
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      this[propiedad] = valor
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -455,19 +455,19 @@ class Profesional {
   }
   //FUNCION QUE GUARDA EN LOCALSTORAGE AL ARRAYDEOBJETOS PROFESIONALOBJ
   guardarLocal() {
-    localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
-  }
-  [Symbol.iterator] = function* () {
-    const claves = Object.keys(this);
-    let valores = []
-    claves.forEach(e => {
-      valores.push(this[e])
-    })
-
-    for (let i = 1; i < valores.length; i++) {
-      yield valores[i];
+      localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
     }
-  }
+    [Symbol.iterator] = function* () {
+      const claves = Object.keys(this);
+      let valores = []
+      claves.forEach(e => {
+        valores.push(this[e])
+      })
+
+      for (let i = 1; i < valores.length; i++) {
+        yield valores[i];
+      }
+    }
   porCada = (callback) => {
     let item;
     for (item of this) {
@@ -496,9 +496,9 @@ class Profesional {
         diaObjeto.forEach((horario) => {
           if (horario.ivTurnos !== 0) {
             [horaInicial, minutosIniciales] =
-              horario.inicio.split(":");
+            horario.inicio.split(":");
             [horaFinal, minutosFinales] =
-              horario.fin.split(":");
+            horario.fin.split(":");
             let diferenciaEnMinutos =
               (new Date().setHours(horaFinal, minutosFinales) -
                 new Date().setHours(horaInicial, minutosIniciales)) /
@@ -548,14 +548,15 @@ let indice;
 // funciones                                   //
 /////////////////////////////////////////////////
 const pacientesRequest = async () => {
-  let respuestaPacientes ={data:[]};
-  if (localStorage.getItem("pacientes")) { 
+  let respuestaPacientes = {
+    data: []
+  };
+  if (localStorage.getItem("pacientes")) {
     respuestaPacientes.data = JSON.parse(localStorage.getItem("pacientes"))
-  } 
-  else { 
-  //resultadoPacientes = await axios("../paciente.json");
-  respuestaPacientes = await axios("../paciente.json");
-  //respuestaPacientes = await resultadoPacientes;
+  } else {
+    //resultadoPacientes = await axios("../paciente.json");
+    respuestaPacientes = await axios("../paciente.json");
+    //respuestaPacientes = await resultadoPacientes;
   }
   respuestaPacientes.data.forEach((e, i, a) => {
     pacienteObj[i] = new Paciente(
@@ -607,27 +608,27 @@ const completarArbolDeTurnos = (dia, objetoSalida, objeto) => {
     objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
   }
 }
-const crearArbolDeTurnos = (respuestaObjeto, profesionalObjeto, i) => {
-  Object.keys(respuestaObjeto).forEach(ano => {
-    profesionalObjeto[ano] = new Ano()
-    Object.keys(respuestaObjeto[ano]).forEach(mes => {
-      profesionalObjeto[ano][mes] = new Mes()
-      // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
-      Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
-        profesionalObjeto[ano][mes][dia] = new DiaTurno();
-        Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
-          profesionalObjeto[ano][mes][dia][hora] = new HoraTurno()
-          Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
-            //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
-            profesionalObjeto[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos]
+// const crearArbolDeTurnos = (respuestaObjeto, profesionalObjeto, i) => {
+//   Object.keys(respuestaObjeto).forEach(ano => {
+//     profesionalObjeto[ano] = new Ano()
+//     Object.keys(respuestaObjeto[ano]).forEach(mes => {
+//       profesionalObjeto[ano][mes] = new Mes()
+//       // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
+//       Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
+//         profesionalObjeto[ano][mes][dia] = new DiaTurno();
+//         Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
+//           profesionalObjeto[ano][mes][dia][hora] = new HoraTurno()
+//           Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
+//             //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
+//             profesionalObjeto[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos]
 
-          })
-        })
-      })
+//           })
+//         })
+//       })
 
-    })
-  })
-}
+//     })
+//   })
+// }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //FUNCION QUE RECIBE UNA CADENA CON EL DIA DE LA SEMANA Y DEVUELVE UN ARRAY DE OBJETOS DATE DE LOS DIAS DEL MES QUE CUMPEN CON EL STRING//
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -655,16 +656,16 @@ const diasDelMes = (diaLetras) => {
 //FUNCION QUE HACE UN GET A UN JSON Y OBTIENE LOS DATOS DE LOS PROFESIONALES Y LOS PACIENTES //
 //LUEGO ARMA LOS OBJETOS SEGUN SU ESTRUCTURA ORIGNIAL 
 const request = async () => {
-  let respuestaProfesionales={data:[]};
+  let respuestaProfesionales = {
+    data: []
+  };
   if (localStorage.getItem("profesionales")) {
-      respuestaProfesionales.data = JSON.parse(localStorage.getItem("profesionales"));
-     }
-  else
-  {
-   resultadoProfesionales = await axios("../datos.json");
-  //console.log(resultadoProfesionales.data);
-  
-  respuestaProfesionales = await resultadoProfesionales;
+    respuestaProfesionales.data = JSON.parse(localStorage.getItem("profesionales"));
+  } else {
+    resultadoProfesionales = await axios("../datos.json");
+    //console.log(resultadoProfesionales.data);
+
+    respuestaProfesionales = await resultadoProfesionales;
   }
   respuestaProfesionales.data.forEach((e, i, a) => {
     profesionalObj[i] = new Profesional();
@@ -708,12 +709,12 @@ const request = async () => {
 
 
 const intervalos = ({
-  inicio: itemInicio,
-  fin: itemFin
-}, {
-  inicio: repetidosInicio,
-  fin: repetidosFin
-},
+    inicio: itemInicio,
+    fin: itemFin
+  }, {
+    inicio: repetidosInicio,
+    fin: repetidosFin
+  },
   condicion
 ) => {
   if (
