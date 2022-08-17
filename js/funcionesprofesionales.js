@@ -51,32 +51,24 @@ async function profesionalRequest() {
     return profesionalArray;
 };
 
-function crearArbolDeTurnos(respuestaObjeto, profesionalArray, i) {
+function crearArbolDeTurnos(respuestaObjeto) {
     console.log(respuestaObjeto.configuracionTurnos)
     const turnos = {};
-    Object.keys(respuestaObjeto).forEach(ano => {
-        if (typeof ano !== 'undefined') {
+    const respuesta=Object.keys(respuestaObjeto);
+    respuesta.forEach((ano) => {
             turnos[ano] = new AnoTurnos();
-        }
-        Object.keys(respuestaObjeto[ano]).forEach(mes => {
-            if (typeof mes !== 'undefined') {
+        const respuestaAno =Object.keys(respuestaObjeto[ano])
+        respuestaAno.forEach((mes) => {
                 turnos[ano][mes] = new MesTurnos();
-            }
             // AQUI SE ITERA SOBRE CADA OBJETO DIA, CREOA EL OBJETO DIATURNO LUEGO ITERA SOBRE EL DIA Y SOBRE LAS HORAS 
-            Object.keys(respuestaObjeto[ano][mes]).forEach(dia => {
-                if (typeof dia !== 'undefined') {
+            const respuestaMes = Object.keys(respuestaObjeto[ano][mes])
+            respuestaMes.forEach((dia) => {
                     turnos[ano][mes][dia] = new DiaTurnos();
-                }
                 Object.keys(respuestaObjeto[ano][mes][dia]).forEach(hora => {
-                    if (typeof hora !== 'undefined') {
                         turnos[ano][mes][dia][hora] = new HoraTurnos();
-                    }
                     Object.keys(respuestaObjeto[ano][mes][dia][hora]).forEach(minutos => {
-                        if (typeof minutos !== 'undefined') {
                             //AQUI PASA LOS TURNOS QUE SE ENCUENTRAN EN EL RESPONSE DIA.HORA AL OBJETO PROFESIONALOBJ
                             turnos[ano][mes][dia][hora][minutos] = respuestaObjeto[ano][mes][dia][hora][minutos];
-                        }
-
                     })
                 })
             })

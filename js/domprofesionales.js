@@ -27,3 +27,17 @@ const configurarProfesional = document.getElementById("configurarAgenda");
 const botonAgregar = document.getElementById("btnAgregar")
 const elModal = new bootstrap.Modal(document.getElementById("modal1"));
 const nodeListInputs = document.querySelectorAll(".modal input") //REPRESENTA EL MODAL DE LA PAGINA PARA PODERLO DESAPARECER CON CODIGO
+
+///////////////////////
+//EVENT LISTENERS    //
+///////////////////////
+diaTab.forEach((item) => {
+    item.addEventListener("click", () => {
+      let previo = document.getElementById(diaSemana);
+      previo.classList.remove("active");
+      item.classList.add("active");
+      diaSemana = item.id;
+    });
+  });
+
+  
