@@ -242,7 +242,15 @@ class Validaciones {
     }
     return false;
   }
-
+static   validarTabla(obj) {
+  let condicion;
+  if (arrayTabla.length > 0) {
+    arrayTabla.forEach((item) => {
+      condicion=!OtrasFunciones.compararObjetos(obj,item);
+    });
+  } else condicion = true;
+  return condicion;
+}
   static superposicion(tabla) {
     //falta revisar
     let condicion = false;
@@ -260,7 +268,27 @@ class Validaciones {
     return condicion;
   }
 }
-
+class AgregarTurnoModal {
+  static crearObjetoTabla(){
+    const objeto = new Tabla(
+      diaSemana,
+      document.querySelectorAll(".modal input")[0].value,
+      document.querySelectorAll(".modal input")[1].value,
+      document.querySelectorAll(".modal input")[2].value)
+      return objeto
+  }
+  static crearTemplateTabla(objeto){
+    const templateTurnos = document.getElementById(
+      "configuracionTurnos").content; //TEMPLATE DE LA ESTRUCTURA DE LA TABLA QUE SE MODIFICA EN LAS SIGUIENTES LINEAS 
+    templateTurnos.querySelectorAll("tr td")[0].textContent = diaSemana;
+    templateTurnos.querySelectorAll("tr td")[1].textContent =
+      objeto.inicio;
+    templateTurnos.querySelectorAll("tr td")[2].textContent =
+      objeto.fin;
+    templateTurnos.querySelectorAll("tr td")[3].textContent =
+      objeto.intervalo;
+  }
+}
 class OtrasFunciones {
   static limpiarPaciente() {
     // generar un cleaner para todas las ventanas con un foreach
@@ -272,29 +300,31 @@ class OtrasFunciones {
   }
   static compararObjetos(objeto1, objeto2) {
     if (!OtrasFunciones.compararClaves(objeto1, objeto2)) return false;
-    const keys1 = Object.keys(objeto1),
-      keys2 = Object.keys(objeto2);
-    keys1.forEach((key) => {
-      if (typeof objeto1[key] !== typeof objeto2[key]) return false;
-      if (typeof objeto1[key] === "object") {
-        if (!this.compararObjetos(objeto1[key], objeto2[key])) return false;
-      } else {
-        
-        if (objeto1[key] === objeto2[key]) return true;
-        else return false;
-      }
+    const keys1 = Object.keys(objeto1);
+    let condicion =true;
+        keys1.forEach((key) => {
+      if (typeof objeto1[key] !== typeof objeto2[key]) condicion=false;
+      else {
+        if (typeof objeto1 === "object") {
+              if (!this.compararObjetos(objeto1[key],objeto2[key])){
+              condicion=false;
+          } 
+        }
+      }    
     });
+    return condicion;
   }
-  
-  static compararClaves(objeto1, objeto2) {
+    static compararClaves(objeto1, objeto2) {
     const claves1 = Object.keys(objeto1),
       claves2 = Object.keys(objeto2);
     if (!(claves1.length === claves2.length)) return false;
     claves1.forEach((clave) => {
+
       if (!claves2.includes(clave)) return false;
     });
     return true;
   }
+
 }
 const funcionesValidacion = new Validaciones();
 const fabricaDeObjetos = new FabricaDeObjetos();

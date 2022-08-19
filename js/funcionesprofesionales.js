@@ -77,3 +77,10 @@ function crearArbolDeTurnos(respuestaObjeto) {
     })
     return turnos;
 }
+
+const limpiarModal = () => {
+    const inputModal = document.querySelectorAll(".modal input");
+    inputModal.forEach((e) => {
+      e.value = "";
+    });
+  };
