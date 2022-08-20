@@ -1,0 +1,2 @@
+let profesionalObjeto=[];
+let pacienteObjeto=[];

@@ -1,4 +1,4 @@
-async function verificarLocalStorage() {
+ async function verificarLocalStorage() {
     let respuestaProfesionales = {
         data: []
     };
@@ -12,7 +12,7 @@ async function verificarLocalStorage() {
     }
     return respuestaProfesionales;
 }
-async function profesionalRequest() {
+ async function profesionalRequest() {
     let respuestaProfesionales = await verificarLocalStorage();
     let profesionalArray = [];
     profesionalArray[0] = new Profesional2;
@@ -51,7 +51,7 @@ async function profesionalRequest() {
     return profesionalArray;
 };
 
-function crearArbolDeTurnos(respuestaObjeto) {
+ function crearArbolDeTurnos(respuestaObjeto) {
     console.log(respuestaObjeto.configuracionTurnos)
     const turnos = {};
     const respuesta=Object.keys(respuestaObjeto);
@@ -78,44 +78,9 @@ function crearArbolDeTurnos(respuestaObjeto) {
     return turnos;
 }
 
-const limpiarModal = () => {
+ const limpiarModal = () => {
     const inputModal = document.querySelectorAll(".modal input");
     inputModal.forEach((e) => {
       e.value = "";
     });
-  };
-  function extraerDatosProfesional(indice,validable,botonEnviarProfesional) {
-    domApellidoProfesional.value = profesionalObjeto[indice].apellido;
-    domNombreProfesional.value = profesionalObjeto[indice].nombre;
-    domTelefonoProfesional.value = profesionalObjeto[indice].telefono;
-    domEspecialidadProfesional.value = profesionalObjeto[indice].especialidad;
-    domMatriculaProfesional.value = profesionalObjeto[indice].matricula;
-    const semana = profesionalObjeto[indice].configuracionTurnos.dias;
-    arrayTabla=[];
-    semana.porClave((diaClave, diaObjeto) => {
-      diaObjeto.forEach((horario) => {
-        if (horario.ivTurnos !== 0) {
-          arrayTabla = [
-            ...arrayTabla,
-            new Tabla(diaClave, horario.inicio, horario.fin, horario.ivTurnos),
-          ];
-        }
-      });
-    });
-    colocarFilas();
-    Validaciones.validarTodo(validable,botonEnviarProfesional)
-  }
-
-function   colocarFilas(){
-    const fragmento = new DocumentFragment();
-    const templateTurnos = document.getElementById("configuracionTurnos").content;
-    arrayTabla.forEach((indice) => {
-      templateTurnos.querySelectorAll("tr td")[0].textContent = indice.dia;
-      templateTurnos.querySelectorAll("tr td")[1].textContent = indice.inicio;
-      templateTurnos.querySelectorAll("tr td")[2].textContent = indice.fin;
-      templateTurnos.querySelectorAll("tr td")[3].textContent = indice.intervalo;
-    });
-    const clon = templateTurnos.cloneNode(true);
-    fragmento.appendChild(clon);
-    document.querySelector("table tbody").appendChild(fragmento);
   };

@@ -176,6 +176,40 @@ class Profesional2 extends ObjetoIterable {
     }
     return resultado;
   }
+  static extraerDatosProfesional(indice,validable,botonEnviarProfesional) {
+    domApellidoProfesional.value = profesionalObjeto[indice].apellido;
+    domNombreProfesional.value = profesionalObjeto[indice].nombre;
+    domTelefonoProfesional.value = profesionalObjeto[indice].telefono;
+    domEspecialidadProfesional.value = profesionalObjeto[indice].especialidad;
+    domMatriculaProfesional.value = profesionalObjeto[indice].matricula;
+    const semana = profesionalObjeto[indice].configuracionTurnos.dias;
+    arrayTabla=[];
+    semana.porClave((diaClave, diaObjeto) => {
+      diaObjeto.forEach((horario) => {
+        if (horario.ivTurnos !== 0) {
+          arrayTabla = [
+            ...arrayTabla,
+            new Tabla(diaClave, horario.inicio, horario.fin, horario.ivTurnos),
+          ];
+        }
+      });
+    });
+    this.colocarFilas();
+    Validaciones.validarTodo(validable,botonEnviarProfesional)
+  }
+ static colocarFilas(){
+    const fragmento = new DocumentFragment();
+    const templateTurnos = document.getElementById("configuracionTurnos").content;
+    arrayTabla.forEach((indice) => {
+      templateTurnos.querySelectorAll("tr td")[0].textContent = indice.dia;
+      templateTurnos.querySelectorAll("tr td")[1].textContent = indice.inicio;
+      templateTurnos.querySelectorAll("tr td")[2].textContent = indice.fin;
+      templateTurnos.querySelectorAll("tr td")[3].textContent = indice.intervalo;
+    });
+    const clon = templateTurnos.cloneNode(true);
+    fragmento.appendChild(clon);
+    document.querySelector("table tbody").appendChild(fragmento);
+  };
  generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
@@ -400,6 +434,7 @@ class ModificarTurnoModal {
       e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
     );
   }
+
 }
 class OtrasFunciones {
   static limpiarInputs() {

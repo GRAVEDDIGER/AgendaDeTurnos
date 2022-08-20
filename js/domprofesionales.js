@@ -20,7 +20,6 @@ const diaTab = document.querySelectorAll("ul .nav-item button");
 const botonEnviarProfesional = document.getElementById("enviarProfesional");
 const configurarProfesional = document.getElementById("configurarAgenda");
 const validable=[domApellidoProfesional,domNombreProfesional,domTelefonoProfesional]
-const [uno,dos,tres] =validable;
 
 //////////////////////
 //       MODAL      //
@@ -115,7 +114,7 @@ const botonGuardar = document
 
   domDniProfesional.addEventListener("change",e=>{
     const indice = Validaciones.validarDniOc(e.target,profesionalObjeto,botonEnviarProfesional)
-    if (indice !==-1) extraerDatosProfesional(indice,validable,botonEnviarProfesional);
+    if (indice !==-1) Profesional2.extraerDatosProfesional(indice,validable,botonEnviarProfesional);
   });
 
   domNombreProfesional.addEventListener("change",e=>Validaciones.validarNombreOc(e.target,botonEnviarProfesional));
