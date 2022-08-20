@@ -44,7 +44,7 @@ async function profesionalRequest() {
         //SE ITERA SOBRE LAS CLAVES DE LA RESPUESTA DEL OBJETO TURNOS SE VUELVE A ITERAR SOBRE CADA OBJETO AÑO LUEGO EN CADA OBJETO MES
         //CREA EL OBEJTO ANO LUEGI CREA EL OBJETO MES Y LUEGO EL OBJETO DIA EN EL OBJETO PROFESIONALOBJ
 
-        profesionalArray[i].configuracionTurnos.turnos = crearArbolDeTurnos(respuestaObjeto, profesionalArray, i)
+       profesionalArray[i].configuracionTurnos.turnos = crearArbolDeTurnos(respuestaObjeto, profesionalArray, i)
 
     }) //profesionalObjeto[i].configuracionTurnos = e.configuracionTurnos;
     //AQUI HACE EUL REQUEST DE PACIENTES Y LO PASA AL OBJETO PACIENTESOBJ
@@ -83,4 +83,39 @@ const limpiarModal = () => {
     inputModal.forEach((e) => {
       e.value = "";
     });
+  };
+  function extraerDatosProfesional(indice,validable,botonEnviarProfesional) {
+    domApellidoProfesional.value = profesionalObjeto[indice].apellido;
+    domNombreProfesional.value = profesionalObjeto[indice].nombre;
+    domTelefonoProfesional.value = profesionalObjeto[indice].telefono;
+    domEspecialidadProfesional.value = profesionalObjeto[indice].especialidad;
+    domMatriculaProfesional.value = profesionalObjeto[indice].matricula;
+    const semana = profesionalObjeto[indice].configuracionTurnos.dias;
+    arrayTabla=[];
+    semana.porClave((diaClave, diaObjeto) => {
+      diaObjeto.forEach((horario) => {
+        if (horario.ivTurnos !== 0) {
+          arrayTabla = [
+            ...arrayTabla,
+            new Tabla(diaClave, horario.inicio, horario.fin, horario.ivTurnos),
+          ];
+        }
+      });
+    });
+    colocarFilas();
+    Validaciones.validarTodo(validable,botonEnviarProfesional)
+  }
+
+function   colocarFilas(){
+    const fragmento = new DocumentFragment();
+    const templateTurnos = document.getElementById("configuracionTurnos").content;
+    arrayTabla.forEach((indice) => {
+      templateTurnos.querySelectorAll("tr td")[0].textContent = indice.dia;
+      templateTurnos.querySelectorAll("tr td")[1].textContent = indice.inicio;
+      templateTurnos.querySelectorAll("tr td")[2].textContent = indice.fin;
+      templateTurnos.querySelectorAll("tr td")[3].textContent = indice.intervalo;
+    });
+    const clon = templateTurnos.cloneNode(true);
+    fragmento.appendChild(clon);
+    document.querySelector("table tbody").appendChild(fragmento);
   };

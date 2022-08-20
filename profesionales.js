@@ -54,9 +54,7 @@ function validarTabla(obj) {
 }
 
 //BOTON QUE AGREGA LOS DATOS INGRESADOS EN EL MODAL  COMO UNA ROW DE LA TABLA
-const botonAgregar = document
-  .getElementById("btnAgregar")
-  .addEventListener("click", () => {
+const botonAgregar = document.getElementById("btnAgregar").addEventListener("click", () => {
     document.getElementById("duplicado1").classList.add("turnoDuplicado"); //si el alerta de valor duplicado esta la elimina
     const fragmento = new DocumentFragment();
     //crea instancia de objeto con los datos de los inputs
@@ -126,9 +124,7 @@ botonSalir.addEventListener("click", (e) => {
 // SI ESTA TODO BIEN CIERRA EL MODAL Y DEJA LOS DATOS Y EL DOM
 //CARGADOS
 /////////////////////////////////////////////////////////////////
-const botonGuardar = document
-  .getElementById("botonGuardar")
-  .addEventListener("click", () => {
+const botonGuardar = document.getElementById("botonGuardar").addEventListener("click", () => {
     if (superposicion()) {
       document
         .getElementById("superposicion")
@@ -138,9 +134,7 @@ const botonGuardar = document
     }
   });
 //EVENTO DELEGADO PARA QUE EL ICONO DE ELIMINAR PUEDA ELIMINAR LA FILA AL HACER CLICK
-const eliminar = document
-  .querySelector("table")
-  .addEventListener("click", (e) => {
+const eliminar = document.querySelector("table").addEventListener("click", (e) => {
     if (e.target.classList.contains("trashcan")) {
       document.getElementById("superposicion").classList.add("turnoDuplicado"); //ELIMINA EL ERROR DE SUPERPOSICION
 
@@ -150,8 +144,6 @@ const eliminar = document
         e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
         e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
       );
-      //console.log(objetoSeleccionado); //OBJETO QUE CONTIENE LOS DATOS DE LA FILA SELECCIONADA
-
       for (item in arrayTabla1) {
         const objetoString1 = JSON.stringify(arrayTabla1[item]);
         const objetoString2 = JSON.stringify(objetoSeleccionado);
@@ -213,6 +205,8 @@ documentoInput.addEventListener("change", (e) => {
   const dniDuplicado = validarDniOc(parseInt(e.target.value), profesionalObj);
   if (dniDuplicado !== -1) extraerDatosProfesional(dniDuplicado);
 });
+
+
 //VALIDACIONES ON CHANGE DE LOS CAMPOS REQUERIDOS 
 const apellidoInput = document.getElementById("apellido");
 apellidoInput.addEventListener("change", (e) =>

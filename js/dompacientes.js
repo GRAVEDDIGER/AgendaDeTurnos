@@ -27,6 +27,8 @@ const domLocalidad = document.getElementById("localidad");
 const domCpa = document.getElementById("cpa");
 const domEnviar = document.getElementById("enviarPaciente");
 
+const validable=[domApellido,domNombre,domTelefono]
+
 
 
 //////////////////////////////
@@ -48,7 +50,7 @@ domEnviar.addEventListener("click", () => {
     const pacienteTransitorio = FabricaDeObjetos.generarPaciente()
     let otrasValidar;
     if (validacionDni !== false) {
-        otrasValidar = Validaciones.validarTodo(domEnviar)
+        otrasValidar = Validaciones.validarTodo(validable,domEnviar)
         if (otrasValidar) {
             if (validacionDni === -1) {
                 pacienteObjeto.push(pacienteTransitorio);

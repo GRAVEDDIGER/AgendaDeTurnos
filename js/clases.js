@@ -60,9 +60,12 @@ class Turnos2 extends ObjetoIterable {
 }
 class Dia2 extends ObjetoIterable {
   constructor(dia) {
-    super(), (this.ivTurnos = dia.ivTurnos);
-    this.inicio = dia.inicio;
-    this.fin = dia.fin;
+    super(),
+      [
+        (this.ivTurnos = dia.ivTurnos),
+        (this.inicio = dia.inicio),
+        (this.fin = dia.fin),
+      ];
   }
 }
 class AnoTurnos extends ObjetoIterable {
@@ -87,7 +90,7 @@ class HoraTurnos extends ObjetoIterable {
 }
 class MinutosTurnos extends ObjetoIterable {
   constructor(minutos, dni = "") {
-    super(), (this[minutos] = dni);
+    super() //,(this[minutos] = dni);
   }
 }
 class Profesional2 extends ObjetoIterable {
@@ -116,9 +119,64 @@ class Profesional2 extends ObjetoIterable {
     this.matricula = matricula;
   }
   guardarLocal() {
-    localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
+    localStorage.setItem("profesionales", JSON.stringify(profesionalObjeto));
   }
-  generarTurnos() {
+  gererarObjetoDeSalida(diferenciaEnMinutos, intervaloTurnos, hora, min){
+    let objetoSalida = new HoraTurnos();
+  
+    //
+    for (
+      let index = 0; index <= diferenciaEnMinutos - intervaloTurnos; index += intervaloTurnos
+    ) {
+  
+      let horaString = "h" + hora.toString()
+      let minutosString = "m" + min.toString()
+      if (objetoSalida[horaString] === undefined) objetoSalida.addProperty(horaString, new MinutosTurnos())
+      if (objetoSalida[horaString][minutosString] === undefined) objetoSalida[horaString].addProperty(minutosString, "libre")
+  
+      min += intervaloTurnos;
+  
+      if (min >= 60) {
+        min -= 60;
+        hora++;
+      }
+    }
+    return objetoSalida
+  }
+  completarArbolDeTurnos(dia, objetoSalida, objeto){
+    const diaDelMes = "d" + new Date(dia).getDate().toString();
+    const mes = "m" + new Date(dia).getMonth().toString();
+    const ano = "a" + new Date(dia).getFullYear().toString();
+    if (objeto.configuracionTurnos.turnos[ano] === undefined)
+      objeto.configuracionTurnos.turnos.addProperty(ano, new AnoTurnos());
+    if (objeto.configuracionTurnos.turnos[ano][mes] === undefined)
+      objeto.configuracionTurnos.turnos[ano].addProperty(mes, new MesTurnos());
+    if (objeto.configuracionTurnos.turnos[ano][mes][diaDelMes] === undefined) {
+      objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, new DiaTurnos());
+      objeto.configuracionTurnos.turnos[ano][mes].addProperty(diaDelMes, objetoSalida)
+    }
+  }
+  diasDelMes (diaLetras){
+
+    let ano = new Date().getFullYear();
+    let mes = new Date().getMonth();
+    let dia = new Date().getDate();
+    let resultado = []
+    for (let index = 0; index < 3; index++) {
+      const diasDelMesActual = new Date(ano, mes + 1, 0).getDate();
+      for (dia; dia < diasDelMesActual; dia++) {
+        const condicion = new Date(ano, mes, dia).getDay();
+        if (ObjetoDiaSemana[condicion] === diaLetras) {
+          resultado.push(new Date(ano, mes, dia));
+        }
+  
+      }
+      mes++;
+      dia = 1
+    }
+    return resultado;
+  }
+ generarTurnos() {
     //metodo que configura un array de objeto con los turnos del profesional
     const objetoAIterar = this.configuracionTurnos.dias;
     objetoAIterar.porClave((diaClave, diaObjeto) => {
@@ -136,16 +194,16 @@ class Profesional2 extends ObjetoIterable {
             let hora = parseInt(horaInicial);
             let intervaloTurnos = parseInt(horario.ivTurnos);
             let horarioProfesional = "";
-            let objetoSalida = new HoraTurno();
-            objetoSalida = gererarObjetoDeSalida(
+            let objetoSalida = new HoraTurnos();
+            objetoSalida = this.gererarObjetoDeSalida(
               diferenciaEnMinutos,
               intervaloTurnos,
               hora,
               min
             );
-            const diasActivosProfesional = diasDelMes(diaClave);
+            const diasActivosProfesional = this.diasDelMes(diaClave);
             diasActivosProfesional.forEach((dia) => {
-              completarArbolDeTurnos(dia, objetoSalida, this);
+              this.completarArbolDeTurnos(dia, objetoSalida, this);
             });
           }
         });
@@ -173,6 +231,33 @@ class FabricaDeObjetos extends ObjetoIterable {
     pacienteTransitorio.direccion.localidad = domLocalidad.value;
     pacienteTransitorio.direccion.cPostal = domCpa.value;
     return pacienteTransitorio;
+  }
+
+  static generarProfesional() {
+    let diasTurnos = new Semana2([], [], [], [], [], [], []);
+    arrayTabla.forEach((fila) => {
+      diasTurnos[fila.dia] = [
+        ...diasTurnos[fila.dia],
+        new Dia2({
+          ivTurnos: fila.intervalo,
+          inicio: fila.inicio,
+          fin: fila.fin,
+        }),
+      ];
+    });
+    const profesionalTransitorio = new Profesional2(
+      0,
+      "",
+      "",
+      domNombreProfesional.value,
+      domApellidoProfesional.value,
+      domDniProfesional.value,
+      domEspecialidadProfesional.value,
+      domMatriculaProfesional.value,
+      domTelefonoProfesional.value
+    );
+    profesionalTransitorio.configuracionTurnos.dias = diasTurnos;
+    return profesionalTransitorio;
   }
 }
 class Validaciones {
@@ -234,7 +319,8 @@ class Validaciones {
       return false;
     }
   }
-  static validarTodo(enviar) {
+  static validarTodo(validaciones, enviar) {
+    const [domApellido, domNombre, domTelefono] = validaciones;
     if (this.validarApellidoOc(domApellido, enviar)) {
       if (this.validarNombreOc(domNombre, enviar)) {
         if (this.validarTelefonoOc(domTelefono, enviar)) return true;
@@ -242,51 +328,77 @@ class Validaciones {
     }
     return false;
   }
-static   validarTabla(obj) {
-  let condicion;
-  if (arrayTabla.length > 0) {
-    arrayTabla.forEach((item) => {
-      condicion=!OtrasFunciones.compararObjetos(obj,item);
-    });
-  } else condicion = true;
-  return condicion;
-}
-  static superposicion(tabla) {
+  static validarTabla(obj) {
+    let condicion;
+    if (arrayTabla.length > 0) {
+      arrayTabla.forEach((item) => {
+        condicion = !OtrasFunciones.compararObjetos(obj, item);
+      });
+    } else condicion = true;
+    return condicion;
+  }
+  static intervalos(
+    { inicio: itemInicio, fin: itemFin },
+    { inicio: repetidosInicio, fin: repetidosFin },
+    condicion
+  ) {
+    if (
+      parseInt(repetidosInicio) > parseInt(itemInicio) &&
+      parseInt(repetidosInicio) < parseInt(itemFin)
+    )
+      condicion = true;
+    if (
+      parseInt(repetidosFin) > parseInt(itemInicio) &&
+      parseInt(repetidosInicio) < parseInt(itemFin)
+    )
+      condicion = true;
+    return condicion;
+  }
+  static superposicion() {
     //falta revisar
     let condicion = false;
     let repetidos = [];
-
-    tabla: for (item of tabla) {
+    arrayTabla.forEach((item) => {
       let saltearEach = false;
-      repetidos = arrayTabla1.forEach((e) => {
-        if (e.dia === item.dia && JSON.stringify(e) !== JSON.stringify(item)) {
-          condicion = intervalos(item, e, condicion) && (saltearEach = true);
+      repetidos = arrayTabla.forEach((e) => {
+        const mismoObjeto = OtrasFunciones.compararObjetos(e, item);
+        if (!mismoObjeto) {
+          if (e.dia === item.dia) {
+            condicion =
+              this.intervalos(item, e, condicion) && (saltearEach = true);
+          }
         }
       });
-      if (saltearEach) break tabla;
-    }
+    });
     return condicion;
   }
 }
-class AgregarTurnoModal {
-  static crearObjetoTabla(){
+class ModificarTurnoModal {
+  static crearObjetoTabla() {
     const objeto = new Tabla(
       diaSemana,
       document.querySelectorAll(".modal input")[0].value,
       document.querySelectorAll(".modal input")[1].value,
-      document.querySelectorAll(".modal input")[2].value)
-      return objeto
+      document.querySelectorAll(".modal input")[2].value
+    );
+    return objeto;
   }
-  static crearTemplateTabla(objeto){
+  static crearTemplateTabla(objeto) {
     const templateTurnos = document.getElementById(
-      "configuracionTurnos").content; //TEMPLATE DE LA ESTRUCTURA DE LA TABLA QUE SE MODIFICA EN LAS SIGUIENTES LINEAS 
+      "configuracionTurnos"
+    ).content; //TEMPLATE DE LA ESTRUCTURA DE LA TABLA QUE SE MODIFICA EN LAS SIGUIENTES LINEAS
     templateTurnos.querySelectorAll("tr td")[0].textContent = diaSemana;
-    templateTurnos.querySelectorAll("tr td")[1].textContent =
-      objeto.inicio;
-    templateTurnos.querySelectorAll("tr td")[2].textContent =
-      objeto.fin;
-    templateTurnos.querySelectorAll("tr td")[3].textContent =
-      objeto.intervalo;
+    templateTurnos.querySelectorAll("tr td")[1].textContent = objeto.inicio;
+    templateTurnos.querySelectorAll("tr td")[2].textContent = objeto.fin;
+    templateTurnos.querySelectorAll("tr td")[3].textContent = objeto.intervalo;
+  }
+  static crearObjetoEliminar(e) {
+    return new Tabla(
+      e.target.parentNode.parentNode.querySelectorAll("td")[0].textContent,
+      e.target.parentNode.parentNode.querySelectorAll("td")[1].textContent,
+      e.target.parentNode.parentNode.querySelectorAll("td")[2].textContent,
+      e.target.parentNode.parentNode.querySelectorAll("td")[3].textContent
+    );
   }
 }
 class OtrasFunciones {
@@ -299,32 +411,40 @@ class OtrasFunciones {
     });
   }
   static compararObjetos(objeto1, objeto2) {
-    if (!OtrasFunciones.compararClaves(objeto1, objeto2)) return false;
-    const keys1 = Object.keys(objeto1);
-    let condicion =true;
-        keys1.forEach((key) => {
-      if (typeof objeto1[key] !== typeof objeto2[key]) condicion=false;
+    if (!this.compararClaves(objeto1, objeto2)) return false;
+    const keys = Object.keys(objeto1);
+    let condicion = true;
+    keys.forEach((key) => {
+      if (typeof objeto1[key] !== typeof objeto2[key]) condicion = false;
       else {
-        if (typeof objeto1 === "object") {
-              if (!this.compararObjetos(objeto1[key],objeto2[key])){
-              condicion=false;
-          } 
-        }
-      }    
+        condicion = this.compararContenido(
+          objeto1[key],
+          objeto2[key],
+          condicion
+        );
+      }
     });
     return condicion;
   }
-    static compararClaves(objeto1, objeto2) {
+  static compararContenido(objeto1, objeto2, condicion) {
+    if (typeof objeto1 === "object") {
+      if (!this.compararObjetos(objeto1, objeto2)) {
+        condicion = false;
+      }
+    } else {
+      if (objeto1 !== objeto2) condicion = false;
+    }
+    return condicion;
+  }
+  static compararClaves(objeto1, objeto2) {
     const claves1 = Object.keys(objeto1),
       claves2 = Object.keys(objeto2);
     if (!(claves1.length === claves2.length)) return false;
     claves1.forEach((clave) => {
-
       if (!claves2.includes(clave)) return false;
     });
     return true;
   }
-
 }
 const funcionesValidacion = new Validaciones();
 const fabricaDeObjetos = new FabricaDeObjetos();
