@@ -749,7 +749,7 @@ const generarPaciente = () => {
 ////////////////////////////////////////////////////////
 //FUNCION QUE VACIA LOS INPUTS DE LA PAGINA INDEX.HTML//
 ////////////////////////////////////////////////////////
-const limpiarPaciente = () => {
+const limpiarInputs = () => {
   // generar un cleaner para todas las ventanas con un foreach
   const limpiar = document.querySelectorAll("input");
   //console.log(limpiar);

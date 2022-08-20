@@ -42,5 +42,5 @@ enviarPaciente.addEventListener("click", (e) => {
     }
   }
   
-  limpiarPaciente();
+  limpiarInputs();
 });

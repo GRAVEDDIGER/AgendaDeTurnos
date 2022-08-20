@@ -147,4 +147,6 @@ const botonGuardar = document
         icon: "error",
       });
     }
+    OtrasFunciones.limpiarInputs();
+    OtrasFunciones.limpiarModal();
   })

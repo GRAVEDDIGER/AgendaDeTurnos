@@ -279,6 +279,6 @@ const enviarProfesional = document
     }
 
     localStorage.setItem("profesionales", JSON.stringify(profesionalObj));
-    limpiarPaciente();
+    limpiarInputs();
   });
 

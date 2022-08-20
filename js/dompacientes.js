@@ -68,5 +68,5 @@ domEnviar.addEventListener("click", () => {
             icon: "error",
         });
     }
-    OtrasFunciones.limpiarPaciente()
+    OtrasFunciones.limpiarInputs()
 })
